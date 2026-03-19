@@ -34,14 +34,12 @@ const Sidebar = ({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
       {open && <div className="fixed inset-0 bg-black/70 z-30 lg:hidden" onClick={() => setOpen(false)} />}
       <aside className={`fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-slate-900 to-slate-950 border-r border-slate-800 z-40 transition-transform duration-300
         ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
-        <div className="flex items-center gap-3 px-6 py-6 border-b border-slate-800">
-          <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center rounded-lg">
-            <Briefcase className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <p className="font-black text-sm text-white tracking-tight">OPTIMUS</p>
-            <p className="text-cyan-400 font-light text-xs">ADMIN</p>
-          </div>
+        <div className="flex items-center justify-center px-6 py-5 border-b border-slate-800">
+          <img
+            src="/src/asserts/opt-man-logo.webp"
+            alt="Optimus Manpower"
+            className="h-12 w-auto object-contain"
+          />
         </div>
         <nav className="p-4 space-y-2 mt-2">
           {NAV.map(({ icon: Icon, label, path }) => {
@@ -569,23 +567,36 @@ const EnquiriesManager = () => {
   const { data } = useQuery({ queryKey: ['admin-enquiries'], queryFn: adminAPI.getEnquiries });
   const enquiries = data?.data?.results || data?.data || [];
 
+  const isNew = (dateStr: string) => {
+    const diff = (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
+    return diff <= 7;
+  };
+
   return (
     <div className="space-y-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 p-8 rounded-2xl"
       >
-        <div>
-          <h1 className="font-black text-3xl text-slate-900 mb-2">Business Enquiries</h1>
-          <p className="text-slate-600 text-base">{enquiries.length} total enquiries</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-orange-600 font-semibold text-sm uppercase tracking-widest mb-1">Admin Panel</p>
+            <h1 className="font-black text-4xl text-slate-900 mb-1">Business Enquiries</h1>
+            <p className="text-slate-600 text-base">{enquiries.length} enquir{enquiries.length === 1 ? 'y' : 'ies'} received</p>
+          </div>
+          {/* <div className="bg-gradient-to-br from-orange-500 to-red-500 p-4 rounded-2xl shadow-lg shadow-orange-500/30">
+            <Briefcase className="w-8 h-8 text-white" />
+          </div> */}
         </div>
       </motion.div>
+
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="grid grid-cols-1 gap-4"
+        className="space-y-4"
       >
         {enquiries.length > 0 ? (
           enquiries.map((enq: any, idx: number) => (
@@ -594,28 +605,82 @@ const EnquiriesManager = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: idx * 0.05 }}
-              className="bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-orange-400 hover:shadow-xl transition-all duration-300"
+              className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-xl transition-all duration-300"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                <div>
-                  <p className="font-black text-lg text-slate-900">{enq.company_name}</p>
-                  <p className="text-sm text-slate-600 mt-1">{enq.contact_person} · {enq.email} · {enq.phone}</p>
+              {/* Card Header */}
+              <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                    <Briefcase className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <p className="font-black text-white text-lg leading-tight">{enq.company_name || '—'}</p>
+                    <p className="text-orange-100 text-xs font-medium">Business Enquiry</p>
+                  </div>
                 </div>
-                <span className="text-xs font-semibold text-slate-500">{new Date(enq.created_at).toLocaleDateString()}</span>
+                <div className="flex items-center gap-2">
+                  {enq.created_at && isNew(enq.created_at) && (
+                    <span className="flex items-center gap-1 bg-white/20 text-white text-xs font-black px-3 py-1 rounded-full animate-pulse">
+                      ● NEW
+                    </span>
+                  )}
+                  <span className="bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
+                    {enq.created_at ? new Date(enq.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+                  </span>
+                </div>
               </div>
-              <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-700 mb-4">
-                <span className="bg-orange-50 text-orange-700 px-3 py-1 rounded-full">📋 {enq.hiring_requirement}</span>
-                <span className="bg-blue-50 text-blue-700 px-3 py-1 rounded-full">👤 {enq.number_of_positions} positions</span>
-                <span className="bg-green-50 text-green-700 px-3 py-1 rounded-full">📍 {enq.job_location}</span>
+
+              {/* Card Body */}
+              <div className="p-6 space-y-5">
+                {/* Contact Details Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Contact Person</p>
+                    <p className="text-slate-900 font-bold text-base">{enq.contact_person || '—'}</p>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Email</p>
+                    <a href={`mailto:${enq.email}`} className="text-cyan-600 font-bold text-sm hover:underline break-all">{enq.email || '—'}</a>
+                  </div>
+                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Phone</p>
+                    <a href={`tel:${enq.phone}`} className="text-cyan-600 font-bold text-sm hover:underline">{enq.phone || '—'}</a>
+                  </div>
+                </div>
+
+                {/* Hiring Details */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-orange-500 uppercase tracking-widest mb-1">📋 Hiring Requirement</p>
+                    <p className="text-slate-900 font-black text-base">{enq.hiring_requirement || '—'}</p>
+                  </div>
+                  <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-blue-500 uppercase tracking-widest mb-1">👥 Positions Needed</p>
+                    <p className="text-slate-900 font-black text-2xl">{enq.number_of_positions ?? '—'}</p>
+                  </div>
+                  <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-green-500 uppercase tracking-widest mb-1">📍 Job Location</p>
+                    <p className="text-slate-900 font-black text-base">{enq.job_location || '—'}</p>
+                  </div>
+                </div>
+
+                {/* Message */}
+                {enq.message && (
+                  <div className="bg-amber-50 border-2 border-amber-200 rounded-xl p-4">
+                    <p className="text-xs font-black text-amber-600 uppercase tracking-widest mb-2">💬 Message</p>
+                    <p className="text-slate-700 text-sm leading-relaxed">{enq.message}</p>
+                  </div>
+                )}
               </div>
-              {enq.message && <p className="text-slate-600 text-sm leading-relaxed">{enq.message}</p>}
             </motion.div>
           ))
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-center bg-white border-2 border-slate-200 rounded-2xl">
-            <Briefcase className="w-16 h-16 text-slate-300 mb-4" />
-            <p className="text-slate-600 font-semibold text-lg">No enquiries yet</p>
-            <p className="text-slate-500">Business enquiries will appear here</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center bg-white border-2 border-slate-200 rounded-2xl">
+            <div className="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mb-4">
+              <Briefcase className="w-10 h-10 text-orange-400" />
+            </div>
+            <p className="text-slate-700 font-black text-xl mb-1">No enquiries yet</p>
+            <p className="text-slate-500 text-sm">Business enquiries from the contact form will appear here</p>
           </div>
         )}
       </motion.div>
@@ -665,20 +730,20 @@ const AdminLoginGate = () => {
         className="w-full max-w-sm relative z-10"
       >
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 mx-auto flex items-center justify-center mb-4 rounded-xl shadow-lg shadow-cyan-500/30">
+          {/* <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 mx-auto flex items-center justify-center mb-4 rounded-xl shadow-lg shadow-cyan-500/30">
             <Briefcase className="w-8 h-8 text-white" />
-          </div>
+          </div> */}
           <h1 className="font-black text-3xl text-white tracking-tight">OPTIMUS ADMIN</h1>
           <p className="text-cyan-300 font-medium text-sm mt-2">Access to Administration Panel</p>
         </div>
         <div className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-blue-500/20 p-8 rounded-2xl">
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
             <div>
               <label className="block text-xs font-black text-white mb-2 tracking-widest uppercase">Email Address</label>
               <input
                 type="email"
                 autoFocus
-                autoComplete="off"
+                autoComplete="new-password"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Enter Email"
@@ -690,7 +755,7 @@ const AdminLoginGate = () => {
               <label className="block text-xs font-black text-white mb-2 tracking-widest uppercase">Password</label>
               <input
                 type="password"
-                autoComplete="off"
+                autoComplete="new-password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Enter Password"
