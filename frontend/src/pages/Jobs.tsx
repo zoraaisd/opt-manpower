@@ -135,22 +135,16 @@ const Jobs = () => {
             
             {/* Main Heading */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gradient leading-tight mb-6">
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900">
+              <span className="block text-white drop-shadow-lg">
                 Discover Your
               </span>
-              <span className="block bg-gradient-to-r from-blue-600 via-cyan-500 to-blue-600 text-transparent bg-clip-text relative">
+              <span className="block bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-400 text-transparent bg-clip-text relative">
                 Perfect Career
-                {/* <motion.div 
-                  className="absolute -bottom-3 left-1/2 -translate-x-1/2 w-1/2 h-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full blur-sm"
-                  initial={{ opacity: 0, scaleX: 0 }}
-                  animate={{ opacity: 1, scaleX: 1 }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
-                /> */}
               </span>
             </h1>
             
             {/* Subtitle */}
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+            <p className="text-lg text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed font-light drop-shadow">
               Connect with world-class companies and unlock career opportunities tailored to your expertise. 
               <span className="block mt-2">Your next opportunity awaits.</span>
             </p>
@@ -163,24 +157,24 @@ const Jobs = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">
+                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
                   {isLoading ? '...' : totalCount}
                 </div>
-                <div className="text-sm text-slate-600 font-medium mt-1">Active Positions</div>
+                <div className="text-sm text-white/70 font-medium mt-1">Active Positions</div>
               </div>
-              <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-slate-300 to-transparent" />
+              <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
               <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600">
+                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
                   150+
                 </div>
-                <div className="text-sm text-slate-600 font-medium mt-1">Companies</div>
+                <div className="text-sm text-white/70 font-medium mt-1">Companies</div>
               </div>
-              <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-slate-300 to-transparent" />
+              <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
               <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
                   50+
                 </div>
-                <div className="text-sm text-slate-600 font-medium mt-1">Countries</div>
+                <div className="text-sm text-white/70 font-medium mt-1">Countries</div>
               </div>
             </motion.div>
 

@@ -12,7 +12,6 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [jobsOpen, setJobsOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const location = useLocation();
 
@@ -22,7 +21,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); setJobsOpen(false); setAboutOpen(false); }, [location]);
+  useEffect(() => { setMenuOpen(false); setAboutOpen(false); }, [location]);
 
   const isAdmin = user?.role === 'admin';
 
@@ -91,21 +90,7 @@ const Navbar = () => {
             {/* Guest — candidate mode */}
             {mode === 'candidate' && (
               <>
-                <div className="relative" onMouseEnter={() => setJobsOpen(true)} onMouseLeave={() => setJobsOpen(false)}>
-                  <button className="flex items-center gap-1 text-sm font-body text-white hover:text-gray-300 silver-glow transition-colors">
-                    Search Jobs <ChevronDown className="w-3 h-3" />
-                  </button>
-                  <AnimatePresence>
-                    {jobsOpen && (
-                      <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 8 }}
-                        className="absolute top-full left-0 mt-2 w-48 bg-black border border-gray-600 shadow-lg">
-                        <Link to="/jobs" className="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-900 transition-colors">All Jobs</Link>
-                        <Link to="/jobs?type=domestic" className="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-900 transition-colors">Domestic Jobs</Link>
-                        <Link to="/jobs?type=international" className="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-900 transition-colors">International Jobs</Link>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                <Link to="/jobs" className="text-sm font-body text-white hover:text-gray-300 silver-glow transition-colors">Search Jobs</Link>
                 <Link to="/saved-jobs" className="text-sm font-body text-white hover:text-gray-300 silver-glow transition-colors">Saved Jobs</Link>
                 <Link to="/career-advice" className="text-sm font-body text-white hover:text-gray-300 silver-glow transition-colors">Career Advice</Link>
                 <Link to="/about" className="text-sm font-body text-white hover:text-gray-300 silver-glow transition-colors">About Us</Link>
@@ -184,8 +169,6 @@ const Navbar = () => {
                 {mode === 'candidate' && (
                   <div className="flex flex-col gap-4">
                     <Link to="/jobs" className="nav-link text-lg" onClick={() => setMenuOpen(false)}>Search Jobs</Link>
-                    <Link to="/jobs?type=domestic" className="text-gray-400 hover:text-gray-300 font-body text-sm pl-4 silver-glow" onClick={() => setMenuOpen(false)}>↳ Domestic Jobs</Link>
-                    <Link to="/jobs?type=international" className="text-gray-400 hover:text-gray-300 font-body text-sm pl-4 silver-glow" onClick={() => setMenuOpen(false)}>↳ International Jobs</Link>
                     <Link to="/career-advice" className="nav-link text-lg" onClick={() => setMenuOpen(false)}>Career Advice</Link>
                     <Link to="/saved-jobs" className="nav-link text-lg" onClick={() => setMenuOpen(false)}>Saved Jobs</Link>
                   </div>

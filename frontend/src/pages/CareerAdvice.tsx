@@ -104,6 +104,174 @@ const FAQS = [
   },
 ];
 
+const MOCK_ARTICLES = [
+  {
+    id: 'm1',
+    category: 'Resume Tips',
+    title: '7 Resume Mistakes That Get You Rejected in the First 10 Seconds',
+    summary: 'Recruiters spend an average of 7 seconds on a resume. Here are the exact formatting, language, and structure mistakes that trigger instant rejection — and how to fix each one.',
+    readTime: '6 min read',
+    author: 'Priya Sharma',
+    date: 'Mar 10, 2025',
+    icon: FileText,
+    color: 'bg-blue-50 text-blue-700',
+  },
+  {
+    id: 'm2',
+    category: 'Resume Tips',
+    title: 'How to Write a Resume That Beats ATS Filters Every Time',
+    summary: 'Over 75% of resumes never reach a human. Learn how Applicant Tracking Systems parse your resume, which keywords to include, and how to format sections so you always get through.',
+    readTime: '8 min read',
+    author: 'Anil Mehta',
+    date: 'Feb 28, 2025',
+    icon: FileText,
+    color: 'bg-blue-50 text-blue-700',
+  },
+  {
+    id: 'm3',
+    category: 'Resume Tips',
+    title: 'Writing Achievement Statements That Impress Any Hiring Manager',
+    summary: 'Replace weak duty-based bullets with powerful impact statements. Use the Problem–Action–Result formula with real numbers to show what you actually delivered, not just what you did.',
+    readTime: '5 min read',
+    author: 'Priya Sharma',
+    date: 'Feb 14, 2025',
+    icon: FileText,
+    color: 'bg-blue-50 text-blue-700',
+  },
+  {
+    id: 'm4',
+    category: 'Interview Tips',
+    title: 'The STAR Method: A Complete Guide with 15 Real Example Answers',
+    summary: 'Behavioral interview questions trip up great candidates every day. Master the Situation–Task–Action–Result framework with worked examples across the most common competency areas.',
+    readTime: '10 min read',
+    author: 'Rajesh Kumar',
+    date: 'Mar 5, 2025',
+    icon: Target,
+    color: 'bg-green-50 text-green-700',
+  },
+  {
+    id: 'm5',
+    category: 'Interview Tips',
+    title: 'How to Research a Company Before Your Interview (Most Candidates Skip This)',
+    summary: 'Interviewers can instantly tell who has done their homework. A focused 45-minute pre-interview research process — covering business model, competitors, culture, and recent news — sets you apart.',
+    readTime: '7 min read',
+    author: 'Anil Mehta',
+    date: 'Feb 20, 2025',
+    icon: Target,
+    color: 'bg-green-50 text-green-700',
+  },
+  {
+    id: 'm6',
+    category: 'Interview Tips',
+    title: 'Salary Negotiation Scripts That Actually Work',
+    summary: 'Negotiating salary is uncomfortable — but skipping it costs you lakhs over your career. Here are word-for-word scripts for every scenario: first offer, counter-offer, and final pushback.',
+    readTime: '6 min read',
+    author: 'Priya Sharma',
+    date: 'Jan 30, 2025',
+    icon: Star,
+    color: 'bg-green-50 text-green-700',
+  },
+  {
+    id: 'm7',
+    category: 'Career Growth',
+    title: 'When Is the Right Time to Switch Jobs? The 2.5-Year Rule Explained',
+    summary: 'Switching too early labels you a job-hopper. Waiting too long leaves money and growth on the table. Learn the data-backed signals that tell you it is time to move — and how to do it without burning bridges.',
+    readTime: '7 min read',
+    author: 'Rajesh Kumar',
+    date: 'Mar 1, 2025',
+    icon: TrendingUp,
+    color: 'bg-orange-50 text-orange-700',
+  },
+  {
+    id: 'm8',
+    category: 'Career Growth',
+    title: 'Building a T-Shaped Skill Set to Accelerate Promotions',
+    summary: 'The professionals who get promoted fastest combine deep expertise in one area with broad knowledge across related fields. Here is how to identify and build your T-shape intentionally in 12 months.',
+    readTime: '9 min read',
+    author: 'Anil Mehta',
+    date: 'Feb 10, 2025',
+    icon: TrendingUp,
+    color: 'bg-orange-50 text-orange-700',
+  },
+  {
+    id: 'm9',
+    category: 'Industry Trends',
+    title: 'Top 10 In-Demand Skills Across Every Industry in 2025',
+    summary: 'AI literacy, data fluency, cross-functional communication — the skills employers are paying premiums for have shifted. Here is what is hot in IT, Healthcare, Finance, Engineering, and Logistics this year.',
+    readTime: '8 min read',
+    author: 'Priya Sharma',
+    date: 'Mar 12, 2025',
+    icon: Lightbulb,
+    color: 'bg-yellow-50 text-yellow-700',
+  },
+  {
+    id: 'm10',
+    category: 'Industry Trends',
+    title: 'The Rise of Contract and Project-Based Hiring: What Workers Need to Know',
+    summary: 'Companies are increasingly hiring on a project basis to stay agile. Learn how contract roles work, what benefits to negotiate, how to protect your income between contracts, and when to go permanent.',
+    readTime: '7 min read',
+    author: 'Rajesh Kumar',
+    date: 'Feb 22, 2025',
+    icon: Briefcase,
+    color: 'bg-yellow-50 text-yellow-700',
+  },
+  {
+    id: 'm11',
+    category: 'Gulf Jobs',
+    title: 'Complete Guide to Gulf Job Offers: Documents, Visa, and What to Negotiate',
+    summary: 'From educational certificate attestation to understanding your employment contract before signing — everything Indian professionals need to verify before relocating to UAE, KSA, Qatar, or Kuwait.',
+    readTime: '12 min read',
+    author: 'Anil Mehta',
+    date: 'Mar 8, 2025',
+    icon: Globe,
+    color: 'bg-purple-50 text-purple-700',
+  },
+  {
+    id: 'm12',
+    category: 'Gulf Jobs',
+    title: 'Gulf Salary Guide 2025: What Different Roles Actually Pay in UAE, Qatar & Saudi Arabia',
+    summary: 'Real salary ranges for 30+ roles across Engineering, Healthcare, IT, Finance, and Hospitality in the Gulf. Includes accommodation allowances, flight benefits, and negotiation benchmarks by country.',
+    readTime: '10 min read',
+    author: 'Priya Sharma',
+    date: 'Mar 3, 2025',
+    icon: Award,
+    color: 'bg-purple-50 text-purple-700',
+  },
+  {
+    id: 'm13',
+    category: 'Solutions',
+    title: 'Permanent Recruitment vs. Contract Staffing: Which Hiring Model Is Right for Your Business?',
+    summary: 'Understanding the difference between permanent and contract hiring helps you build the right team at the right cost. We break down when each model makes sense, what it costs, and what risks to watch out for.',
+    readTime: '7 min read',
+    author: 'Rajesh Kumar',
+    date: 'Mar 15, 2025',
+    icon: Briefcase,
+    color: 'bg-teal-50 text-teal-700',
+  },
+  {
+    id: 'm14',
+    category: 'Solutions',
+    title: 'Executive Search Demystified: How Top Companies Find C-Suite and Senior Leaders',
+    summary: 'Senior leadership hiring is fundamentally different from regular recruitment. Discover the retained search process, how candidates are evaluated at the C-suite level, and what employers should expect from an executive search partner.',
+    readTime: '9 min read',
+    author: 'Anil Mehta',
+    date: 'Mar 10, 2025',
+    icon: Star,
+    color: 'bg-teal-50 text-teal-700',
+  },
+  {
+    id: 'm15',
+    category: 'Solutions',
+    title: 'How International Recruitment Works: A Step-by-Step Guide for Employers',
+    summary: 'Hiring talent from India, South Asia, or Southeast Asia for your Gulf or European operations? This guide covers sourcing, screening, visa coordination, and onboarding — so you know exactly what to expect at each stage.',
+    readTime: '8 min read',
+    author: 'Priya Sharma',
+    date: 'Feb 25, 2025',
+    icon: Globe,
+    color: 'bg-teal-50 text-teal-700',
+  },
+];
+
 const STATS = [
   { value: '94%', label: 'Interview success rate for our prepared candidates' },
   { value: '40%', label: 'Average salary increase when switching with our support' },
@@ -137,9 +305,30 @@ const FaqItem = ({ q, a }: { q: string; a: string }) => {
 // ── Page ───────────────────────────────────────────────────────────────────
 const CareerAdvice = () => {
   const { data, isLoading } = useQuery({ queryKey: ['career-advice'], queryFn: contentAPI.careerAdvice });
-  const articles = data?.data?.results || data?.data || [];
+  const apiArticles = data?.data?.results || data?.data || [];
+  const [activeCategory, setActiveCategory] = useState('All');
 
-  const CATEGORIES = ['All', 'Resume Tips', 'Interview Tips', 'Career Growth', 'Industry Trends', 'Gulf Jobs'];
+  const CATEGORIES = ['All', 'Resume Tips', 'Interview Tips', 'Career Growth', 'Industry Trends', 'Gulf Jobs', 'Solutions'];
+
+  // Merge API articles (if any) with mock articles
+  const allArticles = [
+    ...apiArticles.map((a: any) => ({
+      id: a.id,
+      category: a.category || 'Career Growth',
+      title: a.title,
+      summary: a.excerpt || a.summary || '',
+      readTime: a.read_time || '5 min read',
+      author: a.author || 'Optimus Team',
+      date: new Date(a.created_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
+      icon: BookOpen,
+      color: 'bg-gray-50 text-gray-700',
+    })),
+    ...MOCK_ARTICLES,
+  ];
+
+  const filteredArticles = activeCategory === 'All'
+    ? allArticles
+    : allArticles.filter((a) => a.category === activeCategory);
 
   return (
     <main className="min-h-screen pt-24">
@@ -241,22 +430,37 @@ const CareerAdvice = () => {
         </div>
       </section>
 
-      {/* ── ARTICLES FROM DATABASE ───────────────────────────────────── */}
+      {/* ── ARTICLES ─────────────────────────────────────────────────── */}
       <section className="py-20 max-w-7xl mx-auto px-4">
         <div className="text-center mb-10">
           <p className="section-tag mb-3">Latest from the Blog</p>
           <h2 className="section-title mb-3">Expert <span className="text-black">Articles</span></h2>
+          <p className="text-gray-medium font-body text-sm max-w-xl mx-auto">
+            Practical, no-fluff career insights from our recruitment experts.
+          </p>
         </div>
 
         {/* Category pills */}
         <div className="flex flex-wrap gap-3 mb-10 justify-center">
           {CATEGORIES.map((cat) => (
-            <button key={cat}
-              className={`status-badge px-4 py-2 text-xs transition-colors ${cat === 'All' ? 'bg-black text-white' : 'bg-gray-50 text-gray-medium hover:bg-black/10 hover:text-black'}`}>
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`px-5 py-2 text-xs font-semibold rounded-full border transition-all duration-200 ${
+                activeCategory === cat
+                  ? 'bg-black text-white border-black'
+                  : 'bg-white text-gray-600 border-gray-300 hover:border-black hover:text-black'
+              }`}
+            >
               {cat}
             </button>
           ))}
         </div>
+
+        {/* Article count */}
+        <p className="text-center text-xs text-gray-medium font-body mb-8">
+          {filteredArticles.length} article{filteredArticles.length !== 1 ? 's' : ''}{activeCategory !== 'All' ? ` in "${activeCategory}"` : ''}
+        </p>
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -268,41 +472,52 @@ const CareerAdvice = () => {
               </div>
             ))}
           </div>
-        ) : articles.length > 0 ? (
+        ) : filteredArticles.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {articles.map((article: any, i: number) => (
-              <motion.div key={article.id}
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ delay: i * 0.07 }}>
-                <Link to={`/career-advice/${article.id}`} className="card p-0 block overflow-hidden group h-full">
-                  {article.image && (
-                    <div className="h-44 overflow-hidden">
-                      <img src={article.image} alt={article.title}
-                        className="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-105 transition-all duration-500" />
-                    </div>
-                  )}
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Clock className="w-3.5 h-3.5 text-gray-medium" />
-                      <span className="text-gray-light text-xs font-body">
-                        {new Date(article.created_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </span>
-                    </div>
-                    <h3 className="font-heading font-semibold text-black text-sm leading-snug mb-4 group-hover:text-black transition-colors line-clamp-2">
-                      {article.title}
-                    </h3>
-                    <span className="inline-flex items-center gap-1.5 text-black text-xs font-body font-medium">
-                      Read Article <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+            {filteredArticles.map((article, i) => {
+              const Icon = article.icon;
+              return (
+                <motion.div
+                  key={article.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05 }}
+                  className="card p-6 flex flex-col gap-4 hover:border-black/20 hover:shadow-md transition-all duration-300 group"
+                >
+                  {/* Category + icon */}
+                  <div className="flex items-center justify-between">
+                    <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full ${article.color}`}>
+                      <Icon className="w-3 h-3" />
+                      {article.category}
+                    </span>
+                    <span className="text-xs text-gray-medium font-body flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> {article.readTime}
                     </span>
                   </div>
-                </Link>
-              </motion.div>
-            ))}
+
+                  {/* Title */}
+                  <h3 className="font-heading font-semibold text-black text-sm leading-snug group-hover:underline underline-offset-2 line-clamp-3">
+                    {article.title}
+                  </h3>
+
+                  {/* Summary */}
+                  <p className="text-gray-medium text-xs font-body leading-relaxed line-clamp-3 flex-1">
+                    {article.summary}
+                  </p>
+
+                  {/* Footer */}
+                  <div className="flex items-center justify-end pt-3 border-t border-gray-100">
+                    <span className="text-xs text-gray-light font-body">{article.date}</span>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-20 text-gray-light font-body text-sm">
             <BookOpen className="w-10 h-10 mx-auto mb-4 opacity-30" />
-            No articles published yet. Check back soon!
+            No articles in this category yet.
           </div>
         )}
       </section>
