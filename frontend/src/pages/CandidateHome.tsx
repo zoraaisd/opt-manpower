@@ -20,6 +20,7 @@ import precisionImg from '../asserts/Precision-Role-Matching.webp';
 import consultancyImg from '../asserts/Expert-Consultancy.webp';
 import strategyImg from '../asserts/Long-Term-Career-Strategy.webp';
 import partnersImg from '../asserts/VettedGlobalPartners.webp';
+import heroBg from '../asserts/Emp-Bg.webp';
 
 const STATS = [
   { label: 'Placements Made', value: '10,000+', icon: Users },
@@ -72,13 +73,12 @@ const CandidateHome = () => {
   return (
     <main className="min-h-screen bg-white">
       {/* ── Premium Hero ── */}
-      <section className="relative min-h-[90vh] flex items-center pt-32">
-        {/* Gradient Background */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-black/5 rounded-full -mr-48 -mt-48" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-black/3 rounded-full -ml-40 -mb-40" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white via-white to-gray-50" />
-        </div>
+      <section
+        className="relative min-h-[90vh] flex items-center pt-32"
+        style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-black/75 via-black/55 to-black/40" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 w-full">
           {/* Main Content */}
@@ -86,18 +86,18 @@ const CandidateHome = () => {
             {/* Left Column */}
             <div>
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="mb-8">
-                <div className="inline-flex items-center gap-2 bg-black/10 border border-black/20 px-4 py-2 mb-6 rounded">
-                  <TrendingUp className="w-4 h-4 text-black" />
-                  <span className="text-xs font-display font-bold text-black tracking-wide">PREMIER RECRUITMENT SERVICES</span>
+                <div className="inline-flex items-center gap-2 bg-white/15 border border-white/30 px-4 py-2 mb-6 rounded backdrop-blur-sm">
+                  <TrendingUp className="w-4 h-4 text-white" />
+                  <span className="text-xs font-display font-bold text-white tracking-wide">PREMIER RECRUITMENT SERVICES</span>
                 </div>
-                <h1 className="font-display font-black text-6xl lg:text-7xl leading-[1.1] text-black mb-6">
+                <h1 className="font-display font-black text-6xl lg:text-7xl leading-[1.1] text-white mb-6 drop-shadow-lg">
                   Accelerate Your <br />
                   <span className="relative">
                     Career Growth
-                    <div className="absolute -bottom-3 left-0 w-40 h-1 bg-black/20" />
+                    <div className="absolute -bottom-3 left-0 w-40 h-1 bg-white/40" />
                   </span>
                 </h1>
-                <p className="text-lg text-gray-medium font-body leading-relaxed max-w-lg">
+                <p className="text-lg text-white/80 font-body leading-relaxed max-w-lg">
                   Partner with industry-leading recruitment experts to discover transformative career opportunities. We connect exceptional talent with premier organizations across India and the Middle East.
                 </p>
               </motion.div>
@@ -105,18 +105,18 @@ const CandidateHome = () => {
               {/* Stats Mini */}
               <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="flex gap-8 mt-10">
                 <div>
-                  <p className="font-display font-black text-3xl text-black">10K+</p>
-                  <p className="text-xs text-gray-medium font-body mt-1">Placements</p>
+                  <p className="font-display font-black text-3xl text-white">10K+</p>
+                  <p className="text-xs text-white/60 font-body mt-1">Placements</p>
                 </div>
-                <div className="w-px bg-gray-light" />
+                <div className="w-px bg-white/20" />
                 <div>
-                  <p className="font-display font-black text-3xl text-black">500+</p>
-                  <p className="text-xs text-gray-medium font-body mt-1">Clients</p>
+                  <p className="font-display font-black text-3xl text-white">500+</p>
+                  <p className="text-xs text-white/60 font-body mt-1">Clients</p>
                 </div>
-                <div className="w-px bg-gray-light" />
+                <div className="w-px bg-white/20" />
                 <div>
-                  <p className="font-display font-black text-3xl text-black">1.2K+</p>
-                  <p className="text-xs text-gray-medium font-body mt-1">Active Roles</p>
+                  <p className="font-display font-black text-3xl text-white">1.2K+</p>
+                  <p className="text-xs text-white/60 font-body mt-1">Active Roles</p>
                 </div>
               </motion.div>
             </div>
