@@ -4,6 +4,17 @@ from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env_path = BASE_DIR.parent / '.env'
+if env_path.exists():
+    with open(env_path, encoding='utf-8') as f:
+        for line in f:
+            if line.strip() and not line.strip().startswith('#'):
+                try:
+                    key, value = line.strip().split('=', 1)
+                    os.environ.setdefault(key, value)
+                except ValueError:
+                    pass
+
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-dummy-key-for-dev')
 DEBUG = os.getenv('DEBUG', '1') == '1'
 
@@ -153,9 +164,10 @@ EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.console.Em
 EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.gmail.com')
 EMAIL_PORT = int(os.getenv('EMAIL_PORT', '587'))
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', '1') == '1'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'optimusglobalhr@gmail.com')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
-DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'Optimus Manpower <noreply@optimusmanpower.com>')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', 'Optimus Manpower <optimusglobalhr@gmail.com>')
+ADMIN_NOTIFICATION_EMAIL = os.getenv('ADMIN_NOTIFICATION_EMAIL', 'optimusglobalhr@gmail.com')
 
 # ── Security (production hardening) ──────────────────────────────────────────
 if not DEBUG:

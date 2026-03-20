@@ -21,7 +21,7 @@ from .serializers import (
     CandidateApplicationSerializer, CandidateApplicationCreateSerializer,
     TestimonialSerializer, CareerAdviceSerializer, EmployerEnquirySerializer
 )
-from .tasks import send_application_confirmation, notify_admin_new_application
+from .tasks import send_application_confirmation, notify_admin_new_application, notify_admin_new_enquiry
 
 User = get_user_model()
 
@@ -150,12 +150,16 @@ class ApplyJobView(APIView):
                     application.job.title,
                     application.job.company_name
                 )
-                admin_users = User.objects.filter(role='admin', is_active=True)
-                for admin in admin_users:
-                    notify_admin_new_application(
-                        admin.email, application.name,
-                        application.job.title, str(application.id)
-                    )
+                
+                # Send to configured admin email
+                notify_admin_new_application(
+                    settings.ADMIN_NOTIFICATION_EMAIL,
+                    application.name,
+                    application.job.title, 
+                    str(application.id)
+                )
+                
+                # Only send to the configured admin email
             except Exception:
                 pass
             return Response(CandidateApplicationSerializer(application).data, status=status.HTTP_201_CREATED)
@@ -183,6 +187,15 @@ class EmployerEnquiryCreateView(generics.CreateAPIView):
     queryset = EmployerEnquiry.objects.all()
     serializer_class = EmployerEnquirySerializer
     permission_classes = [permissions.AllowAny]
+
+    def perform_create(self, serializer):
+        enquiry = serializer.save()
+        try:
+            notify_admin_new_enquiry(settings.ADMIN_NOTIFICATION_EMAIL, enquiry)
+            
+            # Only notify the configured admin email
+        except Exception:
+            pass
 
 # ── Admin Views ───────────────────────────────────────────────────────────────
 

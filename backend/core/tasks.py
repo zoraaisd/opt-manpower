@@ -39,3 +39,28 @@ Optimus Manpower Platform""",
         recipient_list=[admin_email],
         fail_silently=True,
     )
+
+def notify_admin_new_enquiry(admin_email, enquiry):
+    """Notify admin when a new employer enquiry, business enquiry, or contact form is submitted."""
+    send_mail(
+        subject=f"New Enquiry/Message – {enquiry.company_name or 'General Enquiry'}",
+        message=f"""Hello Admin,
+
+A new enquiry has been received:
+
+Company: {enquiry.company_name}
+Contact Person: {enquiry.contact_person}
+Email: {enquiry.email}
+Phone: {enquiry.phone}
+Requirement/Job Title: {enquiry.hiring_requirement}
+Location: {enquiry.job_location}
+Message:
+{enquiry.message}
+
+Please login to the admin panel to review.
+
+Optimus Manpower Platform""",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[admin_email],
+        fail_silently=True,
+    )

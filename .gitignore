@@ -98,3 +98,7 @@ temp/
 .settings/
 .classpath
 *.sublime-settings
+
+#doc
+documentation.md 
+SKILL.md 

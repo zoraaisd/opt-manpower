@@ -43,7 +43,7 @@ const ContactUs = () => {
           </div>
 
           {[
-            { icon: MapPin, label: 'Address', value: '123 Business District, Bandra Kurla Complex, Mumbai, Maharashtra 400051, India' },
+            { icon: MapPin, label: 'Address', value: 'Ground Floor, 12, Rajiv Gandhi Salai,Srinivasa Nagar,Kandhanchavadi, Perungudi,Chennai, Tamil Nadu 600096' },
             { icon: Phone, label: 'Phone', value: '+91 98765 43210' },
             { icon: Mail, label: 'Email', value: 'contact@optimusmanpower.com' },
             { icon: Clock, label: 'Working Hours', value: 'Mon – Sat: 9:00 AM – 7:00 PM IST' },
@@ -60,12 +60,12 @@ const ContactUs = () => {
           ))}
 
           {/* Regional Offices */}
-          <div className="pt-4 border-t border-gray-light">
+          {/* <div className="pt-4 border-t border-gray-light">
             <p className="text-gray-light text-xs font-body mb-4 uppercase tracking-wide">Regional Offices</p>
             {['Delhi NCR', 'Bangalore', 'Hyderabad', 'Chennai', 'Pune'].map((city) => (
               <p key={city} className="text-gray-medium text-sm font-body py-1">📍 {city}</p>
             ))}
-          </div>
+          </div> */}
         </div>
 
         {/* Contact Form */}

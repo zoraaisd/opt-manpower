@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Linkedin, Facebook, Instagram, Twitter, MapPin, Phone, Mail } from 'lucide-react';
+import { Linkedin, Facebook, Instagram, Twitter, MapPin, Phone, Mail, Youtube, X, XIcon } from 'lucide-react';
 import LogoImage from '../asserts/opt-man-logo.webp';
 
 const Footer = () => {
@@ -26,11 +26,11 @@ const Footer = () => {
               </div>
               <div className="flex items-center gap-2 text-gray-400 text-xs font-body">
                 <Phone className="w-3.5 h-3.5 text-gray-300 shrink-0" />
-                <a href="tel:+914400000000" className="hover:text-white transition-colors">+91 44 0000 0000</a>
+                <a href="tel:+919092906907" className="hover:text-white transition-colors">+91 90 92 906 907</a>
               </div>
               <div className="flex items-center gap-2 text-gray-400 text-xs font-body">
                 <Mail className="w-3.5 h-3.5 text-gray-300 shrink-0" />
-                <a href="mailto:connect@optimusmanpower.com" className="hover:text-white transition-colors truncate">connect@optimusmanpower.com</a>
+                <a href="mailto:info@optimusglobalhr.com" className="hover:text-white transition-colors truncate">info@optimusglobalhr.com</a>
               </div>
             </div>
           </div>
@@ -105,10 +105,11 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-3">
             {[
-              { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-              { icon: Facebook, href: 'https://facebook.com', label: 'Facebook' },
-              { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
-              { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
+              { icon: Linkedin, href: 'https://www.linkedin.com/company/optimus-global-manpower/', label: 'LinkedIn' },
+              { icon: Facebook, href: 'https://www.facebook.com/people/Optimus-Global-Manpower/61578491547950/', label: 'Facebook' },
+              { icon: Instagram, href: 'https://www.instagram.com/optimusglobalhr', label: 'Instagram' },
+              { icon: XIcon, href: 'https://x.com/optimusglobalhr', label: 'X' },
+              { icon: Youtube, href: 'https://www.youtube.com/@optimusglobalhr', label: 'Youtube' },
             ].map(({ icon: Icon, href, label }) => (
               <a
                 key={href}
