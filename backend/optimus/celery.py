@@ -1,9 +1,2 @@
-from __future__ import absolute_import, unicode_literals
-import os
-from celery import Celery
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'optimus.settings')
-
-app = Celery('optimus')
-app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks()
+# Celery has been removed from this project.
+# Email tasks are now handled synchronously via plain functions in core/tasks.py.

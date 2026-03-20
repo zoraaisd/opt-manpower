@@ -14,19 +14,11 @@ django-ratelimit>=4.1
 # Filtering & Search
 django-filter>=24.0
 
-# Celery + Redis
-celery>=5.4
-redis>=5.0
-django-celery-beat>=2.6
-
 # File & Image handling
 Pillow>=10.0
 
 # Email
 # (uses Django's built-in email backend — configure SMTP via env vars)
-
-# Production server
-gunicorn>=22.0
 
 # Storage (optional S3 support)
 django-storages>=1.14

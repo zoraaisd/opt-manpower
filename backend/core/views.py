@@ -144,7 +144,7 @@ class ApplyJobView(APIView):
         if serializer.is_valid():
             application = serializer.save()
             try:
-                send_application_confirmation.delay(
+                send_application_confirmation(
                     application.email,
                     application.name,
                     application.job.title,
@@ -152,7 +152,7 @@ class ApplyJobView(APIView):
                 )
                 admin_users = User.objects.filter(role='admin', is_active=True)
                 for admin in admin_users:
-                    notify_admin_new_application.delay(
+                    notify_admin_new_application(
                         admin.email, application.name,
                         application.job.title, str(application.id)
                     )

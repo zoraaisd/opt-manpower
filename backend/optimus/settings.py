@@ -23,8 +23,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django_filters',
-    'django_celery_beat',
-
     'core',
 ]
 
@@ -142,14 +140,7 @@ else:
 
 CORS_ALLOW_CREDENTIALS = True
 
-# ── Redis & Celery (Configured for local run without Redis) ───────────────────
-CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
-CELERY_RESULT_BACKEND = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-CELERY_TASK_ALWAYS_EAGER = True
-
+# ── Cache (in-process memory cache — no Redis needed) ────────────────────────
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
