@@ -331,10 +331,10 @@ const CareerAdvice = () => {
     : allArticles.filter((a) => a.category === activeCategory);
 
   return (
-    <main className="min-h-screen pt-24">
+    <main className="min-h-screen pt-10 md:pt-24 bg-gray-50/30">
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="bg-black text-white py-20 relative overflow-hidden">
+      <section className="bg-black text-white py-14 md:py-20 relative overflow-hidden border-b border-gray-800">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-80 h-80 bg-white rounded-full -mr-40 -mt-40" />
         </div>
@@ -345,7 +345,7 @@ const CareerAdvice = () => {
               Career <span className="text-gray-300">Advice</span>
             </h1>
             <p className="text-gray-300 font-body text-base leading-relaxed mb-8">
-              Industry-leading insights, expert resume tips, and interview strategies from our seasoned recruitment professionals — to help you land the right role, faster.
+              Industry-leading insights, expert resume tips, and interview strategies from our seasoned recruitment professionals - to help you land the right role, faster.
             </p>
             <div className="flex items-center gap-6 text-xs font-body text-gray-400">
               <span>✍ 50+ Expert Articles</span>

@@ -20,7 +20,7 @@ const TEAM = [
 
 const MILESTONES = [
   { year: '2009', event: 'Founded in Mumbai with a focus on domestic placements and SME hiring.' },
-  { year: '2012', event: 'Expanded to Gulf market — UAE, Qatar, Saudi Arabia. First 500 international placements.' },
+  { year: '2012', event: 'Expanded to Gulf market - UAE, Qatar, Saudi Arabia. First 500 international placements.' },
   { year: '2015', event: 'Opened regional offices in Delhi NCR, Bangalore, and Chennai. 100+ clients onboarded.' },
   { year: '2018', event: 'Crossed 5,000 total placements milestone. Launched dedicated healthcare & engineering verticals.' },
   { year: '2021', event: 'Launched digital-first recruitment platform to serve candidates and employers online.' },
@@ -31,14 +31,14 @@ const SERVICES = [
   {
     icon: Search,
     title: 'Permanent Staffing',
-    desc: 'We source, screen, and place exceptional candidates for permanent full-time roles across all industries and seniority levels — from executives to specialists.',
+    desc: 'We source, screen, and place exceptional candidates for permanent full-time roles across all industries and seniority levels - from executives to specialists.',
     features: ['Dedicated account manager', 'Pre-screened shortlists', '90-day replacement guarantee'],
   },
   {
     icon: Clock,
     title: 'Contract & Temporary Staffing',
     desc: 'Rapidly deploy skilled professionals on short-term contracts. Ideal for project peaks, seasonal demand, or specialized technical requirements.',
-    features: ['Fast turnaround (48–72 hrs)', 'Payroll management included', 'Scalable team augmentation'],
+    features: ['Fast turnaround (48-72 hrs)', 'Payroll management included', 'Scalable team augmentation'],
   },
   {
     icon: Globe,
@@ -78,11 +78,11 @@ const INDUSTRIES = [
 ];
 
 const PROCESS = [
-  { step: '01', title: 'Submit Your Requirement', desc: 'Share your hiring needs with our consultant — job role, experience level, location, and timeline. Takes less than 10 minutes.' },
+  { step: '01', title: 'Submit Your Requirement', desc: 'Share your hiring needs with our consultant - job role, experience level, location, and timeline. Takes less than 10 minutes.' },
   { step: '02', title: 'Talent Search & Screening', desc: 'Our recruitment team leverages our 50,000+ candidate database, job boards, and networks to source and screen the best prospects.' },
   { step: '03', title: 'Curated Shortlist', desc: 'Receive a shortlist of 3–5 pre-vetted candidates with detailed profiles, within 5–7 business days for standard roles.' },
   { step: '04', title: 'Interviews & Selection', desc: 'We coordinate all interview rounds, provide candidate preparation, and collect structured feedback to drive fast decisions.' },
-  { step: '05', title: 'Offer & Onboarding', desc: 'We facilitate salary negotiation, offer management, and post-offer support — ensuring high acceptance rates and smooth joining.' },
+  { step: '05', title: 'Offer & Onboarding', desc: 'We facilitate salary negotiation, offer management, and post-offer support - ensuring high acceptance rates and smooth joining.' },
 ];
 
 const DIFFERENTIATORS = [
@@ -122,10 +122,10 @@ const About = () => {
   const reviews = (testimonials?.data?.results || testimonials?.data || []).slice(0, 3);
 
   return (
-    <main className="min-h-screen pt-24">
+    <main className="min-h-screen pt-10 md:pt-24">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="bg-black text-white py-24 relative overflow-hidden">
+      <section className="bg-black text-white py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-white rounded-full -ml-40 -mb-40" />
@@ -137,7 +137,7 @@ const About = () => {
               Premier Global <span className="text-gray-300">Recruitment & Staffing</span>
             </motion.h1>
             <motion.p variants={fadeUp} className="text-gray-300 font-body text-lg leading-relaxed max-w-2xl mb-10">
-              Optimus Manpower stands at the forefront of global talent acquisition and strategic staffing. With over 15 years of excellence, we empower organizations across India and the Middle East by delivering exceptional workforce solutions — one successful placement at a time.
+              Optimus Manpower stands at the forefront of global talent acquisition and strategic staffing. With over 15 years of excellence, we empower organizations across India and the Middle East by delivering exceptional workforce solutions one successful placement at a time.
             </motion.p>
             <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
               <Link to="/jobs" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black font-heading font-semibold text-sm hover:bg-gray-100 transition-all">
@@ -170,8 +170,8 @@ const About = () => {
       <section className="py-20 max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { icon: Target, title: 'Our Mission', text: 'To deliver exceptional recruitment solutions that create meaningful employment and drive business growth across India and globally — with integrity at the core of everything we do.' },
-            { icon: Eye, title: 'Our Vision', text: 'To be South Asia\'s most trusted recruitment partner — known for integrity, speed, and sustained outcomes. A company that genuinely cares about every candidate and every client.' },
+            { icon: Target, title: 'Our Mission', text: 'To deliver exceptional recruitment solutions that create meaningful employment and drive business growth across India and globally - with integrity at the core of everything we do.' },
+            { icon: Eye, title: 'Our Vision', text: 'To be South Asia\'s most trusted recruitment partner - known for integrity, speed, and sustained outcomes. A company that genuinely cares about every candidate and every client.' },
             { icon: Heart, title: 'Our Values', text: 'People-first. Radical transparency in every interaction. Commitment to long-term relationships over short-term transactions. Excellence in delivery. Respect for diversity and inclusion.' },
           ].map(({ icon: Icon, title, text }, i) => (
             <motion.div key={title} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp} className="card p-8">
@@ -274,7 +274,7 @@ const About = () => {
           <p className="section-tag mb-3">Our Edge</p>
           <h2 className="section-title mb-4">Why Businesses <span className="text-black">Choose Optimus</span></h2>
           <p className="text-gray-medium font-body max-w-xl mx-auto">
-            Beyond filling vacancies — we build talent partnerships that stand the test of time.
+            Beyond filling vacancies - we build talent partnerships that stand the test of time.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

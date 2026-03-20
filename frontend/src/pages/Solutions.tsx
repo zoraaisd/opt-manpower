@@ -69,9 +69,9 @@ const fadeUp = {
 
 const Solutions = () => {
   return (
-    <main className="min-h-screen pt-24">
+    <main className="min-h-screen pt-10 md:pt-24">
       {/* ── Hero Section ── */}
-      <section className="bg-black text-white py-24 relative overflow-hidden">
+      <section className="bg-black text-white py-16 md:py-24 relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48 blur-3xl" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-40 -mb-40 blur-3xl" />

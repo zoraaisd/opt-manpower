@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Briefcase, Users, FileText, LogOut, Menu, X,
-  TrendingUp, PlusCircle, Pencil, Trash2, Download, BarChart2,
+  TrendingUp, PlusCircle, Pencil, Trash2, Download, BarChart2, Search,
 } from 'lucide-react';
 import {
   ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid,
@@ -46,11 +46,10 @@ const Sidebar = ({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
             const active = loc.pathname === path;
             return (
               <Link key={path} to={path} onClick={() => setOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${
-                  active 
-                    ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-cyan-300 border-l-2 border-cyan-500' 
+                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${active
+                    ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-cyan-300 border-l-2 border-cyan-500'
                     : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
-                }`}>
+                  }`}>
                 <Icon className="w-4 h-4" /> {label}
               </Link>
             );
@@ -80,7 +79,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useQuery({ queryKey: ['admin-dashboard'], queryFn: adminAPI.getStats });
   const stats = data?.data;
-  
+
   const notifyAdmin = (message: string) => {
     // Send email notification to admin
     console.log('Admin notification:', message);
@@ -330,6 +329,19 @@ const JobsManager = () => {
   const [editJob, setEditJob] = useState<any>(null);
   const jobs = data?.data?.results || data?.data || [];
 
+  const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const filteredJobs = jobs.filter((job: any) =>
+    job.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    job.location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    job.job_type?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const totalPages = Math.ceil(filteredJobs.length / itemsPerPage) || 1;
+  const paginatedJobs = filteredJobs.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
   const deleteJob = async (id: string) => {
     if (!confirm('Delete this job posting?')) return;
     await adminAPI.deleteJob(id);
@@ -337,86 +349,137 @@ const JobsManager = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pr-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="flex items-center justify-between"
+        className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
       >
-        <div>
+        <div className="w-full md:w-auto text-left flex-shrink-0">
           <h1 className="font-black text-3xl text-slate-900 mb-2">Job Postings</h1>
-          <p className="text-slate-600 text-base">{jobs.length} active positions</p>
+          <p className="text-slate-600 text-base">{filteredJobs.length} active positions</p>
         </div>
-        <button 
-          onClick={() => { setEditJob(null); setFormOpen(true); }}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 active:scale-95"
-        >
-          <PlusCircle className="w-5 h-5" /> Create Job
-        </button>
+        <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4 w-full md:w-auto mt-4 md:mt-0 justify-start md:justify-end">
+          <div className="relative w-full sm:w-64 flex-shrink-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search jobs..."
+              value={searchTerm}
+              onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
+              className="w-full pl-10 pr-4 py-2 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-sm font-semibold transition-colors shadow-sm"
+            />
+          </div>
+          <button
+            onClick={() => { setEditJob(null); setFormOpen(true); }}
+            className="flex items-center justify-center whitespace-nowrap gap-2 w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 active:scale-95"
+          >
+            <PlusCircle className="w-5 h-5" /> Create Job
+          </button>
+        </div>
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden"
+        className="bg-white border-2 border-slate-200 rounded-2xl shadow-sm "
       >
-        {jobs.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b-2 border-slate-200 bg-slate-50">
-                  <th className="px-4 py-3 text-left text-xs font-black text-slate-700 uppercase tracking-widest">Job Title</th>
-                  <th className="px-4 py-3 text-left text-xs font-black text-slate-700 uppercase tracking-widest">Location</th>
-                  <th className="px-4 py-3 text-left text-xs font-black text-slate-700 uppercase tracking-widest">Type</th>
-                  <th className="px-4 py-3 text-left text-xs font-black text-slate-700 uppercase tracking-widest">Status</th>
-                  <th className="px-4 py-3 text-center text-xs font-black text-slate-700 uppercase tracking-widest">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {jobs.map((job: any) => (
-                  <tr key={job.id} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-4 py-4 font-bold text-slate-900">{job.title}</td>
-                    <td className="px-4 py-4 text-slate-600">{job.location}</td>
-                    <td className="px-4 py-4"><span className="px-3 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-full">{job.job_type}</span></td>
-                    <td className="px-4 py-4">
-                      <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                        job.status === 'Published' 
-                          ? 'bg-green-100 text-green-700' 
-                          : 'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {job.status === 'Published' ? '✓ Published' : '⏸ Draft'}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4">
-                      <div className="flex items-center justify-center gap-2">
-                        <button 
-                          onClick={() => { setEditJob(job); setFormOpen(true); }}
-                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                          title="Edit"
-                        >
-                          <Pencil className="w-4 h-4" />
-                        </button>
-                        <button 
-                          onClick={() => deleteJob(job.id)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Delete"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
+        {filteredJobs.length > 0 ? (
+          <>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-sm text-left align-middle min-w-[700px] sm:min-w-full">
+                <thead>
+                  <tr className="bg-slate-50 border-b-2 border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                    <th className="px-6 py-4">Job Title</th>
+                    <th className="px-6 py-4">Location</th>
+                    <th className="px-6 py-4">Type</th>
+                    <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4 text-center">Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {paginatedJobs.map((job: any) => (
+                    <tr key={job.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="px-6 py-4 font-black text-slate-900 text-base">{job.title}</td>
+                      <td className="px-6 py-4 text-slate-500 font-semibold">{job.location}</td>
+                      <td className="px-6 py-4"><span className="px-3 py-1 bg-slate-100 text-slate-700 text-[11px] font-black uppercase tracking-widest rounded-md border border-slate-200">{job.job_type}</span></td>
+                      <td className="px-6 py-4">
+                        <span className={`text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-md border ${job.status === 'Published'
+                            ? 'bg-green-50 text-green-700 border-green-200'
+                            : 'bg-yellow-50 text-yellow-700 border-yellow-200'
+                          }`}>
+                          {job.status === 'Published' ? 'Published' : 'Draft'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center justify-center gap-2">
+                          <button
+                            onClick={() => { setEditJob(job); setFormOpen(true); }}
+                            className="p-2 text-cyan-600 hover:bg-cyan-50 border-2 border-transparent hover:border-cyan-100 rounded-lg transition-all"
+                            title="Edit"
+                          >
+                            <Pencil className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => deleteJob(job.id)}
+                            className="p-2 text-red-500 hover:bg-red-50 border-2 border-transparent hover:border-red-100 rounded-lg transition-all"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-slate-200 bg-slate-50">
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-center">
+                <span className="text-sm font-semibold text-slate-600 whitespace-nowrap">Rows per page:</span>
+                <select
+                  value={itemsPerPage}
+                  onChange={e => { setItemsPerPage(Number(e.target.value)); setPage(1); }}
+                  className="px-2 py-1 bg-white border-2 border-slate-200 rounded-md text-sm font-bold focus:outline-none focus:border-cyan-400 cursor-pointer"
+                >
+                  {[5, 10, 25, 50, 100].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
+              </div>
+              <span className="text-sm font-semibold text-slate-600 text-center">
+                Showing {filteredJobs.length === 0 ? 0 : (page - 1) * itemsPerPage + 1} to {Math.min(page * itemsPerPage, filteredJobs.length)} of {filteredJobs.length} entries
+              </span>
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-center">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Previous
+                </button>
+                <span className="px-4 py-2 font-black text-slate-800">
+                  {page} / {totalPages}
+                </span>
+                <button
+                  disabled={page === totalPages || totalPages === 0}
+                  onClick={() => setPage(page + 1)}
+                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <Briefcase className="w-16 h-16 text-slate-300 mb-4" />
-            <p className="text-slate-600 font-semibold text-lg">No job postings yet</p>
-            <p className="text-slate-500">Create your first job posting by clicking the "Create Job" button above</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
+              <Briefcase className="w-10 h-10 text-slate-300" />
+            </div>
+            <p className="text-slate-600 font-black text-xl mb-1">No jobs found</p>
+            <p className="text-slate-500 text-sm">Create a new job posting or adjust your search.</p>
           </div>
         )}
       </motion.div>
@@ -428,7 +491,23 @@ const JobsManager = () => {
 
 const ApplicationsManager = () => {
   const { data, refetch } = useQuery({ queryKey: ['admin-applications'], queryFn: adminAPI.getApplications });
-  const apps = data?.data?.results || data?.data || [];
+  const allApps = data?.data?.results || data?.data || [];
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('All');
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const filteredApps = allApps.filter((app: any) => {
+    const matchesSearch = (app.full_name || app.name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (app.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (app.job_title || '').toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = filterStatus === 'All' || app.status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  const totalPages = Math.ceil(filteredApps.length / itemsPerPage) || 1;
+  const apps = filteredApps.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   const STATUS_OPTIONS = ['Applied', 'Under Review', 'Shortlisted', 'Interview Scheduled', 'Rejected', 'Hired'];
   const STATUS_COLORS: Record<string, string> = {
@@ -451,10 +530,31 @@ const ApplicationsManager = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
+        className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
       >
-        <div>
+        <div className="w-full md:w-auto text-left flex-shrink-0">
           <h1 className="font-black text-3xl text-slate-900 mb-2">Applications</h1>
-          <p className="text-slate-600 text-base">{apps.length} total applications received</p>
+          <p className="text-slate-600 text-base">{filteredApps.length} total applications matched</p>
+        </div>
+        <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4 w-full md:w-auto mt-4 md:mt-0 justify-start md:justify-end">
+          <select
+            value={filterStatus}
+            onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
+            className="w-full sm:w-auto px-4 py-2 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-sm font-semibold transition-colors shadow-sm cursor-pointer flex-shrink-0"
+          >
+            <option value="All">All Statuses</option>
+            {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <div className="relative w-full sm:w-64 flex-shrink-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search applications..."
+              value={searchTerm}
+              onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
+              className="w-full pl-10 pr-4 py-2 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-sm font-semibold transition-colors shadow-sm"
+            />
+          </div>
         </div>
       </motion.div>
 
@@ -462,99 +562,115 @@ const ApplicationsManager = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="space-y-4"
+        className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm mt-6"
       >
-        {apps.length > 0 ? (
-          apps.map((app: any, idx: number) => (
-            <motion.div
-              key={app.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.05 }}
-              className="bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-cyan-400 hover:shadow-xl transition-all duration-300"
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                {/* Candidate Details */}
-                <div className="lg:col-span-2 space-y-4">
-                  <div>
-                    <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Full Name</p>
-                    <p className="text-xl font-black text-slate-900">{app.full_name || app.name || 'N/A'}</p>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Email</p>
-                      <p className="text-sm font-semibold text-slate-700">{app.email}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Phone</p>
-                      <p className="text-sm font-semibold text-slate-700">{app.phone}</p>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Experience</p>
-                      <p className="text-sm font-semibold text-slate-700">{app.experience}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Applied Date</p>
-                      <p className="text-sm font-semibold text-slate-700">{new Date(app.created_at).toLocaleDateString()}</p>
-                    </div>
-                  </div>
-                </div>
+        {filteredApps.length > 0 ? (
+          <>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-sm text-left align-middle min-w-[800px] xl:min-w-full">
+                <thead>
+                  <tr className="bg-slate-50 border-b-2 border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                    <th className="px-6 py-4">Date</th>
+                    <th className="px-6 py-4">Applicant</th>
+                    <th className="px-6 py-4">Job Title</th>
+                    <th className="px-6 py-4">Experience</th>
+                    <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4 text-center">Resume</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {apps.map((app: any) => (
+                    <tr key={app.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-slate-500 font-medium">
+                        {new Date(app.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="font-black text-slate-900 text-base">{app.full_name || app.name || 'N/A'}</p>
+                        <p className="text-cyan-600 font-bold text-xs">{app.email}</p>
+                        <p className="text-slate-500 text-xs">{app.phone}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="font-bold text-slate-800">{app.job_title || 'N/A'}</span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-slate-700 font-medium">
+                        {app.experience || '—'}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <select
+                          value={app.status}
+                          onChange={(e) => updateStatus(app.id, e.target.value)}
+                          className={`px-3 py-1.5 rounded-lg font-bold text-xs border ${STATUS_COLORS[app.status] || 'bg-slate-100 text-slate-700 border-slate-300'
+                            } focus:outline-none focus:ring-2 focus:ring-cyan-500/50 cursor-pointer`}
+                        >
+                          {STATUS_OPTIONS.map((s) => (
+                            <option key={s} value={s}>{s}</option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        {app.cv_file || app.resume || app.file ? (
+                          <a
+                            href={app.cv_file || app.resume || app.file}
+                            download
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs rounded-lg shadow-sm hover:shadow-md hover:scale-105 transition-all"
+                          >
+                            <Download className="w-3.5 h-3.5" /> CV
+                          </a>
+                        ) : (
+                          <span className="text-slate-400 text-xs font-semibold">No File</span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-                {/* Job & Status Info */}
-                <div className="lg:col-span-2 space-y-4">
-                  <div className="bg-cyan-50 border-2 border-cyan-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-cyan-600 uppercase tracking-widest mb-2">Applied For</p>
-                    <p className="text-lg font-black text-slate-900">{app.job_title}</p>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div>
-                      <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-2">Status</p>
-                      <select
-                        value={app.status}
-                        onChange={(e) => updateStatus(app.id, e.target.value)}
-                        className={`w-full px-4 py-2.5 rounded-lg font-bold text-sm border-2 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 transition-all ${
-                          STATUS_COLORS[app.status] || 'bg-slate-100 text-slate-700 border-slate-300'
-                        }`}
-                      >
-                        {STATUS_OPTIONS.map((s) => (
-                          <option key={s} value={s}>
-                            {s}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {/* Download CV Button */}
-                    {app.cv_file || app.resume || app.file ? (
-                      <a
-                        href={app.cv_file || app.resume || app.file}
-                        download
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 active:scale-95"
-                      >
-                        <Download className="w-4 h-4" />
-                        Download CV
-                      </a>
-                    ) : (
-                      <div className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-slate-100 text-slate-500 font-bold rounded-lg border-2 border-slate-200">
-                        <FileText className="w-4 h-4" />
-                        No CV Uploaded
-                      </div>
-                    )}
-                  </div>
-                </div>
+            {/* Pagination */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-slate-200 bg-slate-50">
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-center">
+                <span className="text-sm font-semibold text-slate-600 whitespace-nowrap">Rows per page:</span>
+                <select
+                  value={itemsPerPage}
+                  onChange={e => { setItemsPerPage(Number(e.target.value)); setPage(1); }}
+                  className="px-2 py-1 bg-white border-2 border-slate-200 rounded-md text-sm font-bold focus:outline-none focus:border-cyan-400"
+                >
+                  {[5, 10, 25, 50, 100].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
               </div>
-            </motion.div>
-          ))
+              <span className="text-sm font-semibold text-slate-600 text-center">
+                Showing {filteredApps.length === 0 ? 0 : (page - 1) * itemsPerPage + 1} to {Math.min(page * itemsPerPage, filteredApps.length)} of {filteredApps.length} entries
+              </span>
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-center">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Previous
+                </button>
+                <span className="px-4 py-2 font-black text-slate-800">
+                  {page} / {totalPages}
+                </span>
+                <button
+                  disabled={page === totalPages || totalPages === 0}
+                  onClick={() => setPage(page + 1)}
+                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </>
         ) : (
-          <div className="flex flex-col items-center justify-center py-16 text-center">
-            <FileText className="w-16 h-16 text-slate-300 mb-4" />
-            <p className="text-slate-600 font-semibold text-lg">No applications yet</p>
-            <p className="text-slate-500">Applications will appear here when candidates apply</p>
+          <div className="flex flex-col items-center justify-center py-24 text-center">
+            <div className="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
+              <FileText className="w-10 h-10 text-slate-400" />
+            </div>
+            <p className="text-slate-700 font-black text-xl mb-1">No applications yet</p>
+            <p className="text-slate-500 text-sm">Applications will appear here when candidates apply</p>
           </div>
         )}
       </motion.div>
@@ -565,7 +681,28 @@ const ApplicationsManager = () => {
 // ── Enquiries Manager ─────────────────────────────────────────────────────────
 const EnquiriesManager = () => {
   const { data } = useQuery({ queryKey: ['admin-enquiries'], queryFn: adminAPI.getEnquiries });
-  const enquiries = data?.data?.results || data?.data || [];
+  const allEnquiries = data?.data?.results || data?.data || [];
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterSort, setFilterSort] = useState('newest');
+  const [page, setPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+
+  const filteredEnquiries = allEnquiries.filter((enq: any) =>
+    (enq.company_name || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (enq.contact_person || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (enq.email || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (enq.hiring_requirement || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (enq.job_location || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (enq.message || '').toLowerCase().includes(searchTerm.toLowerCase())
+  ).sort((a: any, b: any) => {
+    const timeA = new Date(a.created_at || 0).getTime();
+    const timeB = new Date(b.created_at || 0).getTime();
+    return filterSort === 'newest' ? timeB - timeA : timeA - timeB;
+  });
+
+  const totalPages = Math.ceil(filteredEnquiries.length / itemsPerPage) || 1;
+  const enquiries = filteredEnquiries.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
   const isNew = (dateStr: string) => {
     const diff = (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
@@ -573,22 +710,36 @@ const EnquiriesManager = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="bg-gradient-to-br from-orange-50 to-amber-50 border-2 border-orange-200 p-8 rounded-2xl"
+        className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 "
       >
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-orange-600 font-semibold text-sm uppercase tracking-widest mb-1">Admin Panel</p>
-            <h1 className="font-black text-4xl text-slate-900 mb-1">Business Enquiries</h1>
-            <p className="text-slate-600 text-base">{enquiries.length} enquir{enquiries.length === 1 ? 'y' : 'ies'} received</p>
+        <div className="w-full lg:w-auto text-left flex-shrink-0">
+          <h1 className="font-black text-2xl text-slate-900 mb-1">Business Enquiries</h1>
+          <p className="text-slate-600 text-sm">{filteredEnquiries.length} enquir{filteredEnquiries.length === 1 ? 'y' : 'ies'} found</p>
+        </div>
+        <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full lg:w-auto mt-3 lg:mt-0 justify-start lg:justify-end">
+          <select
+            value={filterSort}
+            onChange={(e) => { setFilterSort(e.target.value); setPage(1); }}
+            className="w-full sm:w-auto px-3 py-1.5 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-xs font-semibold transition-colors shadow-sm cursor-pointer flex-shrink-0"
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+          <div className="relative w-full sm:w-48 lg:w-56 flex-shrink-0">
+            <Search className="absolute left-2 top-1/2 -translate-y-1/2 w- h-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search enquiries..."
+              value={searchTerm}
+              onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
+              className="w-full pl-9 pr-5 py-1.5 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-xs font-semibold transition-colors shadow-sm"
+            />
           </div>
-          {/* <div className="bg-gradient-to-br from-orange-500 to-red-500 p-4 rounded-2xl shadow-lg shadow-orange-500/30">
-            <Briefcase className="w-8 h-8 text-white" />
-          </div> */}
         </div>
       </motion.div>
 
@@ -596,86 +747,103 @@ const EnquiriesManager = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="space-y-4"
+        className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm"
       >
-        {enquiries.length > 0 ? (
-          enquiries.map((enq: any, idx: number) => (
-            <motion.div
-              key={enq.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: idx * 0.05 }}
-              className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden hover:border-orange-400 hover:shadow-xl transition-all duration-300"
-            >
-              {/* Card Header */}
-              <div className="bg-gradient-to-r from-orange-500 to-red-500 px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
-                    <Briefcase className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-black text-white text-lg leading-tight">{enq.company_name || '—'}</p>
-                    <p className="text-orange-100 text-xs font-medium">Business Enquiry</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {enq.created_at && isNew(enq.created_at) && (
-                    <span className="flex items-center gap-1 bg-white/20 text-white text-xs font-black px-3 py-1 rounded-full animate-pulse">
-                      ● NEW
-                    </span>
-                  )}
-                  <span className="bg-white/20 text-white text-xs font-semibold px-3 py-1.5 rounded-lg">
-                    {enq.created_at ? new Date(enq.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
-                  </span>
-                </div>
+        {filteredEnquiries.length > 0 ? (
+          <>
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-sm text-left align-middle min-w-[800px] xl:min-w-full">
+                <thead>
+                  <tr className="bg-slate-50 border-b-2 border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                    <th className="px-6 py-4">Date</th>
+                    <th className="px-6 py-4">Company</th>
+                    <th className="px-6 py-4">Contact Person</th>
+                    <th className="px-6 py-4">Requirement</th>
+                    <th className="px-6 py-4 text-center">Positions</th>
+                    <th className="px-6 py-4">Message</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {enquiries.map((enq: any) => (
+                    <tr key={enq.id} className="hover:bg-slate-50/80 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex flex-col items-start gap-1">
+                          {enq.created_at && isNew(enq.created_at) && (
+                            <span className="bg-orange-100 text-orange-600 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider border border-orange-200">
+                              New
+                            </span>
+                          )}
+                          <span className="text-slate-500 font-semibold text-xs">
+                            {enq.created_at ? new Date(enq.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="font-black text-slate-900 text-base">{enq.company_name || '—'}</p>
+                        <p className="text-slate-500 text-xs font-semibold mt-0.5 flex items-center gap-1">📍 {enq.job_location || '—'}</p>
+                      </td>
+                      <td className="px-6 py-4">
+                        <p className="font-bold text-slate-800">{enq.contact_person || '—'}</p>
+                        <a href={`mailto:${enq.email}`} className="block text-cyan-600 font-bold text-xs hover:underline mt-0.5">{enq.email}</a>
+                        <a href={`tel:${enq.phone}`} className="block text-slate-500 text-xs hover:text-slate-800 mt-0.5">{enq.phone || '—'}</a>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-block bg-orange-50 text-orange-700 border border-orange-200 px-2.5 py-1 rounded font-bold text-xs">
+                          {enq.hiring_requirement || '—'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span className="font-black text-slate-900 text-lg">
+                          {enq.number_of_positions ?? '—'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-slate-600 text-xs leading-relaxed max-w-xs truncate" title={enq.message || '—'}>
+                        {enq.message || '—'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Pagination */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-slate-200 bg-slate-50 pr-16">
+              <div className="flex items-center gap-3 w-full sm:w-auto justify-center">
+                <span className="text-sm font-semibold text-slate-600 whitespace-nowrap">Rows per page:</span>
+                <select
+                  value={itemsPerPage}
+                  onChange={e => { setItemsPerPage(Number(e.target.value)); setPage(1); }}
+                  className="px-2 py-1 bg-white border-2 border-slate-200 rounded-md text-sm font-bold focus:outline-none focus:border-cyan-400 cursor-pointer"
+                >
+                  {[5, 10, 25, 50, 100].map(n => <option key={n} value={n}>{n}</option>)}
+                </select>
               </div>
-
-              {/* Card Body */}
-              <div className="p-6 space-y-5">
-                {/* Contact Details Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Contact Person</p>
-                    <p className="text-slate-900 font-bold text-base">{enq.contact_person || '—'}</p>
-                  </div>
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Email</p>
-                    <a href={`mailto:${enq.email}`} className="text-cyan-600 font-bold text-sm hover:underline break-all">{enq.email || '—'}</a>
-                  </div>
-                  <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest mb-1">Phone</p>
-                    <a href={`tel:${enq.phone}`} className="text-cyan-600 font-bold text-sm hover:underline">{enq.phone || '—'}</a>
-                  </div>
-                </div>
-
-                {/* Hiring Details */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="bg-orange-50 border-2 border-orange-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-orange-500 uppercase tracking-widest mb-1">📋 Hiring Requirement</p>
-                    <p className="text-slate-900 font-black text-base">{enq.hiring_requirement || '—'}</p>
-                  </div>
-                  <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-blue-500 uppercase tracking-widest mb-1">👥 Positions Needed</p>
-                    <p className="text-slate-900 font-black text-2xl">{enq.number_of_positions ?? '—'}</p>
-                  </div>
-                  <div className="bg-green-50 border-2 border-green-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-green-500 uppercase tracking-widest mb-1">📍 Job Location</p>
-                    <p className="text-slate-900 font-black text-base">{enq.job_location || '—'}</p>
-                  </div>
-                </div>
-
-                {/* Message */}
-                {enq.message && (
-                  <div className="bg-amber-50 border-2 border-amber-200 rounded-xl p-4">
-                    <p className="text-xs font-black text-amber-600 uppercase tracking-widest mb-2">💬 Message</p>
-                    <p className="text-slate-700 text-sm leading-relaxed">{enq.message}</p>
-                  </div>
-                )}
+              <span className="text-sm font-semibold text-slate-600 text-center">
+                Showing {filteredEnquiries.length === 0 ? 0 : (page - 1) * itemsPerPage + 1} to {Math.min(page * itemsPerPage, filteredEnquiries.length)} of {filteredEnquiries.length} entries
+              </span>
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-center">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Previous
+                </button>
+                <span className="px-4 py-2 font-black text-slate-800">
+                  {page} / {totalPages}
+                </span>
+                <button
+                  disabled={page === totalPages || totalPages === 0}
+                  onClick={() => setPage(page + 1)}
+                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                >
+                  Next
+                </button>
               </div>
-            </motion.div>
-          ))
+            </div>
+          </>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center bg-white border-2 border-slate-200 rounded-2xl">
+          <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mb-4">
               <Briefcase className="w-10 h-10 text-orange-400" />
             </div>
@@ -712,12 +880,12 @@ const AdminLoginGate = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Elements */}
-      <motion.div 
+      <motion.div
         className="absolute top-0 -right-1/3 w-96 h-96 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/10 blur-3xl"
         animate={{ y: [0, 50, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div 
+      <motion.div
         className="absolute -bottom-1/4 -left-1/3 w-80 h-80 rounded-full bg-gradient-to-tr from-blue-500/20 to-cyan-500/10 blur-3xl"
         animate={{ y: [0, -40, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
@@ -773,7 +941,7 @@ const AdminLoginGate = () => {
             </button>
           </form>
         </div>
-        <p className="text-center text-white/60 text-xs font-medium mt-6">Optimus Manpower — Administration Only</p>
+        <p className="text-center text-white/60 text-xs font-medium mt-6">Optimus Manpower - Administration Only</p>
       </motion.div>
     </div>
   );

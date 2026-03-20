@@ -5,7 +5,7 @@ import { contentAPI } from '../services/api';
 import AuthModal from '../components/AuthModal';
 
 // Hero Background
-import heroBg from '../asserts/jon-bg1.jpg';
+import heroBg from '../asserts/jon-bg1.webp';
 
 // Solutions Images
 import generalStaffingImg from '../asserts/General-Staffing.webp';

@@ -46,6 +46,16 @@ const JobCard = ({ job, onAuthRequired }: JobCardProps) => {
     navigate(`/jobs/${job.id}`);
   };
 
+  const getJobTypeStyle = (type: string) => {
+    switch (type) {
+      case 'Full Time': return 'bg-blue-50 text-blue-700 border border-blue-200';
+      case 'Part Time': return 'bg-amber-50 text-amber-700 border border-amber-200';
+      case 'Contract': return 'bg-fuchsia-50 text-fuchsia-700 border border-fuchsia-200';
+      case 'Internship': return 'bg-pink-50 text-pink-700 border border-pink-200';
+      default: return 'bg-slate-50 text-slate-700 border border-slate-200';
+    }
+  };
+
   return (
     <motion.div
       whileHover={{ y: -4 }}
@@ -56,11 +66,17 @@ const JobCard = ({ job, onAuthRequired }: JobCardProps) => {
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <span className={`status-badge text-xs ${job.is_international ? 'bg-black/10 text-black' : 'bg-gray-100 text-gray-medium'}`}>
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-md ${
+              job.is_international 
+                ? 'bg-indigo-50 text-indigo-700 border border-indigo-200' 
+                : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+            }`}>
               {job.is_international ? '🌐 International' : '🇮🇳 Domestic'}
             </span>
-            <span className="status-badge bg-gray-100 text-gray-medium">{job.job_type}</span>
+            <span className={`px-2.5 py-1 text-[10px] font-black uppercase tracking-widest rounded-md ${getJobTypeStyle(job.job_type)}`}>
+              {job.job_type}
+            </span>
           </div>
           <h3 className="font-heading font-semibold text-black text-base leading-tight group-hover:text-black transition-colors">
             {job.title}

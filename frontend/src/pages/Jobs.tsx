@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,7 +6,7 @@ import { Search, Filter, X, ChevronLeft, ChevronRight, Globe, MapPin, Sparkles, 
 import { jobsAPI } from '../services/api';
 import JobCard from '../components/JobCard';
 import AuthModal from '../components/AuthModal';
-import job from '../asserts/job-bg.jpg';
+import job from '../asserts/job-bg.webp';
 
 const CATEGORIES = ['IT & Technology', 'Healthcare', 'Finance', 'Engineering', 'Sales', 'Marketing', 'HR', 'Operations', 'Hospitality', 'Construction', 'Logistics', 'Education'];
 const JOB_TYPES = ['Full Time', 'Part Time', 'Contract', 'Internship'];
@@ -17,6 +17,7 @@ const Jobs = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [authModal, setAuthModal] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const searchRef = useRef<HTMLDivElement | null>(null);
 
   const typeParam = searchParams.get('type');
   const isInternational = typeParam === 'international' ? 'true' : typeParam === 'domestic' ? 'false' : '';
@@ -83,20 +84,26 @@ const Jobs = () => {
   const pageTitle = filters.is_international === 'true'
     ? 'International Jobs'
     : filters.is_international === 'false'
-    ? 'Domestic Jobs'
-    : 'All Job Listings';
+      ? 'Domestic Jobs'
+      : 'All Job Listings';
+
+  useEffect(() => {
+    if (!searchRef.current) return;
+    const top = searchRef.current.getBoundingClientRect().top + window.scrollY - 120;
+    window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+  }, [filters.page]);
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 relative overflow-hidden">
       {/* Premium Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Orbs */}
-        <motion.div 
+        <motion.div
           className="absolute top-0 -right-1/3 w-96 h-96 rounded-full bg-gradient-to-br from-blue-200/20 to-cyan-200/10 blur-3xl"
           animate={{ y: [0, 50, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div 
+        <motion.div
           className="absolute -bottom-1/4 -left-1/3 w-80 h-80 rounded-full bg-gradient-to-tr from-indigo-200/20 to-purple-200/10 blur-3xl"
           animate={{ y: [0, -40, 0] }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
@@ -104,8 +111,8 @@ const Jobs = () => {
       </div>
 
       {/* Premium Header Section */}
-      <div 
-        className="relative pt-32 pb-20 px-4 before:absolute before:inset-0 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-100 before:z-0 after:absolute after:inset-0 after:bg-gradient-to-br after:from-slate-900/40 after:via-slate-900/35 after:to-slate-900/40 after:z-10"
+      <div
+        className="relative pt-32 pb-20 px-4 before:absolute before:inset-0 before:bg-cover before:bg-center before:bg-no-repeat before:opacity-100 before:z-0 after:absolute after:inset-0 after:bg-gradient-to-r after:from-slate-900/95 after:via-slate-900/70 after:to-black/10 after:z-10"
         style={{
           backgroundImage: `url(${job})`,
           backgroundSize: 'cover',
@@ -114,84 +121,83 @@ const Jobs = () => {
         }}
       >
         <div className="max-w-7xl mx-auto relative z-20">
-          <motion.div 
-            className="text-center mb-16"
+          <motion.div
+            className="text-left mb-16 max-w-3xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
             {/* Badge */}
-            <motion.div 
-              className="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200/50 px-6 py-2.5 rounded-full mb-6 backdrop-blur-sm shadow-lg"
+            <motion.div
+              className="inline-flex items-center justify-start gap-2 bg-black/40 border border-white/20 px-6 py-2.5 rounded-full mb-6 backdrop-blur-md shadow-lg"
               whileHover={{ scale: 1.05 }}
             >
-              <motion.div 
-                className="w-2 h-2 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"
+              <motion.div
+                className="w-2 h-2 rounded-full bg-cyan-400"
                 animate={{ scale: [1, 1.3, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="text-xs font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 tracking-widest">PREMIUM OPPORTUNITIES</span>
+              <span className="text-xs font-display font-bold text-white tracking-widest uppercase">Premium Opportunities</span>
             </motion.div>
-            
+
             {/* Main Heading */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-gradient leading-tight mb-6">
-              <span className="block text-white drop-shadow-lg">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-black leading-tight mb-6">
+              <span className="block text-white drop-shadow-md">
                 Discover Your
               </span>
-              <span className="block bg-gradient-to-r from-cyan-300 via-cyan-400 to-blue-400 text-transparent bg-clip-text relative">
+              <span className="block text-cyan-400 drop-shadow-md">
                 Perfect Career
               </span>
             </h1>
-            
+
             {/* Subtitle */}
-            <p className="text-lg text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed font-light drop-shadow">
-              Connect with world-class companies and unlock career opportunities tailored to your expertise. 
+            <p className="text-lg md:text-xl text-gray-200 font-body mb-10 leading-relaxed max-w-2xl drop-shadow">
+              Connect with world-class companies and unlock career opportunities tailored to your expertise.
               <span className="block mt-2">Your next opportunity awaits.</span>
             </p>
 
             {/* Stats Row */}
-            <motion.div 
-              className="flex flex-wrap justify-center items-center gap-8 md:gap-12 mb-12"
+            <motion.div
+              className="flex flex-wrap justify-start items-center gap-8 md:gap-12 mb-12"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
+              <div className="text-left">
+                <div className="text-4xl font-display font-black text-white drop-shadow">
                   {isLoading ? '...' : totalCount}
                 </div>
-                <div className="text-sm text-white/70 font-medium mt-1">Active Positions</div>
+                <div className="text-sm text-cyan-400 font-body mt-1 uppercase tracking-wider font-semibold">Active Positions</div>
               </div>
-              <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
-              <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
+              <div className="hidden sm:block w-px h-12 bg-white/20" />
+              <div className="text-left">
+                <div className="text-4xl font-display font-black text-white drop-shadow">
                   150+
                 </div>
-                <div className="text-sm text-white/70 font-medium mt-1">Companies</div>
+                <div className="text-sm text-cyan-400 font-body mt-1 uppercase tracking-wider font-semibold">Companies</div>
               </div>
-              <div className="hidden sm:block w-px h-12 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
-              <div className="text-center">
-                <div className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-300">
+              <div className="hidden sm:block w-px h-12 bg-white/20" />
+              <div className="text-left">
+                <div className="text-4xl font-display font-black text-white drop-shadow">
                   50+
                 </div>
-                <div className="text-sm text-white/70 font-medium mt-1">Countries</div>
+                <div className="text-sm text-cyan-400 font-body mt-1 uppercase tracking-wider font-semibold">Countries</div>
               </div>
             </motion.div>
 
-            {/* Quick Filter Buttons - Centered & Aligned */}
-            <motion.div 
-              className="flex flex-wrap justify-center gap-3"
+            {/* Quick Filter Buttons - Left Aligned */}
+            <motion.div
+              className="flex flex-wrap justify-start gap-3"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <button
                 onClick={() => setFilters(f => ({ ...f, is_international: '', page: 1 }))}
-                className={`group relative px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden ${
-                  !filters.is_international 
-                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40' 
+                className={`group relative  px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden ${!filters.is_international
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40'
                     : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-blue-400 hover:text-blue-600 hover:shadow-lg'
-                }`}
+                  }`}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   All Roles
@@ -200,14 +206,13 @@ const Jobs = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity" />
                 )}
               </button>
-              
+
               <button
                 onClick={() => setFilters(f => ({ ...f, is_international: 'false', page: 1 }))}
-                className={`group relative px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center gap-2 ${
-                  filters.is_international === 'false' 
-                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40' 
+                className={`group relative px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center gap-2 ${filters.is_international === 'false'
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40'
                     : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-blue-400 hover:text-blue-600 hover:shadow-lg'
-                }`}
+                  }`}
               >
                 <MapPin className="w-4 h-4" />
                 <span className="relative z-10">Domestic</span>
@@ -215,14 +220,13 @@ const Jobs = () => {
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-0 group-hover:opacity-20 transition-opacity" />
                 )}
               </button>
-              
+
               <button
                 onClick={() => setFilters(f => ({ ...f, is_international: 'true', page: 1 }))}
-                className={`group relative px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center gap-2 ${
-                  filters.is_international === 'true' 
-                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40' 
+                className={`group relative px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center gap-2 ${filters.is_international === 'true'
+                    ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-xl shadow-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/40'
                     : 'bg-white text-slate-700 border-2 border-slate-200 hover:border-blue-400 hover:text-blue-600 hover:shadow-lg'
-                }`}
+                  }`}
               >
                 <Globe className="w-4 h-4" />
                 <span className="relative z-10">International</span>
@@ -238,11 +242,12 @@ const Jobs = () => {
       {/* Main Content Section */}
       <div className="relative max-w-7xl mx-auto px-4 pb-24">
         {/* Search & Filters Section */}
-        <motion.div 
-          className="mb-16"
+        <motion.div
+          className="mb-16 pt-6"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
+          ref={searchRef}
         >
           {/* Main Search Bar */}
           <form onSubmit={handleSearchSubmit} className="space-y-6">
@@ -262,8 +267,8 @@ const Jobs = () => {
               {/* Button Group */}
               <div className="flex gap-3">
                 {/* Search Button */}
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="group relative px-8 py-4 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-semibold text-base rounded-2xl hover:shadow-2xl hover:shadow-blue-500/40 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap overflow-hidden"
                 >
                   <span className="relative z-10 flex items-center gap-2">
@@ -273,14 +278,13 @@ const Jobs = () => {
                 </button>
 
                 {/* Filters Toggle */}
-                <button 
-                  type="button" 
-                  onClick={() => setFiltersOpen(!filtersOpen)} 
-                  className={`group relative px-6 py-4 font-semibold text-base rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap ${
-                    filtersOpen 
-                      ? 'bg-blue-50 border-2 border-blue-500 text-blue-600 shadow-lg shadow-blue-500/20' 
+                <button
+                  type="button"
+                  onClick={() => setFiltersOpen(!filtersOpen)}
+                  className={`group relative px-6 py-4 font-semibold text-base rounded-2xl transition-all duration-300 flex items-center justify-center gap-2 whitespace-nowrap ${filtersOpen
+                      ? 'bg-blue-50 border-2 border-blue-500 text-blue-600 shadow-lg shadow-blue-500/20'
                       : 'bg-white border-2 border-slate-200 text-slate-600 hover:border-blue-400 hover:text-blue-600 hover:shadow-lg'
-                  }`}
+                    }`}
                 >
                   <Filter className="w-4 h-4" />
                   <span className="hidden sm:inline">Filters</span>
@@ -288,9 +292,9 @@ const Jobs = () => {
 
                 {/* Clear Filters */}
                 {hasFilters && (
-                  <button 
-                    type="button" 
-                    onClick={clearFilters} 
+                  <button
+                    type="button"
+                    onClick={clearFilters}
                     className="group px-6 py-4 bg-red-50 border-2 border-red-200 text-red-600 font-semibold rounded-2xl hover:border-red-400 hover:bg-red-100 hover:shadow-lg transition-all duration-300 flex items-center justify-center"
                     title="Clear all filters"
                   >
@@ -303,8 +307,8 @@ const Jobs = () => {
 
           {/* Expanded Filters */}
           {filtersOpen && (
-            <motion.div 
-              initial={{ opacity: 0, height: 0, y: -10 }} 
+            <motion.div
+              initial={{ opacity: 0, height: 0, y: -10 }}
               animate={{ opacity: 1, height: 'auto', y: 0 }}
               exit={{ opacity: 0, height: 0, y: -10 }}
               transition={{ duration: 0.3 }}
@@ -312,7 +316,7 @@ const Jobs = () => {
             >
               {/* Header */}
               <div className="flex items-center gap-3 pb-6 border-b-2 border-slate-200">
-                <motion.div 
+                <motion.div
                   className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500"
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -325,9 +329,9 @@ const Jobs = () => {
                 {/* Category */}
                 <motion.div className="space-y-3" whileHover={{ y: -2 }}>
                   <label className="block text-xs font-black text-slate-900 uppercase tracking-widest">Category</label>
-                  <select 
-                    value={filters.category} 
-                    onChange={e => updateFilter('category', e.target.value)} 
+                  <select
+                    value={filters.category}
+                    onChange={e => updateFilter('category', e.target.value)}
                     className="w-full px-4 py-3 bg-white border-2 border-slate-200 text-slate-900 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/20 transition-all duration-300 rounded-xl hover:border-slate-300 hover:shadow-md"
                   >
                     <option value="">All Categories</option>
@@ -338,9 +342,9 @@ const Jobs = () => {
                 {/* Job Type */}
                 <motion.div className="space-y-3" whileHover={{ y: -2 }}>
                   <label className="block text-xs font-black text-slate-900 uppercase tracking-widest">Job Type</label>
-                  <select 
-                    value={filters.job_type} 
-                    onChange={e => updateFilter('job_type', e.target.value)} 
+                  <select
+                    value={filters.job_type}
+                    onChange={e => updateFilter('job_type', e.target.value)}
                     className="w-full px-4 py-3 bg-white border-2 border-slate-200 text-slate-900 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/20 transition-all duration-300 rounded-xl hover:border-slate-300 hover:shadow-md"
                   >
                     <option value="">All Job Types</option>
@@ -351,9 +355,9 @@ const Jobs = () => {
                 {/* Location */}
                 <motion.div className="space-y-3" whileHover={{ y: -2 }}>
                   <label className="block text-xs font-black text-slate-900 uppercase tracking-widest">Location</label>
-                  <select 
-                    value={filters.country} 
-                    onChange={e => updateFilter('country', e.target.value)} 
+                  <select
+                    value={filters.country}
+                    onChange={e => updateFilter('country', e.target.value)}
                     className="w-full px-4 py-3 bg-white border-2 border-slate-200 text-slate-900 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/20 transition-all duration-300 rounded-xl hover:border-slate-300 hover:shadow-md"
                   >
                     <option value="">All Countries</option>
@@ -364,9 +368,9 @@ const Jobs = () => {
                 {/* Experience */}
                 <motion.div className="space-y-3" whileHover={{ y: -2 }}>
                   <label className="block text-xs font-black text-slate-900 uppercase tracking-widest">Experience</label>
-                  <select 
-                    value={filters.experience} 
-                    onChange={e => updateFilter('experience', e.target.value)} 
+                  <select
+                    value={filters.experience}
+                    onChange={e => updateFilter('experience', e.target.value)}
                     className="w-full px-4 py-3 bg-white border-2 border-slate-200 text-slate-900 text-sm font-medium focus:outline-none focus:border-blue-500 focus:ring-3 focus:ring-blue-500/20 transition-all duration-300 rounded-xl hover:border-slate-300 hover:shadow-md"
                   >
                     <option value="">All Experience Levels</option>
@@ -385,7 +389,7 @@ const Jobs = () => {
 
           {/* Active Filter Tags */}
           {hasFilters && (
-            <motion.div 
+            <motion.div
               className="flex flex-wrap gap-2 items-center mt-6"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -400,14 +404,14 @@ const Jobs = () => {
                 { key: 'is_international', label: filters.is_international === 'true' ? 'International' : filters.is_international === 'false' ? 'Domestic' : '' },
                 { key: 'experience', label: filters.experience },
               ].filter(f => f.label).map(({ key, label }) => (
-                <motion.button 
-                  key={key} 
+                <motion.button
+                  key={key}
                   onClick={() => updateFilter(key === 'is_international' ? 'is_international' : key, '')}
                   className="flex items-center gap-2 text-xs px-3.5 py-1.5 bg-blue-50 border-2 border-blue-300 text-blue-700 font-semibold rounded-full hover:bg-blue-100 hover:border-blue-400 transition-all duration-300 group"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  {label} 
+                  {label}
                   <X className="w-3 h-3 group-hover:rotate-90 transition-transform" />
                 </motion.button>
               ))}
@@ -419,7 +423,7 @@ const Jobs = () => {
         <div className="space-y-8">
           {/* Results Header */}
           {jobs.length > 0 && !isLoading && (
-            <motion.div 
+            <motion.div
               className="flex items-center justify-between pb-6 border-b-2 border-slate-200"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -440,8 +444,8 @@ const Jobs = () => {
           {isLoading || isFetching ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(6)].map((_, i) => (
-                <motion.div 
-                  key={i} 
+                <motion.div
+                  key={i}
                   className="bg-white border-2 border-slate-200 rounded-2xl p-8 animate-pulse h-80"
                   initial={{ opacity: 0.5 }}
                   animate={{ opacity: [0.5, 0.6, 0.5] }}
@@ -460,17 +464,17 @@ const Jobs = () => {
           ) : jobs.length > 0 ? (
             <>
               {/* Job Cards Grid */}
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
                 {jobs.map((job: any, i: number) => (
-                  <motion.div 
-                    key={job.id} 
-                    initial={{ opacity: 0, y: 20 }} 
-                    animate={{ opacity: 1, y: 0 }} 
+                  <motion.div
+                    key={job.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.04, duration: 0.5 }}
                   >
                     <JobCard job={job} onAuthRequired={() => setAuthModal(true)} />
@@ -480,25 +484,24 @@ const Jobs = () => {
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <motion.div 
+                <motion.div
                   className="flex items-center justify-center gap-4 pt-16 pb-8"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <button 
-                    disabled={filters.page <= 1} 
-                    onClick={() => setFilters(p => ({ ...p, page: p.page - 1 }))} 
-                    className={`group relative px-7 py-3.5 font-bold text-base rounded-full transition-all duration-300 flex items-center gap-2 overflow-hidden ${
-                      filters.page <= 1
+                  <button
+                    disabled={filters.page <= 1}
+                    onClick={() => setFilters(p => ({ ...p, page: p.page - 1 }))}
+                    className={`group relative px-7 py-3.5 font-bold text-base rounded-full transition-all duration-300 flex items-center gap-2 overflow-hidden ${filters.page <= 1
                         ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                         : 'bg-white border-2 border-slate-200 text-slate-900 hover:border-blue-500 hover:text-blue-600 hover:shadow-lg hover:shadow-blue-500/20'
-                    }`}
+                      }`}
                   >
-                    <ChevronLeft className="w-4 h-4" /> 
+                    <ChevronLeft className="w-4 h-4" />
                     <span>Previous</span>
                   </button>
-                  
+
                   <div className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-blue-50 to-cyan-50 border-2 border-slate-200">
                     <span className="text-slate-600 font-medium">Page</span>
                     <span className="h-8 w-12 flex items-center justify-center bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-black rounded-lg">
@@ -507,15 +510,14 @@ const Jobs = () => {
                     <span className="text-slate-600 font-medium">of</span>
                     <span className="font-black text-slate-900 text-lg">{totalPages}</span>
                   </div>
-                  
-                  <button 
-                    disabled={filters.page >= totalPages} 
-                    onClick={() => setFilters(p => ({ ...p, page: p.page + 1 }))} 
-                    className={`group relative px-7 py-3.5 font-bold text-base rounded-full transition-all duration-300 flex items-center gap-2 overflow-hidden ${
-                      filters.page >= totalPages
+
+                  <button
+                    disabled={filters.page >= totalPages}
+                    onClick={() => setFilters(p => ({ ...p, page: p.page + 1 }))}
+                    className={`group relative px-7 py-3.5 font-bold text-base rounded-full transition-all duration-300 flex items-center gap-2 overflow-hidden ${filters.page >= totalPages
                         ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
                         : 'bg-white border-2 border-slate-200 text-slate-900 hover:border-blue-500 hover:text-blue-600 hover:shadow-lg hover:shadow-blue-500/20'
-                    }`}
+                      }`}
                   >
                     <span>Next</span>
                     <ChevronRight className="w-4 h-4" />
@@ -525,7 +527,7 @@ const Jobs = () => {
             </>
           ) : (
             // Empty State
-            <motion.div 
+            <motion.div
               className="text-center py-32"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -538,7 +540,7 @@ const Jobs = () => {
               <p className="text-slate-600 font-medium text-lg mb-8 max-w-md mx-auto">
                 Try adjusting your filters or search terms to discover more positions
               </p>
-              <motion.button 
+              <motion.button
                 onClick={clearFilters}
                 className="inline-flex items-center gap-2 px-8 py-4 font-bold text-base border-2 border-slate-200 text-slate-700 rounded-full hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
