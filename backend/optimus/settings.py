@@ -151,7 +151,7 @@ else:
 
 CORS_ALLOW_CREDENTIALS = True
 
-# ── Cache (in-process memory cache — no Redis needed) ────────────────────────
+# ── Cache (in-process memory cache - no Redis needed) ────────────────────────
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",

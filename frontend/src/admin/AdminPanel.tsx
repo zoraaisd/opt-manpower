@@ -36,7 +36,7 @@ const Sidebar = ({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
         ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
         <div className="flex items-center justify-center px-6 py-5 border-b border-white/10">
           <img
-            src="/src/asserts/opt-man-logo 1.png"
+            src="/src/asserts/opt-man-logo 1.webp"
             alt="Optimus Manpower"
             className="h-12 w-auto object-contain"
           />
@@ -105,7 +105,7 @@ const Dashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-800 font-semibold text-sm uppercase tracking-widest mb-2">Administration Dashboard</p>
-              <h1 className="font-black text-4xl text-black mb-2">Welcome Back</h1>
+              <h1 className="gramond-title font-black text-4xl text-black mb-2">Welcome Back</h1>
               <p className="text-gray-700 text-base">Manage jobs, applications, and business enquiries</p>
             </div>
           </div>
@@ -131,7 +131,7 @@ const Dashboard = () => {
               <div>
                 <p className="text-gray-600 text-sm font-semibold mb-2">{label}</p>
                 <p className={`font-black text-4xl bg-gradient-to-r ${gradient} text-transparent bg-clip-text`}>
-                  {isLoading ? '...' : (value ?? '—')}
+                  {isLoading ? '...' : (value ?? '-')}
                 </p>
               </div>
               <div className={`bg-gradient-to-br ${gradient} p-3 rounded-xl`}>
@@ -593,7 +593,7 @@ const ApplicationsManager = () => {
                         <span className="font-bold text-gray-900">{app.job_title || 'N/A'}</span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-gray-800 font-medium">
-                        {app.experience || '—'}
+                        {app.experience || '-'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <select
@@ -774,31 +774,31 @@ const EnquiriesManager = () => {
                             </span>
                           )}
                           <span className="text-gray-600 font-semibold text-xs">
-                            {enq.created_at ? new Date(enq.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+                            {enq.created_at ? new Date(enq.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}
                           </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="font-black text-black text-base">{enq.company_name || '—'}</p>
-                        <p className="text-gray-600 text-xs font-semibold mt-0.5 flex items-center gap-1">📍 {enq.job_location || '—'}</p>
+                        <p className="font-black text-black text-base">{enq.company_name || '-'}</p>
+                        <p className="text-gray-600 text-xs font-semibold mt-0.5 flex items-center gap-1">📍 {enq.job_location || '-'}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="font-bold text-gray-900">{enq.contact_person || '—'}</p>
+                        <p className="font-bold text-gray-900">{enq.contact_person || '-'}</p>
                         <a href={`mailto:${enq.email}`} className="block text-gray-800 font-bold text-xs hover:underline mt-0.5">{enq.email}</a>
-                        <a href={`tel:${enq.phone}`} className="block text-gray-600 text-xs hover:text-gray-900 mt-0.5">{enq.phone || '—'}</a>
+                        <a href={`tel:${enq.phone}`} className="block text-gray-600 text-xs hover:text-gray-900 mt-0.5">{enq.phone || '-'}</a>
                       </td>
                       <td className="px-6 py-4">
                         <span className="inline-block bg-gray-50 text-gray-800 border border-gray-200 px-2.5 py-1 rounded font-bold text-xs">
-                          {enq.hiring_requirement || '—'}
+                          {enq.hiring_requirement || '-'}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center">
                         <span className="font-black text-black text-lg">
-                          {enq.number_of_positions ?? '—'}
+                          {enq.number_of_positions ?? '-'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-gray-700 text-xs leading-relaxed max-w-xs truncate" title={enq.message || '—'}>
-                        {enq.message || '—'}
+                      <td className="px-6 py-4 text-gray-700 text-xs leading-relaxed max-w-xs truncate" title={enq.message || '-'}>
+                        {enq.message || '-'}
                       </td>
                     </tr>
                   ))}

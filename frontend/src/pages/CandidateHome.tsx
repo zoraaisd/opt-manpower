@@ -21,7 +21,7 @@ import precisionImg from '../asserts/Precision-Role-Matching.webp';
 import consultancyImg from '../asserts/Expert-Consultancy.webp';
 import strategyImg from '../asserts/Long-Term-Career-Strategy.webp';
 import partnersImg from '../asserts/VettedGlobalPartners.webp';
-import heroBg from '../asserts/free-pik 1.jpg';
+import heroBg from '../asserts/free-pik 1.webp';
 
 const STATS = [
   { label: 'Placements Made', value: '10,000+', icon: Users },
@@ -95,7 +95,6 @@ const CandidateHome = () => {
                   Accelerate Your <br />
                   <span className="relative">
                     Career Growth
-                    <div className="absolute -bottom-3 left-0 w-40 h-1 bg-white/40" />
                   </span>
                 </h1>
                 <p className="text-lg text-white/80 font-body leading-relaxed max-w-lg">
@@ -106,19 +105,19 @@ const CandidateHome = () => {
               {/* Stats Mini */}
               <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="flex flex-wrap gap-4 mt-10">
                 <div className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-black text-3xl text-white">
+                  <p className="font-display font-semibold text-3xl text-white">
                     <CountUp value={10000} format="compact" suffix="+" />
                   </p>
                   <p className="text-xs text-white/60 font-body mt-1">Placements</p>
                 </div>
                 <div className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-black text-3xl text-white">
+                  <p className="font-display font-semibold text-3xl text-white">
                     <CountUp value={500} format="plain" suffix="+" />
                   </p>
                   <p className="text-xs text-white/60 font-body mt-1">Clients</p>
                 </div>
                 <div className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-black text-3xl text-white">
+                  <p className="font-display font-semibold text-3xl text-white">
                     <CountUp value={1200} format="compact" decimals={1} suffix="+" />
                   </p>
                   <p className="text-xs text-white/60 font-body mt-1">Active Roles</p>
@@ -311,39 +310,33 @@ const CandidateHome = () => {
       </section>
 
       {/* ── Browse by Sector ── */}
-      <section className="py-20 max-w-7xl mx-auto px-4">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
-          <p className="section-tag mb-3">EXPLORE ROLES</p>
-          <h2 className="section-title">
-            Browse by <span className="text-black">Industry</span>
-          </h2>
-        </motion.div>
+      <section className="py-20 bg-gray-200">
+        <div className="max-w-7xl mx-auto px-4">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14">
+            <p className="section-tag mb-3">EXPLORE ROLES</p>
+            <h2 className="section-title">
+              Browse by <span className="text-black">Industry</span>
+            </h2>
+          </motion.div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-          {SECTORS.map((sector, i) => (
-            <motion.div key={sector} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-              <Link to={`/jobs?q=${encodeURIComponent(sector)}`}
-                className="card-3d group relative block bg-white border border-black/5 overflow-hidden rounded-xl h-48 transition-all duration-300 hover:border-black/20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)]">
-                {/* Image Background */}
-                <img
-                  src={SECTOR_IMAGES[sector]}
-                  alt={sector}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/20 group-hover:from-black/80 transition-all duration-300" />
-
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col items-center justify-end p-4">
-                  <p className="font-heading font-semibold text-white text-center text-sm leading-tight drop-shadow-lg">{sector}</p>
-                </div>
-
-                {/* Hover Indicator */}
-                
-              </Link>
-            </motion.div>
-          ))}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {SECTORS.map((sector, i) => (
+              <motion.div key={sector} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                <Link to={`/jobs?q=${encodeURIComponent(sector)}`}
+                  className="card-3d group block bg-white border border-black/5 rounded-xl p-4 transition-all duration-300 hover:border-black/20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)]">
+                  <div className="relative h-24 mb-3 rounded-xl overflow-hidden border border-black/5">
+                    <img
+                      src={SECTOR_IMAGES[sector]}
+                      alt={sector}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-transparent" />
+                  </div>
+                  <p className="font-heading font-semibold text-black text-center text-sm leading-tight">{sector}</p>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -394,10 +387,10 @@ const CandidateHome = () => {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <p className="text-xs font-display font-bold text-gray-300 mb-6 tracking-wide uppercase">Take the Next Step</p>
-            <h2 className="font-display font-black text-5xl lg:text-6xl leading-tight text-white mb-8">
-              Ready to Transform Your <span className="relative">Career<div className="absolute -bottom-2 left-0 w-32 h-1 bg-white/30" /></span>?
+            <h2 className="cta-title-serif font-black text-3xl md:text-4xl leading-tight text-white mb-5">
+              Ready to Transform Your <span className="relative">Career</span>?
             </h2>
-            <p className="text-lg text-gray-300 font-body leading-relaxed mb-10 max-w-xl mx-auto">
+            <p className="text-sm text-gray-300 font-body leading-relaxed mb-10 max-w-xl mx-auto">
               Partner with Optimus Manpower to access exclusive recruitment opportunities. Your next monumental career achievement begins here.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">

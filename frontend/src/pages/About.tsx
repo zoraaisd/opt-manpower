@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import {
   Star, Users, Globe, Award, ArrowRight, Target, Eye, Heart,
   Clock, CheckCircle, Briefcase, TrendingUp, MapPin, Phone,
-  Mail, Shield, Zap, Search, BarChart2, FileText,
+  Mail, Shield, Zap, Search, BarChart2, FileText, Twitter, Linkedin, Facebook,
 } from 'lucide-react';
 import { contentAPI } from '../services/api';
 import CountUp from '../components/CountUp';
@@ -18,13 +18,13 @@ import hospitalityImg from '../asserts/Hospitality.webp';
 import constructionImg from '../asserts/Construction.webp';
 import logisticsImg from '../asserts/Logistics.webp';
 
+import glob from '../asserts/opt-glob-logo.webp';
+
 // ── Static Data ──────────────────────────────────────────────────────────────
 
 const TEAM = [
-  { name: 'Rajesh Kumar', role: 'Founder & CEO', initials: 'RK', desc: '20+ years in recruitment across India and Gulf markets. Founded Optimus with a mission to redefine ethical, people-first hiring.' },
-  { name: 'Priya Sharma', role: 'Head of Talent Acquisition', initials: 'PS', desc: 'Specialist in IT and professional services staffing. Manages a portfolio of 200+ corporate clients across India.' },
-  { name: 'Anil Mehta', role: 'International Recruitment Lead', initials: 'AM', desc: 'Expert in Gulf, Europe and SEA placements. Personally overseen 3,000+ international placements since 2013.' },
-  { name: 'Deepa Nair', role: 'Operations Director', initials: 'DN', desc: 'Drives delivery excellence across all verticals. Ensures every candidate and client receives a premium, consistent experience.' },
+  { name: 'Dr. Adv. S. Ansar Ali', role: 'Founder & Managing Director', initials: 'S', desc: 'Leads operational excellence and execution strategy, ensuring delivery precision, innovation continuity, and long-term enterprise partnerships while driving sustainable organizational growth and performance excellence across global initiatives.', socials: { x: '#', linkedin: '#', facebook: '#' } },
+  { name: 'S Ashik Ali', role: 'Co Founder & CEO', initials: 'S', desc: 'Driving strategic vision and innovation while leading enterprise AI transformation through scalable intelligent systems and future-focused technology leadership.', socials: { x: '#', linkedin: '#', facebook: '#' } },
 ];
 
 const MILESTONES = [
@@ -98,7 +98,7 @@ const DIFFERENTIATORS = [
   { icon: Shield, title: 'Zero-Risk Replacement', desc: 'If a placed candidate leaves within 90 days, we replace them at no additional cost. Your investment is always protected.' },
   { icon: Zap, title: 'Speed to Hire', desc: 'Our average time-to-shortlist is 5 business days for mid-level roles. We operate with urgency without compromising quality.' },
   { icon: CheckCircle, title: 'Rigorous Vetting', desc: 'Every candidate undergoes background verification, reference checks, and skills assessment before reaching your desk.' },
-  { icon: Users, title: 'Dedicated Consultant', desc: 'One consistent point of contact who understands your culture, goals, and evolving requirements — not a ticket system.' },
+  { icon: Users, title: 'Dedicated Consultant', desc: 'One consistent point of contact who understands your culture, goals, and evolving requirements - not a ticket system.' },
   { icon: Globe, title: 'Verified International Network', desc: 'Partnerships with licensed overseas employers, with full documentation and visa support managed end-to-end.' },
   { icon: TrendingUp, title: 'Data-Led Matching', desc: 'We track placement success metrics to continuously refine our matching approach, leading to higher retention rates.' },
 ];
@@ -142,23 +142,30 @@ const About = () => {
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-white rounded-full -ml-40 -mb-40" />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
-            <motion.p variants={fadeUp} className="hero-kicker text-gray-400 mb-4">Our Story</motion.p>
-            <motion.h1 variants={fadeUp} className="hero-title hero-title-animate hero-title-glow text-5xl md:text-7xl text-white leading-tight max-w-4xl mb-6">
-              Premier Global <span className="text-gray-300">Recruitment & Staffing</span>
-            </motion.h1>
-            <motion.p variants={fadeUp} className="text-gray-300 font-body text-lg leading-relaxed max-w-2xl mb-10">
-              Optimus Manpower stands at the forefront of global talent acquisition and strategic staffing. With over 15 years of excellence, we empower organizations across India and the Middle East by delivering exceptional workforce solutions one successful placement at a time.
-            </motion.p>
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
-              <Link to="/jobs" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black font-heading font-semibold text-sm rounded-full hover:bg-gray-100 transition-all">
-                Explore Opportunities <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/40 text-white font-heading font-semibold text-sm rounded-full hover:bg-white/10 transition-all">
-                Partner With Us
-              </Link>
+          <div className="grid grid-cols-1 lg:grid-cols-[65%_35%] gap-12 items-center">
+            <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }} className="text-left">
+              <motion.p variants={fadeUp} className="hero-kicker text-gray-400 mb-4">Our Story</motion.p>
+              <motion.h1 variants={fadeUp} className="hero-title hero-title-animate hero-title-glow text-5xl md:text-7xl text-white leading-tight max-w-4xl mb-6">
+                Premier Global <span className="text-gray-300">Recruitment & Staffing</span>
+              </motion.h1>
+              <motion.p variants={fadeUp} className="text-gray-300 font-body text-lg leading-relaxed max-w-2xl mb-10">
+                Optimus Manpower stands at the forefront of global talent acquisition and strategic staffing. With over 15 years of excellence, we empower organizations across India and the Middle East by delivering exceptional workforce solutions one successful placement at a time.
+              </motion.p>
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+                <Link to="/jobs" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black font-heading font-semibold text-sm rounded-full hover:bg-gray-100 transition-all">
+                  Explore Opportunities <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link to="/contact" className="inline-flex items-center gap-2 px-7 py-3.5 border border-white/40 text-white font-heading font-semibold text-sm rounded-full hover:bg-white/10 transition-all">
+                  Partner With Us
+                </Link>
+              </motion.div>
             </motion.div>
-          </motion.div>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex justify-center lg:justify-end">
+              <div className="p-6 md:p-8 backdrop-blur-sm w-full max-w-xs md:max-w-sm lg:max-w-none lg:w-full">
+                <img src={glob} alt="Optimus Manpower logo" className="w-56 md:w-64 lg:w-72 h-auto object-contain mx-auto lg:mx-0" />
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -202,10 +209,12 @@ const About = () => {
       <section className="py-20 bg-black text-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-14">
-            <p className="text-xs font-display font-bold text-gray-400 tracking-widest uppercase mb-3">What We Offer</p>
+            <p className="inline-block text-xs font-display font-bold text-gray-400 tracking-widest uppercase mb-3 px-4 py-1.5 rounded-full border border-gray-300">
+  What We Offer
+</p>
             <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-4">Our Recruitment <span className="text-gray-300">Services</span></h2>
             <p className="text-gray-400 font-body max-w-xl mx-auto">
-              End-to-end hiring solutions tailored for businesses of every size — from emerging startups to Fortune 500 enterprises.
+              End-to-end hiring solutions tailored for businesses of every size - from emerging startups to Fortune 500 enterprises.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -269,8 +278,10 @@ const About = () => {
               <motion.div key={step} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp}
                 className="flex gap-6 pb-10 last:pb-0">
                 <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 bg-black flex items-center justify-center shrink-0">
-                    <span className="text-white text-xs font-display font-black">{step}</span>
+                  <div className="w-12 h-12 bg-black rounded-2xl flex items-center justify-center shrink-0">
+                    <span className="text-white text-xs font-display font-black">
+                      {step}
+                    </span>
                   </div>
                   {i < PROCESS.length - 1 && <div className="w-px flex-1 bg-gray-light mt-2" />}
                 </div>
@@ -307,33 +318,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* ── MILESTONES ───────────────────────────────────────────────────── */}
-      <section className="py-20 bg-white border-t border-gray-light">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-14">
-            <p className="section-tag mb-3">Our Journey</p>
-            <h2 className="section-title">15 Years of <span className="text-black">Growth</span></h2>
-          </div>
-          <div className="space-y-0">
-            {MILESTONES.map(({ year, event }, i) => (
-              <motion.div key={year} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp}
-                className="flex gap-6 pb-8 last:pb-0">
-                <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 bg-black/10 border border-black/20 flex items-center justify-center shrink-0">
-                    <span className="text-black text-xs font-display font-black">{year.slice(2)}</span>
-                  </div>
-                  {i < MILESTONES.length - 1 && <div className="w-px flex-1 bg-gray-light mt-2" />}
-                </div>
-                <div className="pt-2 pb-8">
-                  <p className="text-black text-xs font-body mb-1 font-semibold">{year}</p>
-                  <p className="text-gray-dark text-sm font-body leading-relaxed">{event}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── LEADERSHIP TEAM ──────────────────────────────────────────────── */}
       <section className="py-20 max-w-7xl mx-auto px-4">
         <div className="text-center mb-14">
@@ -343,15 +327,26 @@ const About = () => {
             Seasoned professionals united by a shared commitment to transforming how talent meets opportunity.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 justify-items-center">
           {TEAM.map((t, i) => (
-            <motion.div key={t.name} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp} className="card p-7 text-center">
+            <motion.div key={t.name} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp} className="card p-7 text-center w-full max-w-sm">
               <div className="w-16 h-16 bg-black/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="font-display font-black text-black text-xl">{t.initials}</span>
               </div>
               <h3 className="font-heading font-semibold text-black text-sm mb-1">{t.name}</h3>
               <p className="text-black text-xs font-body mb-3">{t.role}</p>
               <p className="text-gray-medium text-xs font-body leading-relaxed">{t.desc}</p>
+              <div className="flex items-center justify-center gap-4 mt-5">
+                <a href={t.socials?.x || '#'} aria-label={`${t.name} on X`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
+                  <Twitter className="w-4 h-4" />
+                </a>
+                <a href={t.socials?.linkedin || '#'} aria-label={`${t.name} on LinkedIn`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a href={t.socials?.facebook || '#'} aria-label={`${t.name} on Facebook`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
+                  <Facebook className="w-4 h-4" />
+                </a>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -377,7 +372,7 @@ const About = () => {
                       const isHalf = rating >= starValue - 0.5 && rating < starValue;
                       return (
                         <span key={j} className="relative w-3.5 h-3.5 inline-block">
-                          <Star className="w-3.5 h-3.5 text-black fill-transparent" />
+                          <Star className="w-3.5 h-3.5 text-black/20 fill-transparent" />
                           {isFull && (
                             <Star className="absolute inset-0 w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                           )}
@@ -392,17 +387,17 @@ const About = () => {
                     })}
                   </div>
                   <p className="text-gray-medium text-sm font-body italic leading-relaxed mb-5">"{t.review}"</p>
-                  <div className="flex items-center gap-3">
+                  {/* <div className="flex items-center gap-3">
                     {t.photo ? (
                       <img src={t.photo} alt={t.name} className="w-9 h-9 rounded-full object-cover" />
                     ) : (
-                      <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center font-display font-bold text-black text-xs">{t.name?.[0]}</div>
+                      // <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center font-display font-bold text-black text-xs">{t.name?.[0]}</div>
                     )}
-                    <div>
+                    {/* <div>
                       <p className="font-heading font-semibold text-black text-xs">{t.name}</p>
                       <p className="text-gray-light text-xs font-body">{t.role}</p>
-                    </div>
-                  </div>
+                    </div> */}
+                  {/* </div> */}
                 </motion.div>
               )})}
             </div>
@@ -434,12 +429,12 @@ const About = () => {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
             {/* <Award className="w-12 h-12 text-white/30 mx-auto mb-6" /> */}
-            <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-4">
-              Ready to Work With Us?
-            </h2>
-            <p className="text-gray-400 font-body text-base leading-relaxed mb-10 max-w-xl mx-auto">
-              Whether you're a candidate searching for your next career milestone or a business looking to build an exceptional team — Optimus Manpower is your dedicated partner.
-            </p>
+          <h2 className="cta-title-serif font-black text-3xl md:text-4xl text-white mb-4">
+            Ready to Work With Us?
+          </h2>
+          <p className="text-gray-400 font-body text-sm leading-relaxed mb-10 max-w-xl mx-auto">
+            Whether you're a candidate searching for your next career milestone or a business looking to build an exceptional team - Optimus Manpower is your dedicated partner.
+          </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link to="/jobs" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-heading font-semibold text-sm hover:bg-gray-100 transition-all group">
                 Find Jobs <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

@@ -103,7 +103,7 @@ const CareerAdviceDetail = () => {
         readTime: apiDetail.read_time || '5 min read',
         date: apiDetail.created_at
           ? new Date(apiDetail.created_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' })
-          : '—',
+          : '-',
         icon: BookOpen,
         color: 'bg-gray-50 text-gray-700',
         content: apiDetail.content || apiDetail.body || '',

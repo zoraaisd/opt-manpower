@@ -40,7 +40,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => (
   </>
 );
 
-/** Sets site mode on mount then renders children — used for /candidate and /employer routes */
+/** Sets site mode on mount then renders children - used for /candidate and /employer routes */
 const ModeRoute = ({ role, children }: { role: SiteMode; children: React.ReactNode }) => {
   const { setMode } = useMode();
   useEffect(() => { setMode(role); }, [role]);
@@ -66,14 +66,14 @@ function App() {
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
-                  {/* Admin — standalone */}
+                  {/* Admin - standalone */}
                   <Route path="/admin/*" element={<AdminPanel />} />
 
-                  {/* Dashboards — Redirecting removed dashboards to home */}
+                  {/* Dashboards - Redirecting removed dashboards to home */}
                   <Route path="/dashboard" element={<Navigate to="/" replace />} />
                   <Route path="/recruiter/dashboard" element={<Navigate to="/" replace />} />
 
-                  {/* Role-based home routes — set mode + render matching home */}
+                  {/* Role-based home routes - set mode + render matching home */}
                   <Route path="/candidate" element={
                     <ModeRoute role="candidate">
                       <MainLayout><CandidateHome /></MainLayout>
@@ -85,7 +85,7 @@ function App() {
                     </ModeRoute>
                   } />
 
-                  {/* Public — with Navbar/Footer */}
+                  {/* Public - with Navbar/Footer */}
                   <Route path="/" element={<MainLayout><Home /></MainLayout>} />
                   <Route path="/jobs" element={<MainLayout><Jobs /></MainLayout>} />
                   <Route path="/jobs/:id" element={<MainLayout><JobDetails /></MainLayout>} />

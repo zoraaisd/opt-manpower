@@ -7,7 +7,7 @@ import { jobsAPI } from '../services/api';
 import JobCard from '../components/JobCard';
 import AuthModal from '../components/AuthModal';
 import CountUp from '../components/CountUp';
-import job from '../asserts/job-bg.webp';
+import job from '../asserts/jobs1-bg.webp';
 
 const CATEGORIES = ['IT & Technology', 'Healthcare', 'Finance', 'Engineering', 'Sales', 'Marketing', 'HR', 'Operations', 'Hospitality', 'Construction', 'Logistics', 'Education'];
 const JOB_TYPES = ['Full Time', 'Part Time', 'Contract', 'Internship'];
@@ -100,15 +100,10 @@ const Jobs = () => {
       {/* Premium Header Section */}
       <div
         id="jobs-hero"
-        className="relative min-h-screen flex items-center px-4 pt-28 pb-12"
-        style={{
-          backgroundImage: `url(${job})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
+        className="relative min-h-screen flex items-center px-4 pt-28 pb-12 bg-black"
       >
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-black/75 via-black/55 to-black/40" />
         <div className="max-w-7xl mx-auto w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <motion.div
             className="text-left max-w-3xl"
             initial={{ opacity: 0, y: 20 }}
@@ -213,6 +208,22 @@ const Jobs = () => {
               </button>
             </motion.div>
           </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="relative w-full"
+          >
+            <div className="relative rounded-3xl overflow-hidden border border-black/10 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
+              <img
+                src={job}
+                alt="Jobs"
+                className="w-full h-[420px] md:h-[520px] object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
+            </div>
+          </motion.div>
+          </div>
         </div>
       </div>
 

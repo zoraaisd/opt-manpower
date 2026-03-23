@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, CheckCircle, Send } from 'lucide-react';
 import { contentAPI } from '../services/api';
+import companyLogo from '../asserts/opt-man-logo 1.webp';
 
 const ContactUs = () => {
   const [form, setForm] = useState({ company_name: 'N/A', contact_person: '', email: '', phone: '', hiring_requirement: 'General Enquiry', number_of_positions: 1, job_location: 'N/A', message: '' });
@@ -24,13 +25,28 @@ const ContactUs = () => {
   return (
     <main className="min-h-screen pt-24">
       {/* Header */}
-      <div className="bg-white border-b border-gray-light py-14">
+      <div className="bg-gray-100 border-b border-gray-light py-14">
         <div className="max-w-7xl mx-auto px-4">
-          <p className="section-tag mb-3">Get in Touch</p>
-          <h1 className="font-display font-black text-4xl md:text-5xl text-black">Contact <span className="text-black">Us</span></h1>
-          <p className="text-gray-medium font-body text-sm mt-3 max-w-xl">
-            Whether you're looking for a job or need to hire talent, we're here to help. Reach out and we'll respond within 24 hours.
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 items-center">
+            <div className="text-left">
+              <p className="section-tag mb-3">Get in Touch</p>
+              <h1 className="font-display font-black text-4xl md:text-5xl text-black">Contact <span className="text-black">Us</span></h1>
+              <p className="text-gray-medium font-body text-sm mt-3 max-w-xl">
+                Whether you're looking for a job or need to hire talent, we're here to help. Reach out and we'll respond within 24 hours.
+                Our specialists can guide you on hiring strategy, role requirements, and timelines.
+                Expect clear answers, transparent next steps, and a dedicated point of contact.
+              </p>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <div className=" rounded-2xl p-6 md:p-8 bg-black">
+               <img 
+  src={companyLogo} 
+  alt="Optimus Manpower logo" 
+  className="w-64 sm:w-72 md:w-80 lg:w-96 h-auto object-contain" 
+/>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

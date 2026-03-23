@@ -352,7 +352,7 @@ const JobDetails = () => {
 
                     {/* CV Upload */}
                     <div>
-                      <label className="text-gray-medium text-xs font-body block mb-2">Upload CV / Resume * (PDF, DOC, DOCX — max 5 MB)</label>
+                      <label className="text-gray-medium text-xs font-body block mb-2">Upload CV / Resume * (PDF, DOC, DOCX - max 5 MB)</label>
                       <label className={`flex flex-col items-center gap-2 p-6 border border-dashed cursor-pointer transition-colors ${cvFile ? 'border-black/40 bg-black/5' : 'border-gray-light hover:border-black/40'}`}>
                         <Upload className="w-6 h-6 text-gray-light" />
                         <span className="text-gray-medium text-sm font-body">{cvFile ? cvFile.name : 'Click to choose file'}</span>

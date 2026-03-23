@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Facebook, Instagram, Twitter, MapPin, Phone, Mail, Youtube, X, XIcon } from 'lucide-react';
-import LogoImage from '../asserts/opt-man-logo 1.png';
+import LogoImage from '../asserts/opt-man-logo 1.webp';
 
 const Footer = () => {
   return (
@@ -19,7 +19,7 @@ const Footer = () => {
             <p className="text-xs font-body text-gray-400 leading-relaxed max-w-xs mb-5">
               Connecting talented professionals with leading organizations across India and internationally.
             </p>
-            {/* Contact — horizontal scroll-friendly on mobile */}
+            {/* Contact - horizontal scroll-friendly on mobile */}
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2 text-gray-400 text-xs font-body">
                 <MapPin className="w-3.5 h-3.5 text-gray-300 shrink-0" /> Chennai, Tamil Nadu, India
@@ -44,7 +44,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Link columns — 2×2 grid on mobile, 3 separate cols on desktop */}
+          {/* Link columns - 2×2 grid on mobile, 3 separate cols on desktop */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:contents gap-8 col-span-1 md:col-span-1 lg:col-span-3">
 
             {/* About */}

@@ -15,7 +15,7 @@ const QUICK_TIPS = [
   { icon: FileText, category: 'Resume', color: 'bg-blue-50 text-blue-700', tip: 'Quantify achievements with numbers - "Reduced cost by 30%" beats "Cut costs significantly" every time.' },
   { icon: Target, category: 'Interview', color: 'bg-green-50 text-green-700', tip: 'Use the STAR method for behavioral questions: Situation, Task, Action, Result. Keep each answer under 2 minutes.' },
   { icon: Globe, category: 'International Jobs', color: 'bg-purple-50 text-purple-700', tip: 'Gulf employers look for 3+ years of continuous experience. Gaps must be explained clearly in your cover letter.' },
-  { icon: TrendingUp, category: 'Career Growth', color: 'bg-orange-50 text-orange-700', tip: 'The best time to look for a new job is 2.5–3 years into your current role — before stagnation sets in.' },
+  { icon: TrendingUp, category: 'Career Growth', color: 'bg-orange-50 text-orange-700', tip: 'The best time to look for a new job is 2.5–3 years into your current role - before stagnation sets in.' },
   { icon: Users, category: 'Networking', color: 'bg-pink-50 text-pink-700', tip: 'Over 70% of jobs are filled through referrals. Update your LinkedIn every 3 months even when not job hunting.' },
   { icon: Award, category: 'Salary', color: 'bg-yellow-50 text-yellow-700', tip: `Never reveal your current salary first. Say: "I'm targeting a range of X–Y based on market benchmarks."` },
 ];
@@ -38,7 +38,7 @@ const TOPIC_GUIDES = [
   {
     icon: Globe,
     title: 'Gulf & International Placement Guide',
-    desc: 'Everything Indian professionals need to know before accepting a Gulf offer — from documentation to cultural etiquette and cost of living.',
+    desc: 'Everything Indian professionals need to know before accepting a Gulf offer - from documentation to cultural etiquette and cost of living.',
     topics: ['Documents & attestation process', 'Understanding the Kafala system', 'Gulf salary benchmarks by role', 'What to negotiate before joining'],
     readTime: '10 min read',
   },
@@ -134,6 +134,8 @@ const FaqItem = ({ q, a }: { q: string; a: string }) => {
   );
 };
 
+const MotionLink = motion(Link);
+
 // ── Page ───────────────────────────────────────────────────────────────────
 const CareerAdvice = () => {
   const isLoading = false;
@@ -228,7 +230,7 @@ const CareerAdvice = () => {
           <div className="text-center mb-14">
             <p className="text-xs font-display font-bold text-gray-400 tracking-widest uppercase mb-3">In-Depth Learning</p>
             <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-4">Complete Topic <span className="text-gray-300">Guides</span></h2>
-            <p className="text-gray-400 font-body text-sm max-w-xl mx-auto">From zero to job-offer ready — comprehensive resources for every career stage.</p>
+            <p className="text-gray-400 font-body text-sm max-w-xl mx-auto">From zero to job-offer ready - comprehensive resources for every career stage.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {TOPIC_GUIDES.map(({ icon: Icon, title, desc, topics, readTime }, i) => (
@@ -304,45 +306,42 @@ const CareerAdvice = () => {
             {filteredArticles.map((article, i) => {
               const Icon = article.icon;
               return (
-                <motion.div
+                <MotionLink
                   key={article.id}
+                  to={`/career-advice/${article.id}`}
+                  state={{ article }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
+                  className="card p-6 flex flex-col gap-4 hover:border-black/20 hover:shadow-md transition-all duration-300 group"
                 >
-                  <Link
-                    to={`/career-advice/${article.id}`}
-                    state={{ article }}
-                    className="card p-6 flex flex-col gap-4 hover:border-black/20 hover:shadow-md transition-all duration-300 group"
-                  >
-                    {/* Category + icon */}
-                    <div className="flex items-center justify-between">
-                      <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full ${article.color}`}>
-                        <Icon className="w-3 h-3" />
-                        {article.category}
-                      </span>
-                      <span className="text-xs text-gray-medium font-body flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> {article.readTime}
-                      </span>
-                    </div>
+                  {/* Category + icon */}
+                  <div className="flex items-center justify-between">
+                    <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full ${article.color}`}>
+                      <Icon className="w-3 h-3" />
+                      {article.category}
+                    </span>
+                    <span className="text-xs text-gray-medium font-body flex items-center gap-1">
+                      <Clock className="w-3 h-3" /> {article.readTime}
+                    </span>
+                  </div>
 
-                    {/* Title */}
-                    <h3 className="font-heading font-semibold text-black text-sm leading-snug group-hover:underline underline-offset-2 line-clamp-3">
-                      {article.title}
-                    </h3>
+                  {/* Title */}
+                  <h3 className="font-heading font-semibold text-black text-sm leading-snug group-hover:underline underline-offset-2 line-clamp-3">
+                    {article.title}
+                  </h3>
 
-                    {/* Summary */}
-                    <p className="text-gray-medium text-xs font-body leading-relaxed line-clamp-3 flex-1">
-                      {article.summary}
-                    </p>
+                  {/* Summary */}
+                  <p className="text-gray-medium text-xs font-body leading-relaxed line-clamp-3 flex-1">
+                    {article.summary}
+                  </p>
 
-                    {/* Footer */}
-                    <div className="flex items-center justify-end pt-3 border-t border-gray-100">
-                      <span className="text-xs text-gray-light font-body">{article.date}</span>
-                    </div>
-                  </Link>
-                </motion.div>
+                  {/* Footer */}
+                  <div className="flex items-center justify-end pt-3 border-t border-gray-100">
+                    <span className="text-xs text-gray-light font-body">{article.date}</span>
+                  </div>
+                </MotionLink>
               );
             })}
           </div>
@@ -439,11 +438,11 @@ const CareerAdvice = () => {
       <section className="py-20 bg-black text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
           {/* <Briefcase className="w-12 h-12 text-white/20 mx-auto mb-6" /> */}
-          <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-5">
+          <h2 className="cta-title-serif font-black text-3xl md:text-4xl text-white mb-5">
             Ready to Take the Next Step?
           </h2>
-          <p className="text-gray-400 font-body text-base leading-relaxed mb-10 max-w-xl mx-auto">
-            Browse hundreds of verified job openings across India and the Gulf — or speak to our consultants for personalised career guidance.
+          <p className="text-gray-400 font-body text-sm leading-relaxed mb-10 max-w-xl mx-auto">
+            Browse hundreds of verified job openings across India and the Gulf - or speak to our consultants for personalised career guidance.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link to="/jobs" className="inline-flex items-center gap-2 px-8 py-4 bg-white text-black font-heading font-semibold text-sm hover:bg-gray-100 transition-all group">

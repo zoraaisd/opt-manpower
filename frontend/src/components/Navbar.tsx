@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, ChevronDown, Briefcase, User, ShieldCheck, BookOpen, Star, Users, Home } from 'lucide-react';
 import { useMode } from '../context/ModeContext';
-import LogoImage from '../asserts/opt-man-logo 1.png';
+import LogoImage from '../asserts/opt-man-logo 1.webp';
 
 const Navbar = () => {
   const { mode, setMode } = useMode();
@@ -76,7 +76,7 @@ const Navbar = () => {
 
           {/* Desktop Nav Links */}
           <div className="hidden md:flex items-center gap-8">
-            {/* Guest — candidate mode */}
+            {/* Guest - candidate mode */}
             {mode === 'candidate' && (
               <>
                 <Link to="/" className={navLinkClass('/')} onClick={scrollToTop}>Home</Link>
@@ -87,7 +87,7 @@ const Navbar = () => {
               </>
             )}
 
-            {/* Guest — employer mode */}
+            {/* Guest - employer mode */}
             {mode === 'employer' && (
               <>
                 <Link to="/" className={navLinkClass('/')} onClick={scrollToTop}>Home</Link>
@@ -164,7 +164,7 @@ const Navbar = () => {
           </div>
         </nav>
 
-        {/* Backdrop — closes menu on outside tap */}
+        {/* Backdrop - closes menu on outside tap */}
         {menuOpen && (
           <div
             className="fixed inset-0 z-40 md:hidden bg-transparent"

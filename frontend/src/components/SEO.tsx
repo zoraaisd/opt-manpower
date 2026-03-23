@@ -20,7 +20,7 @@ const SEO = ({
   url = SITE_URL,
   type = 'website',
 }: SEOProps) => {
-  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} — Find Your Dream Job`;
+  const fullTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} - Find Your Dream Job`;
 
   return (
     <Helmet>

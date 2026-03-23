@@ -4,16 +4,17 @@ import { ArrowRight, CheckCircle, Users, Globe, Layers, Cpu, Award, TrendingUp, 
 import { contentAPI } from '../services/api';
 import AuthModal from '../components/AuthModal';
 import CountUp from '../components/CountUp';
+import TrueFocus from './TrueFocus';
 
 // Hero Background
-import heroBg from '../asserts/free-pik 3.jpg';
+import heroBg from '../asserts/free-pik 3.webp';
 
 // Solutions Images
-import generalStaffingImg from '../asserts/general staff.jpg';
+import generalStaffingImg from '../asserts/general staff.webp';
 import professionalStaffingImg from '../asserts/Professional-Staffing.webp';
 import permanentRecruitmentImg from '../asserts/Permanent-Recruitment.webp';
 import executiveSearchImg from '../asserts/Executive-Search.webp';
-import internationalRecruitmentImg from '../asserts/international.jpg';
+import internationalRecruitmentImg from '../asserts/international.webp';
 import contractStaffingImg from '../asserts/Contract-Staffing.webp';
 
 const STATS = [
@@ -90,18 +91,19 @@ const EmployerHome = () => {
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="mb-8">
                 <div className="inline-flex items-center gap-2 bg-black/8 border border-black/20 px-4 py-2 mb-6 rounded">
                   <Building2 className="w-4 h-4 text-black" />
-                  <span className="hero-kicker text-black">EMPLOYER SOLUTIONS</span>
+                  <span className="text-xs font-display font-semibold tracking-[0.45em] uppercase text-black">EMPLOYER SOLUTIONS</span>
                 </div>
-                <h1 className="hero-title hero-title-animate hero-title-glow text-6xl lg:text-7xl leading-[1.1] text-black mb-6">
-                  Build Your <br />
-                  <span className="relative">
-                    Elite Team
-                    <div className="absolute -bottom-3 left-0 w-48 h-1 bg-black/20" />
-                  </span>
-                </h1>
-                <p className="text-lg text-gray-800 font-body leading-relaxed max-w-lg">
-  Access pre-vetted, interview-ready talent across 20+ industries. From general staffing to executive search - we deliver results in record time.
-</p>
+                <TrueFocus 
+                  sentence="Build Your Elite Team"
+                  manualMode={false}
+                  blurAmount={5}
+                  borderColor="#5227FF"
+                  animationDuration={0.5}
+                  pauseBetweenAnimations={1}
+                />
+                <p className="text-base text-gray-800 font-heading leading-relaxed max-w-lg">
+                  Access pre-vetted, interview-ready talent across 20+ industries. From general staffing to executive search - we deliver results in record time.
+                </p>
               </motion.div>
 
               {/* Mini Stats */}
@@ -271,10 +273,10 @@ const EmployerHome = () => {
       <section id="enquiry" className="py-24 max-w-5xl mx-auto px-4">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-16">
           <p className="section-tag mb-3">GET IN TOUCH</p>
-          <h2 className="section-title">
+          <h2 className="cta-title-serif font-black text-3xl md:text-4xl text-black leading-tight">
             Tell Us Your <span className="text-black">Hiring Needs</span>
           </h2>
-          <p className="text-gray-medium font-body max-w-2xl mx-auto mt-4">
+          <p className="text-gray-medium font-body text-sm max-w-2xl mx-auto mt-4">
             Complete this form and our expert recruitment team will contact you within 24 hours with tailored solutions.
           </p>
           <div className="accent-line mt-6 mx-auto" />

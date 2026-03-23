@@ -59,6 +59,13 @@ const PROCESS = [
   { step: '04', title: 'Selection & Support', desc: 'From coordinating interviews to final negotiations and onboarding support, we manage the entire lifecycle.' },
 ];
 
+const PROCESS_RATES = [
+  { label: 'Consult', value: 35 },
+  { label: 'Vetting', value: 50 },
+  { label: 'Shortlist', value: 75 },
+  { label: 'Support', value: 98 },
+];
+
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number = 0) => ({ 
@@ -190,43 +197,86 @@ const Solutions = () => {
               </div>
             </div>
             <div className="lg:w-1/2 relative">
-              <div className="aspect-square bg-black/5 rounded-full p-12 relative">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="relative w-56 h-56">
-                    <svg viewBox="0 0 180 180" className="w-full h-full -rotate-90">
-                      <circle
-                        cx="90"
-                        cy="90"
-                        r="72"
-                        fill="none"
-                        stroke="rgba(0,0,0,0.12)"
-                        strokeWidth="14"
-                      />
-                      <motion.circle
-                        cx="90"
-                        cy="90"
-                        r="72"
-                        fill="none"
-                        stroke="#000000"
-                        strokeWidth="14"
-                        strokeLinecap="round"
-                        strokeDasharray={2 * Math.PI * 72}
-                        initial={{ strokeDashoffset: 2 * Math.PI * 72 }}
-                        whileInView={{ strokeDashoffset: 2 * Math.PI * 72 * (1 - 0.98) }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.6, ease: 'easeOut' }}
-                      />
-                    </svg>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="text-center">
-                        <p className="font-display font-black text-6xl text-black">
-                          <CountUp value={98} suffix="%" />
-                        </p>
-                        <p className="text-gray-medium font-body text-sm mt-2">Client Success Rate</p>
-                      </div>
-                    </div>
+              <div className="bg-black/5 rounded-3xl p-10">
+                <div className="flex items-end justify-between mb-8">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-gray-500 font-body">Process Rates</p>
+                    <h3 className="font-heading font-semibold text-black text-2xl mt-2">Performance by Stage</h3>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-3xl font-display font-black text-black">
+                      <CountUp value={98} suffix="%" />
+                    </p>
+                    <p className="text-xs text-gray-medium font-body">Top success rate</p>
                   </div>
                 </div>
+                <div className="h-64">
+                  <svg viewBox="0 0 420 240" className="w-full h-full">
+                    <defs>
+                      <linearGradient id="rateBar" x1="0" x2="0" y1="0" y2="1">
+                        <stop offset="0%" stopColor="#111111" />
+                        <stop offset="100%" stopColor="#555555" />
+                      </linearGradient>
+                    </defs>
+                    {[40, 90, 140, 190].map((y) => (
+                      <line key={y} x1="24" x2="396" y1={y} y2={y} stroke="rgba(0,0,0,0.08)" strokeDasharray="4 6" />
+                    ))}
+                    {(() => {
+                      const chartHeight = 160;
+                      const baseY = 200;
+                      const gap = 88;
+                      const startX = 60;
+                      const points = PROCESS_RATES.map((rate, i) => {
+                        const x = startX + i * gap;
+                        const y = baseY - (rate.value / 100) * chartHeight;
+                        return { ...rate, x, y };
+                      });
+                      const pathD = points
+                        .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`)
+                        .join(' ');
+                      return (
+                        <g>
+                          <motion.path
+                            d={pathD}
+                            fill="none"
+                            stroke="#111111"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            initial={{ pathLength: 0 }}
+                            whileInView={{ pathLength: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1.2, ease: 'easeOut' }}
+                          />
+                          {points.map((p, i) => (
+                            <g key={p.label}>
+                              <motion.circle
+                                cx={p.x}
+                                cy={p.y}
+                                r="6"
+                                fill="url(#rateBar)"
+                                initial={{ scale: 0, opacity: 0 }}
+                                whileInView={{ scale: 1, opacity: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: 0.4 + i * 0.15, ease: 'easeOut' }}
+                              />
+                              <text x={p.x} y={218} textAnchor="middle" className="fill-gray-500 text-[10px] font-body">
+                                {p.label}
+                              </text>
+                              <text x={p.x} y={p.y - 12} textAnchor="middle" className="fill-black text-[11px] font-body">
+                                {p.value}%
+                              </text>
+                            </g>
+                          ))}
+                        </g>
+                      );
+                    })()}
+                    <line x1="24" x2="396" y1="200" y2="200" stroke="rgba(0,0,0,0.15)" />
+                    <line x1="24" x2="24" y1="40" y2="200" stroke="rgba(0,0,0,0.15)" />
+                  </svg>
+                </div>
+                <p className="text-gray-medium text-xs font-body mt-4">
+                  Rates represent average performance benchmarks across recent client engagements.
+                </p>
               </div>
             </div>
           </div>
@@ -237,8 +287,8 @@ const Solutions = () => {
       <section className="py-24 bg-black text-white text-center rounded-3xl mx-4 mb-12">
         <div className="max-w-3xl mx-auto px-4">
           {/* <Target className="w-12 h-12 text-white/20 mx-auto mb-8" /> */}
-          <h2 className="font-display font-black text-4xl md:text-5xl mb-6">Build Your Future Workforce Today</h2>
-          <p className="text-gray-400 font-body text-lg mb-10">
+          <h2 className="cta-title-serif font-black text-3xl md:text-4xl mb-5">Build Your Future Workforce Today</h2>
+          <p className="text-gray-400 font-body text-base mb-10">
             Join 500+ global brands who trust Optimus Manpower to find and secure top-tier talent.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">

@@ -171,7 +171,7 @@ export const MOCK_ARTICLES = [
     id: 'm15',
     category: 'Solutions',
     title: 'How International Recruitment Works: A Step-by-Step Guide for Employers',
-    summary: 'Hiring talent from India, South Asia, or Southeast Asia for your Gulf or European operations? This guide covers sourcing, screening, visa coordination, and onboarding — so you know exactly what to expect at each stage.',
+    summary: 'Hiring talent from India, South Asia, or Southeast Asia for your Gulf or European operations? This guide covers sourcing, screening, visa coordination, and onboarding - so you know exactly what to expect at each stage.',
     readTime: '8 min read',
     author: 'Priya Sharma',
     date: 'Feb 25, 2025',

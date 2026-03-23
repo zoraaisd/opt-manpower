@@ -1,0 +1,41 @@
+# ✅ Allow all major search engines to index your site
+User-agent: Googlebot
+Disallow:
+
+User-agent: Bingbot
+Disallow:
+
+User-agent: Googlebot-Image
+Disallow:
+
+User-agent: Googlebot-Mobile
+Disallow:
+
+User-agent: Googlebot-News
+Disallow:
+
+# 🚫 Block spammy and aggressive crawlers
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: Baiduspider
+Disallow: /
+
+User-agent: Yandex
+Disallow: /
+
+# ✅ Default rule for all other bots
+User-agent: *
+Allow: /
+
+# ✅ Sitemap for search engines
+Sitemap: https://www.optimusglobalhr.com/sitemap.xml
