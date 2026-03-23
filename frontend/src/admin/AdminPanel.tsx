@@ -14,9 +14,9 @@ import { adminAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import AdminJobForm from './AdminJobForm';
 
-const ACCENT = '#0ea5e9';
-const ACCENT_DARK = '#0284c7';
-const CHART_COLORS = ['#0ea5e9', '#06b6d4', '#10b981', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444', '#3b82f6'];
+const ACCENT = '#111111';
+const ACCENT_DARK = '#000000';
+const CHART_COLORS = ['#111111', '#06b6d4', '#10b981', '#8b5cf6', '#ec4899', '#f59e0b', '#ef4444', '#3b82f6'];
 
 // ── Sidebar ──────────────────────────────────────────────────────────────────
 const NAV = [
@@ -32,11 +32,11 @@ const Sidebar = ({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
   return (
     <>
       {open && <div className="fixed inset-0 bg-black/70 z-30 lg:hidden" onClick={() => setOpen(false)} />}
-      <aside className={`fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-slate-900 to-slate-950 border-r border-slate-800 z-40 transition-transform duration-300
+      <aside className={`fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-black to-gray-900 border-r border-white/10 z-40 transition-transform duration-300
         ${open ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}>
-        <div className="flex items-center justify-center px-6 py-5 border-b border-slate-800">
+        <div className="flex items-center justify-center px-6 py-5 border-b border-white/10">
           <img
-            src="/src/asserts/opt-man-logo.webp"
+            src="/src/asserts/opt-man-logo 1.png"
             alt="Optimus Manpower"
             className="h-12 w-auto object-contain"
           />
@@ -47,24 +47,24 @@ const Sidebar = ({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
             return (
               <Link key={path} to={path} onClick={() => setOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${active
-                    ? 'bg-gradient-to-r from-cyan-500/30 to-blue-500/30 text-cyan-300 border-l-2 border-cyan-500'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-800/50'
+                    ? 'bg-gradient-to-r from-white/10 to-white/5 text-gray-200 border-l-2 border-white/50'
+                    : 'text-gray-300 hover:text-white hover:bg-white/5'
                   }`}>
                 <Icon className="w-4 h-4" /> {label}
               </Link>
             );
           })}
         </nav>
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-800">
-          <div className="flex items-center gap-3 px-4 py-3 bg-slate-800/50 rounded-lg">
-            <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center font-black text-white text-xs">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-white/10">
+          <div className="flex items-center gap-3 px-4 py-3 bg-white/5 rounded-lg">
+            <div className="w-8 h-8 bg-gradient-to-br from-gray-200 to-white rounded-full flex items-center justify-center font-black text-black text-xs">
               {user?.first_name?.[0] || 'A'}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-white text-xs font-semibold truncate">{user?.first_name} {user?.last_name}</p>
-              <p className="text-slate-400 text-xs">Admin</p>
+              <p className="text-gray-400 text-xs">Admin</p>
             </div>
-            <button onClick={logout} className="text-slate-400 hover:text-red-400 transition-colors">
+            <button onClick={logout} className="text-gray-400 hover:text-white transition-colors">
               <LogOut className="w-4 h-4" />
             </button>
           </div>
@@ -86,12 +86,12 @@ const Dashboard = () => {
   };
 
   const STATUS_COLOR: Record<string, string> = {
-    Applied: 'bg-blue-500/15 text-blue-400',
-    'Under Review': 'bg-yellow-500/15 text-yellow-400',
-    Shortlisted: 'bg-green-500/15 text-green-400',
-    'Interview Scheduled': 'bg-purple-500/15 text-purple-400',
-    Rejected: 'bg-red-500/15 text-red-400',
-    Hired: 'bg-emerald-500/15 text-emerald-400',
+    Applied: 'bg-white/10 text-gray-200',
+    'Under Review': 'bg-white/12 text-gray-200',
+    Shortlisted: 'bg-white/15 text-gray-100',
+    'Interview Scheduled': 'bg-white/18 text-gray-100',
+    Rejected: 'bg-white/10 text-gray-300',
+    Hired: 'bg-white/20 text-white',
   };
 
   return (
@@ -101,12 +101,12 @@ const Dashboard = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
-        <div className="bg-gradient-to-br from-cyan-50 to-blue-50 border-2 border-cyan-200 p-8 rounded-2xl">
+        <div className="bg-gradient-to-br from-white to-gray-100 border border-gray-200 p-8 rounded-2xl">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-cyan-600 font-semibold text-sm uppercase tracking-widest mb-2">Administration Dashboard</p>
-              <h1 className="font-black text-4xl text-slate-900 mb-2">Welcome Back</h1>
-              <p className="text-slate-600 text-base">Manage jobs, applications, and business enquiries</p>
+              <p className="text-gray-800 font-semibold text-sm uppercase tracking-widest mb-2">Administration Dashboard</p>
+              <h1 className="font-black text-4xl text-black mb-2">Welcome Back</h1>
+              <p className="text-gray-700 text-base">Manage jobs, applications, and business enquiries</p>
             </div>
           </div>
         </div>
@@ -114,10 +114,10 @@ const Dashboard = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
         {[
-          { label: 'Total Jobs', value: stats?.total_jobs, icon: Briefcase, gradient: 'from-cyan-500 to-blue-600', path: '/admin/jobs' },
-          { label: 'Published Jobs', value: stats?.published_jobs, icon: TrendingUp, gradient: 'from-emerald-500 to-green-600', path: '/admin/jobs' },
-          { label: 'Applications', value: stats?.total_applications, icon: FileText, gradient: 'from-purple-500 to-pink-600', path: '/admin/applications' },
-          { label: 'Enquiries', value: stats?.total_enquiries, icon: Briefcase, gradient: 'from-orange-500 to-red-600', path: '/admin/enquiries' },
+          { label: 'Total Jobs', value: stats?.total_jobs, icon: Briefcase, gradient: 'from-black to-gray-700', path: '/admin/jobs' },
+          { label: 'Published Jobs', value: stats?.published_jobs, icon: TrendingUp, gradient: 'from-gray-900 to-gray-600', path: '/admin/jobs' },
+          { label: 'Applications', value: stats?.total_applications, icon: FileText, gradient: 'from-gray-800 to-gray-500', path: '/admin/applications' },
+          { label: 'Enquiries', value: stats?.total_enquiries, icon: Briefcase, gradient: 'from-gray-700 to-gray-500', path: '/admin/enquiries' },
         ].map(({ label, value, icon: Icon, gradient, path }) => (
           <motion.button
             key={label}
@@ -125,11 +125,11 @@ const Dashboard = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="bg-white border-2 border-slate-200 rounded-2xl p-6 hover:border-cyan-400 hover:shadow-xl transition-all duration-300 cursor-pointer text-left w-full"
+            className="bg-white border-2 border-gray-200 rounded-2xl p-6 hover:border-black/40 hover:shadow-xl transition-all duration-300 cursor-pointer text-left w-full"
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-slate-500 text-sm font-semibold mb-2">{label}</p>
+                <p className="text-gray-600 text-sm font-semibold mb-2">{label}</p>
                 <p className={`font-black text-4xl bg-gradient-to-r ${gradient} text-transparent bg-clip-text`}>
                   {isLoading ? '...' : (value ?? '—')}
                 </p>
@@ -146,39 +146,39 @@ const Dashboard = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="bg-white border-2 border-slate-200 rounded-2xl p-8"
+        className="bg-white border-2 border-gray-200 rounded-2xl p-8"
       >
-        <h2 className="font-black text-xl text-slate-900 mb-6">Recent Applications</h2>
+        <h2 className="font-black text-xl text-black mb-6">Recent Applications</h2>
         {stats?.recent_applications?.length ? (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left border-b-2 border-slate-200">
+                <tr className="text-left border-b-2 border-gray-200">
                   {['Applicant', 'Job', 'Status', 'Date'].map((h) => (
-                    <th key={h} className="pb-4 px-4 text-xs font-black text-slate-700 uppercase tracking-widest">{h}</th>
+                    <th key={h} className="pb-4 px-4 text-xs font-black text-gray-800 uppercase tracking-widest">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-gray-100">
                 {stats.recent_applications.map((app: any) => {
                   const statusColors: Record<string, string> = {
-                    Applied: 'bg-blue-100 text-blue-700',
-                    'Under Review': 'bg-yellow-100 text-yellow-700',
-                    Shortlisted: 'bg-green-100 text-green-700',
-                    'Interview Scheduled': 'bg-purple-100 text-purple-700',
-                    Rejected: 'bg-red-100 text-red-700',
-                    Hired: 'bg-emerald-100 text-emerald-700',
+                    Applied: 'bg-gray-100 text-gray-800',
+                    'Under Review': 'bg-gray-200 text-gray-800',
+                    Shortlisted: 'bg-gray-300 text-gray-900',
+                    'Interview Scheduled': 'bg-gray-200 text-gray-900',
+                    Rejected: 'bg-gray-100 text-gray-700',
+                    Hired: 'bg-gray-300 text-black',
                   };
                   return (
-                    <tr key={app.id} className="hover:bg-cyan-50 transition-colors">
-                      <td className="py-4 px-4 font-semibold text-slate-900">{app.full_name || app.name || 'Unknown'}</td>
-                      <td className="py-4 px-4 text-slate-600">{app.job_title}</td>
+                    <tr key={app.id} className="hover:bg-gray-50 transition-colors">
+                      <td className="py-4 px-4 font-semibold text-black">{app.full_name || app.name || 'Unknown'}</td>
+                      <td className="py-4 px-4 text-gray-700">{app.job_title}</td>
                       <td className="py-4 px-4">
-                        <span className={`text-xs font-bold px-3 py-1 rounded-full ${statusColors[app.status] || 'bg-slate-100 text-slate-700'}`}>
+                        <span className={`text-xs font-bold px-3 py-1 rounded-full ${statusColors[app.status] || 'bg-gray-100 text-gray-800'}`}>
                           {app.status}
                         </span>
                       </td>
-                      <td className="py-4 px-4 text-slate-500">{new Date(app.created_at).toLocaleDateString()}</td>
+                      <td className="py-4 px-4 text-gray-600">{new Date(app.created_at).toLocaleDateString()}</td>
                     </tr>
                   );
                 })}
@@ -186,7 +186,7 @@ const Dashboard = () => {
             </table>
           </div>
         ) : (
-          <p className="text-slate-500 text-center py-8">No recent applications</p>
+          <p className="text-gray-600 text-center py-8">No recent applications</p>
         )}
       </motion.div>
     </div>
@@ -246,9 +246,9 @@ const Analytics = () => {
           <h2 className="font-heading font-semibold text-black text-sm mb-6">Jobs by Category</h2>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={analytics?.top_categories || []} layout="vertical" margin={{ left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
-              <XAxis type="number" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} tickLine={false} axisLine={false} />
-              <YAxis dataKey="category" type="category" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }} tickLine={false} axisLine={false} width={80} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.08)" horizontal={false} />
+              <XAxis type="number" tick={{ fill: 'rgba(0,0,0,0.45)', fontSize: 11 }} tickLine={false} axisLine={false} />
+              <YAxis dataKey="category" type="category" tick={{ fill: 'rgba(0,0,0,0.6)', fontSize: 11 }} tickLine={false} axisLine={false} width={80} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count" name="Jobs" radius={[0, 3, 3, 0]}>
                 {(analytics?.top_categories || []).map((_: any, i: number) => (
@@ -271,7 +271,7 @@ const Analytics = () => {
                 cx="50%" cy="50%"
                 outerRadius={90}
                 label={({ status, percent }) => `${status} ${(percent * 100).toFixed(0)}%`}
-                labelLine={{ stroke: 'rgba(255,255,255,0.2)' }}
+                labelLine={{ stroke: 'rgba(0,0,0,0.2)' }}
               >
                 {(analytics?.status_breakdown || []).map((_: any, i: number) => (
                   <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
@@ -287,9 +287,9 @@ const Analytics = () => {
           <h2 className="font-heading font-semibold text-black text-sm mb-6">Jobs by Country</h2>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={analytics?.top_locations || []}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-              <XAxis dataKey="country" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} tickLine={false} axisLine={false} />
-              <YAxis tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} tickLine={false} axisLine={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.08)" />
+              <XAxis dataKey="country" tick={{ fill: 'rgba(0,0,0,0.45)', fontSize: 11 }} tickLine={false} axisLine={false} />
+              <YAxis tick={{ fill: 'rgba(0,0,0,0.45)', fontSize: 11 }} tickLine={false} axisLine={false} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count" name="Jobs" radius={[3, 3, 0, 0]}>
                 {(analytics?.top_locations || []).map((_: any, i: number) => (
@@ -305,9 +305,9 @@ const Analytics = () => {
           <h2 className="font-heading font-semibold text-black text-sm mb-6">Jobs by Industry</h2>
           <ResponsiveContainer width="100%" height={240}>
             <BarChart data={analytics?.top_industries || []} layout="vertical" margin={{ left: 20 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
-              <XAxis type="number" tick={{ fill: 'rgba(255,255,255,0.3)', fontSize: 11 }} tickLine={false} axisLine={false} />
-              <YAxis dataKey="industry" type="category" tick={{ fill: 'rgba(255,255,255,0.5)', fontSize: 11 }} tickLine={false} axisLine={false} width={90} />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.08)" horizontal={false} />
+              <XAxis type="number" tick={{ fill: 'rgba(0,0,0,0.45)', fontSize: 11 }} tickLine={false} axisLine={false} />
+              <YAxis dataKey="industry" type="category" tick={{ fill: 'rgba(0,0,0,0.6)', fontSize: 11 }} tickLine={false} axisLine={false} width={90} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count" name="Jobs" radius={[0, 3, 3, 0]}>
                 {(analytics?.top_industries || []).map((_: any, i: number) => (
@@ -357,23 +357,23 @@ const JobsManager = () => {
         className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
       >
         <div className="w-full md:w-auto text-left flex-shrink-0">
-          <h1 className="font-black text-3xl text-slate-900 mb-2">Job Postings</h1>
-          <p className="text-slate-600 text-base">{filteredJobs.length} active positions</p>
+          <h1 className="font-black text-3xl text-black mb-2">Job Postings</h1>
+          <p className="text-gray-700 text-base">{filteredJobs.length} active positions</p>
         </div>
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4 w-full md:w-auto mt-4 md:mt-0 justify-start md:justify-end">
           <div className="relative w-full sm:w-64 flex-shrink-0">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Search jobs..."
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
-              className="w-full pl-10 pr-4 py-2 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-sm font-semibold transition-colors shadow-sm"
+              className="w-full pl-10 pr-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-black/40 text-sm font-semibold transition-colors shadow-sm"
             />
           </div>
           <button
             onClick={() => { setEditJob(null); setFormOpen(true); }}
-            className="flex items-center justify-center whitespace-nowrap gap-2 w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 active:scale-95"
+            className="flex items-center justify-center whitespace-nowrap gap-2 w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-black to-gray-700 text-white font-bold rounded-lg hover:shadow-lg hover:shadow-black/20 transition-all duration-300 active:scale-95"
           >
             <PlusCircle className="w-5 h-5" /> Create Job
           </button>
@@ -384,14 +384,14 @@ const JobsManager = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="bg-white border-2 border-slate-200 rounded-2xl shadow-sm "
+        className="bg-white border-2 border-gray-200 rounded-2xl shadow-sm "
       >
         {filteredJobs.length > 0 ? (
           <>
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-left align-middle min-w-[700px] sm:min-w-full">
                 <thead>
-                  <tr className="bg-slate-50 border-b-2 border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                  <tr className="bg-gray-50 border-b-2 border-gray-200 text-gray-600 font-bold uppercase tracking-wider text-[11px]">
                     <th className="px-6 py-4">Job Title</th>
                     <th className="px-6 py-4">Location</th>
                     <th className="px-6 py-4">Type</th>
@@ -399,16 +399,16 @@ const JobsManager = () => {
                     <th className="px-6 py-4 text-center">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-gray-100">
                   {paginatedJobs.map((job: any) => (
-                    <tr key={job.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="px-6 py-4 font-black text-slate-900 text-base">{job.title}</td>
-                      <td className="px-6 py-4 text-slate-500 font-semibold">{job.location}</td>
-                      <td className="px-6 py-4"><span className="px-3 py-1 bg-slate-100 text-slate-700 text-[11px] font-black uppercase tracking-widest rounded-md border border-slate-200">{job.job_type}</span></td>
+                    <tr key={job.id} className="hover:bg-gray-50/80 transition-colors">
+                      <td className="px-6 py-4 font-black text-black text-base">{job.title}</td>
+                      <td className="px-6 py-4 text-gray-600 font-semibold">{job.location}</td>
+                      <td className="px-6 py-4"><span className="px-3 py-1 bg-gray-100 text-gray-800 text-[11px] font-black uppercase tracking-widest rounded-md border border-gray-200">{job.job_type}</span></td>
                       <td className="px-6 py-4">
                         <span className={`text-[11px] font-black uppercase tracking-widest px-3 py-1 rounded-md border ${job.status === 'Published'
-                            ? 'bg-green-50 text-green-700 border-green-200'
-                            : 'bg-yellow-50 text-yellow-700 border-yellow-200'
+                            ? 'bg-gray-200 text-gray-900 border-gray-300'
+                            : 'bg-gray-100 text-gray-700 border-gray-200'
                           }`}>
                           {job.status === 'Published' ? 'Published' : 'Draft'}
                         </span>
@@ -417,14 +417,14 @@ const JobsManager = () => {
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={() => { setEditJob(job); setFormOpen(true); }}
-                            className="p-2 text-cyan-600 hover:bg-cyan-50 border-2 border-transparent hover:border-cyan-100 rounded-lg transition-all"
+                            className="p-2 text-gray-800 hover:bg-gray-50 border-2 border-transparent hover:border-black/10 rounded-lg transition-all"
                             title="Edit"
                           >
                             <Pencil className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => deleteJob(job.id)}
-                            className="p-2 text-red-500 hover:bg-red-50 border-2 border-transparent hover:border-red-100 rounded-lg transition-all"
+                            className="p-2 text-gray-700 hover:bg-gray-50 border-2 border-transparent hover:border-gray-200 rounded-lg transition-all"
                             title="Delete"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -438,35 +438,35 @@ const JobsManager = () => {
             </div>
 
             {/* Pagination */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-slate-200 bg-slate-50">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-gray-200 bg-gray-50">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-center">
-                <span className="text-sm font-semibold text-slate-600 whitespace-nowrap">Rows per page:</span>
+                <span className="text-sm font-semibold text-gray-700 whitespace-nowrap">Rows per page:</span>
                 <select
                   value={itemsPerPage}
                   onChange={e => { setItemsPerPage(Number(e.target.value)); setPage(1); }}
-                  className="px-2 py-1 bg-white border-2 border-slate-200 rounded-md text-sm font-bold focus:outline-none focus:border-cyan-400 cursor-pointer"
+                  className="px-2 py-1 bg-white border-2 border-gray-200 rounded-md text-sm font-bold focus:outline-none focus:border-black/40 cursor-pointer"
                 >
                   {[5, 10, 25, 50, 100].map(n => <option key={n} value={n}>{n}</option>)}
                 </select>
               </div>
-              <span className="text-sm font-semibold text-slate-600 text-center">
+              <span className="text-sm font-semibold text-gray-700 text-center">
                 Showing {filteredJobs.length === 0 ? 0 : (page - 1) * itemsPerPage + 1} to {Math.min(page * itemsPerPage, filteredJobs.length)} of {filteredJobs.length} entries
               </span>
               <div className="flex items-center gap-2 w-full sm:w-auto justify-center">
                 <button
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
-                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-4 py-2 text-sm font-bold border-2 border-gray-200 rounded-lg hover:bg-white hover:border-black/40 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Previous
                 </button>
-                <span className="px-4 py-2 font-black text-slate-800">
+                <span className="px-4 py-2 font-black text-gray-900">
                   {page} / {totalPages}
                 </span>
                 <button
                   disabled={page === totalPages || totalPages === 0}
                   onClick={() => setPage(page + 1)}
-                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-4 py-2 text-sm font-bold border-2 border-gray-200 rounded-lg hover:bg-white hover:border-black/40 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Next
                 </button>
@@ -475,11 +475,11 @@ const JobsManager = () => {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
-              <Briefcase className="w-10 h-10 text-slate-300" />
+            <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+              <Briefcase className="w-10 h-10 text-gray-300" />
             </div>
-            <p className="text-slate-600 font-black text-xl mb-1">No jobs found</p>
-            <p className="text-slate-500 text-sm">Create a new job posting or adjust your search.</p>
+            <p className="text-gray-700 font-black text-xl mb-1">No jobs found</p>
+            <p className="text-gray-600 text-sm">Create a new job posting or adjust your search.</p>
           </div>
         )}
       </motion.div>
@@ -511,12 +511,12 @@ const ApplicationsManager = () => {
 
   const STATUS_OPTIONS = ['Applied', 'Under Review', 'Shortlisted', 'Interview Scheduled', 'Rejected', 'Hired'];
   const STATUS_COLORS: Record<string, string> = {
-    Applied: 'bg-blue-100 text-blue-700 border-blue-300',
-    'Under Review': 'bg-yellow-100 text-yellow-700 border-yellow-300',
-    Shortlisted: 'bg-green-100 text-green-700 border-green-300',
-    'Interview Scheduled': 'bg-purple-100 text-purple-700 border-purple-300',
-    Rejected: 'bg-red-100 text-red-700 border-red-300',
-    Hired: 'bg-emerald-100 text-emerald-700 border-emerald-300',
+    Applied: 'bg-gray-100 text-gray-800 border-gray-200',
+    'Under Review': 'bg-gray-200 text-gray-800 border-gray-300',
+    Shortlisted: 'bg-gray-300 text-gray-900 border-gray-300',
+    'Interview Scheduled': 'bg-gray-200 text-gray-900 border-gray-300',
+    Rejected: 'bg-gray-100 text-gray-700 border-gray-200',
+    Hired: 'bg-gray-300 text-black border-gray-300',
   };
 
   const updateStatus = async (id: string, status: string) => {
@@ -533,26 +533,26 @@ const ApplicationsManager = () => {
         className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
       >
         <div className="w-full md:w-auto text-left flex-shrink-0">
-          <h1 className="font-black text-3xl text-slate-900 mb-2">Applications</h1>
-          <p className="text-slate-600 text-base">{filteredApps.length} total applications matched</p>
+          <h1 className="font-black text-3xl text-black mb-2">Applications</h1>
+          <p className="text-gray-700 text-base">{filteredApps.length} total applications matched</p>
         </div>
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-4 w-full md:w-auto mt-4 md:mt-0 justify-start md:justify-end">
           <select
             value={filterStatus}
             onChange={(e) => { setFilterStatus(e.target.value); setPage(1); }}
-            className="w-full sm:w-auto px-4 py-2 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-sm font-semibold transition-colors shadow-sm cursor-pointer flex-shrink-0"
+            className="w-full sm:w-auto px-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-black/40 text-sm font-semibold transition-colors shadow-sm cursor-pointer flex-shrink-0"
           >
             <option value="All">All Statuses</option>
             {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
           <div className="relative w-full sm:w-64 flex-shrink-0">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Search applications..."
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
-              className="w-full pl-10 pr-4 py-2 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-sm font-semibold transition-colors shadow-sm"
+              className="w-full pl-10 pr-4 py-2 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-black/40 text-sm font-semibold transition-colors shadow-sm"
             />
           </div>
         </div>
@@ -562,14 +562,14 @@ const ApplicationsManager = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm mt-6"
+        className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden shadow-sm mt-6"
       >
         {filteredApps.length > 0 ? (
           <>
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-left align-middle min-w-[800px] xl:min-w-full">
                 <thead>
-                  <tr className="bg-slate-50 border-b-2 border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                  <tr className="bg-gray-50 border-b-2 border-gray-200 text-gray-600 font-bold uppercase tracking-wider text-[11px]">
                     <th className="px-6 py-4">Date</th>
                     <th className="px-6 py-4">Applicant</th>
                     <th className="px-6 py-4">Job Title</th>
@@ -578,29 +578,29 @@ const ApplicationsManager = () => {
                     <th className="px-6 py-4 text-center">Resume</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-gray-100">
                   {apps.map((app: any) => (
-                    <tr key={app.id} className="hover:bg-slate-50/80 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-slate-500 font-medium">
+                    <tr key={app.id} className="hover:bg-gray-50/80 transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-600 font-medium">
                         {new Date(app.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
                       </td>
                       <td className="px-6 py-4">
-                        <p className="font-black text-slate-900 text-base">{app.full_name || app.name || 'N/A'}</p>
-                        <p className="text-cyan-600 font-bold text-xs">{app.email}</p>
-                        <p className="text-slate-500 text-xs">{app.phone}</p>
+                        <p className="font-black text-black text-base">{app.full_name || app.name || 'N/A'}</p>
+                        <p className="text-gray-800 font-bold text-xs">{app.email}</p>
+                        <p className="text-gray-600 text-xs">{app.phone}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="font-bold text-slate-800">{app.job_title || 'N/A'}</span>
+                        <span className="font-bold text-gray-900">{app.job_title || 'N/A'}</span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-slate-700 font-medium">
+                      <td className="px-6 py-4 whitespace-nowrap text-gray-800 font-medium">
                         {app.experience || '—'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <select
                           value={app.status}
                           onChange={(e) => updateStatus(app.id, e.target.value)}
-                          className={`px-3 py-1.5 rounded-lg font-bold text-xs border ${STATUS_COLORS[app.status] || 'bg-slate-100 text-slate-700 border-slate-300'
-                            } focus:outline-none focus:ring-2 focus:ring-cyan-500/50 cursor-pointer`}
+                          className={`px-3 py-1.5 rounded-lg font-bold text-xs border ${STATUS_COLORS[app.status] || 'bg-gray-100 text-gray-800 border-gray-300'
+                            } focus:outline-none focus:ring-2 focus:ring-black/10 cursor-pointer`}
                         >
                           {STATUS_OPTIONS.map((s) => (
                             <option key={s} value={s}>{s}</option>
@@ -614,12 +614,12 @@ const ApplicationsManager = () => {
                             download
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold text-xs rounded-lg shadow-sm hover:shadow-md hover:scale-105 transition-all"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-black to-gray-700 text-white font-bold text-xs rounded-lg shadow-sm hover:shadow-md hover:scale-105 transition-all"
                           >
                             <Download className="w-3.5 h-3.5" /> CV
                           </a>
                         ) : (
-                          <span className="text-slate-400 text-xs font-semibold">No File</span>
+                          <span className="text-gray-400 text-xs font-semibold">No File</span>
                         )}
                       </td>
                     </tr>
@@ -629,35 +629,35 @@ const ApplicationsManager = () => {
             </div>
 
             {/* Pagination */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-slate-200 bg-slate-50">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-gray-200 bg-gray-50">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-center">
-                <span className="text-sm font-semibold text-slate-600 whitespace-nowrap">Rows per page:</span>
+                <span className="text-sm font-semibold text-gray-700 whitespace-nowrap">Rows per page:</span>
                 <select
                   value={itemsPerPage}
                   onChange={e => { setItemsPerPage(Number(e.target.value)); setPage(1); }}
-                  className="px-2 py-1 bg-white border-2 border-slate-200 rounded-md text-sm font-bold focus:outline-none focus:border-cyan-400"
+                  className="px-2 py-1 bg-white border-2 border-gray-200 rounded-md text-sm font-bold focus:outline-none focus:border-black/40"
                 >
                   {[5, 10, 25, 50, 100].map(n => <option key={n} value={n}>{n}</option>)}
                 </select>
               </div>
-              <span className="text-sm font-semibold text-slate-600 text-center">
+              <span className="text-sm font-semibold text-gray-700 text-center">
                 Showing {filteredApps.length === 0 ? 0 : (page - 1) * itemsPerPage + 1} to {Math.min(page * itemsPerPage, filteredApps.length)} of {filteredApps.length} entries
               </span>
               <div className="flex items-center gap-2 w-full sm:w-auto justify-center">
                 <button
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
-                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-4 py-2 text-sm font-bold border-2 border-gray-200 rounded-lg hover:bg-white hover:border-black/40 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Previous
                 </button>
-                <span className="px-4 py-2 font-black text-slate-800">
+                <span className="px-4 py-2 font-black text-gray-900">
                   {page} / {totalPages}
                 </span>
                 <button
                   disabled={page === totalPages || totalPages === 0}
                   onClick={() => setPage(page + 1)}
-                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-4 py-2 text-sm font-bold border-2 border-gray-200 rounded-lg hover:bg-white hover:border-black/40 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Next
                 </button>
@@ -666,11 +666,11 @@ const ApplicationsManager = () => {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mb-4">
-              <FileText className="w-10 h-10 text-slate-400" />
+            <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+              <FileText className="w-10 h-10 text-gray-400" />
             </div>
-            <p className="text-slate-700 font-black text-xl mb-1">No applications yet</p>
-            <p className="text-slate-500 text-sm">Applications will appear here when candidates apply</p>
+            <p className="text-gray-800 font-black text-xl mb-1">No applications yet</p>
+            <p className="text-gray-600 text-sm">Applications will appear here when candidates apply</p>
           </div>
         )}
       </motion.div>
@@ -718,26 +718,26 @@ const EnquiriesManager = () => {
         className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-3 "
       >
         <div className="w-full lg:w-auto text-left flex-shrink-0">
-          <h1 className="font-black text-2xl text-slate-900 mb-1">Business Enquiries</h1>
-          <p className="text-slate-600 text-sm">{filteredEnquiries.length} enquir{filteredEnquiries.length === 1 ? 'y' : 'ies'} found</p>
+          <h1 className="font-black text-2xl text-black mb-1">Business Enquiries</h1>
+          <p className="text-gray-700 text-sm">{filteredEnquiries.length} enquir{filteredEnquiries.length === 1 ? 'y' : 'ies'} found</p>
         </div>
         <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full lg:w-auto mt-3 lg:mt-0 justify-start lg:justify-end">
           <select
             value={filterSort}
             onChange={(e) => { setFilterSort(e.target.value); setPage(1); }}
-            className="w-full sm:w-auto px-3 py-1.5 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-xs font-semibold transition-colors shadow-sm cursor-pointer flex-shrink-0"
+            className="w-full sm:w-auto px-3 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-black/40 text-xs font-semibold transition-colors shadow-sm cursor-pointer flex-shrink-0"
           >
             <option value="newest">Newest First</option>
             <option value="oldest">Oldest First</option>
           </select>
           <div className="relative w-full sm:w-48 lg:w-56 flex-shrink-0">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 w- h-4 text-slate-400" />
+            <Search className="absolute left-2 top-1/2 -translate-y-1/2 w- h-4 text-gray-400" />
             <input
               type="text"
               placeholder="Search enquiries..."
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }}
-              className="w-full pl-9 pr-5 py-1.5 bg-white border-2 border-slate-200 rounded-lg focus:outline-none focus:border-cyan-400 text-xs font-semibold transition-colors shadow-sm"
+              className="w-full pl-9 pr-5 py-1.5 bg-white border-2 border-gray-200 rounded-lg focus:outline-none focus:border-black/40 text-xs font-semibold transition-colors shadow-sm"
             />
           </div>
         </div>
@@ -747,14 +747,14 @@ const EnquiriesManager = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="bg-white border-2 border-slate-200 rounded-2xl overflow-hidden shadow-sm"
+        className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden shadow-sm"
       >
         {filteredEnquiries.length > 0 ? (
           <>
             <div className="w-full overflow-x-auto">
               <table className="w-full text-sm text-left align-middle min-w-[800px] xl:min-w-full">
                 <thead>
-                  <tr className="bg-slate-50 border-b-2 border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                  <tr className="bg-gray-50 border-b-2 border-gray-200 text-gray-600 font-bold uppercase tracking-wider text-[11px]">
                     <th className="px-6 py-4">Date</th>
                     <th className="px-6 py-4">Company</th>
                     <th className="px-6 py-4">Contact Person</th>
@@ -763,41 +763,41 @@ const EnquiriesManager = () => {
                     <th className="px-6 py-4">Message</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-gray-100">
                   {enquiries.map((enq: any) => (
-                    <tr key={enq.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr key={enq.id} className="hover:bg-gray-50/80 transition-colors">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex flex-col items-start gap-1">
                           {enq.created_at && isNew(enq.created_at) && (
-                            <span className="bg-orange-100 text-orange-600 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider border border-orange-200">
+                            <span className="bg-gray-100 text-gray-700 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider border border-gray-200">
                               New
                             </span>
                           )}
-                          <span className="text-slate-500 font-semibold text-xs">
+                          <span className="text-gray-600 font-semibold text-xs">
                             {enq.created_at ? new Date(enq.created_at).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
                           </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="font-black text-slate-900 text-base">{enq.company_name || '—'}</p>
-                        <p className="text-slate-500 text-xs font-semibold mt-0.5 flex items-center gap-1">📍 {enq.job_location || '—'}</p>
+                        <p className="font-black text-black text-base">{enq.company_name || '—'}</p>
+                        <p className="text-gray-600 text-xs font-semibold mt-0.5 flex items-center gap-1">📍 {enq.job_location || '—'}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="font-bold text-slate-800">{enq.contact_person || '—'}</p>
-                        <a href={`mailto:${enq.email}`} className="block text-cyan-600 font-bold text-xs hover:underline mt-0.5">{enq.email}</a>
-                        <a href={`tel:${enq.phone}`} className="block text-slate-500 text-xs hover:text-slate-800 mt-0.5">{enq.phone || '—'}</a>
+                        <p className="font-bold text-gray-900">{enq.contact_person || '—'}</p>
+                        <a href={`mailto:${enq.email}`} className="block text-gray-800 font-bold text-xs hover:underline mt-0.5">{enq.email}</a>
+                        <a href={`tel:${enq.phone}`} className="block text-gray-600 text-xs hover:text-gray-900 mt-0.5">{enq.phone || '—'}</a>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="inline-block bg-orange-50 text-orange-700 border border-orange-200 px-2.5 py-1 rounded font-bold text-xs">
+                        <span className="inline-block bg-gray-50 text-gray-800 border border-gray-200 px-2.5 py-1 rounded font-bold text-xs">
                           {enq.hiring_requirement || '—'}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-center">
-                        <span className="font-black text-slate-900 text-lg">
+                        <span className="font-black text-black text-lg">
                           {enq.number_of_positions ?? '—'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-slate-600 text-xs leading-relaxed max-w-xs truncate" title={enq.message || '—'}>
+                      <td className="px-6 py-4 text-gray-700 text-xs leading-relaxed max-w-xs truncate" title={enq.message || '—'}>
                         {enq.message || '—'}
                       </td>
                     </tr>
@@ -807,35 +807,35 @@ const EnquiriesManager = () => {
             </div>
 
             {/* Pagination */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-slate-200 bg-slate-50 pr-16">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4 border-t-2 border-gray-200 bg-gray-50 pr-16">
               <div className="flex items-center gap-3 w-full sm:w-auto justify-center">
-                <span className="text-sm font-semibold text-slate-600 whitespace-nowrap">Rows per page:</span>
+                <span className="text-sm font-semibold text-gray-700 whitespace-nowrap">Rows per page:</span>
                 <select
                   value={itemsPerPage}
                   onChange={e => { setItemsPerPage(Number(e.target.value)); setPage(1); }}
-                  className="px-2 py-1 bg-white border-2 border-slate-200 rounded-md text-sm font-bold focus:outline-none focus:border-cyan-400 cursor-pointer"
+                  className="px-2 py-1 bg-white border-2 border-gray-200 rounded-md text-sm font-bold focus:outline-none focus:border-black/40 cursor-pointer"
                 >
                   {[5, 10, 25, 50, 100].map(n => <option key={n} value={n}>{n}</option>)}
                 </select>
               </div>
-              <span className="text-sm font-semibold text-slate-600 text-center">
+              <span className="text-sm font-semibold text-gray-700 text-center">
                 Showing {filteredEnquiries.length === 0 ? 0 : (page - 1) * itemsPerPage + 1} to {Math.min(page * itemsPerPage, filteredEnquiries.length)} of {filteredEnquiries.length} entries
               </span>
               <div className="flex items-center gap-2 w-full sm:w-auto justify-center">
                 <button
                   disabled={page === 1}
                   onClick={() => setPage(page - 1)}
-                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-4 py-2 text-sm font-bold border-2 border-gray-200 rounded-lg hover:bg-white hover:border-black/40 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Previous
                 </button>
-                <span className="px-4 py-2 font-black text-slate-800">
+                <span className="px-4 py-2 font-black text-gray-900">
                   {page} / {totalPages}
                 </span>
                 <button
                   disabled={page === totalPages || totalPages === 0}
                   onClick={() => setPage(page + 1)}
-                  className="px-4 py-2 text-sm font-bold border-2 border-slate-200 rounded-lg hover:bg-white hover:border-cyan-400 hover:text-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="px-4 py-2 text-sm font-bold border-2 border-gray-200 rounded-lg hover:bg-white hover:border-black/40 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
                   Next
                 </button>
@@ -844,11 +844,11 @@ const EnquiriesManager = () => {
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-20 h-20 bg-orange-100 rounded-2xl flex items-center justify-center mb-4">
-              <Briefcase className="w-10 h-10 text-orange-400" />
+            <div className="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mb-4">
+              <Briefcase className="w-10 h-10 text-gray-500" />
             </div>
-            <p className="text-slate-700 font-black text-xl mb-1">No enquiries yet</p>
-            <p className="text-slate-500 text-sm">Business enquiries from the contact form will appear here</p>
+            <p className="text-gray-800 font-black text-xl mb-1">No enquiries yet</p>
+            <p className="text-gray-600 text-sm">Business enquiries from the contact form will appear here</p>
           </div>
         )}
       </motion.div>
@@ -878,15 +878,15 @@ const AdminLoginGate = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-black to-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Elements */}
       <motion.div
-        className="absolute top-0 -right-1/3 w-96 h-96 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-500/10 blur-3xl"
+        className="absolute top-0 -right-1/3 w-96 h-96 rounded-full bg-gradient-to-br from-white/12 to-white/5 blur-3xl"
         animate={{ y: [0, 50, 0] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute -bottom-1/4 -left-1/3 w-80 h-80 rounded-full bg-gradient-to-tr from-blue-500/20 to-cyan-500/10 blur-3xl"
+        className="absolute -bottom-1/4 -left-1/3 w-80 h-80 rounded-full bg-gradient-to-tr from-white/10 to-white/4 blur-3xl"
         animate={{ y: [0, -40, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -898,13 +898,13 @@ const AdminLoginGate = () => {
         className="w-full max-w-sm relative z-10"
       >
         <div className="text-center mb-8">
-          {/* <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 mx-auto flex items-center justify-center mb-4 rounded-xl shadow-lg shadow-cyan-500/30">
+          {/* <div className="w-16 h-16 bg-gradient-to-br from-black to-gray-700 mx-auto flex items-center justify-center mb-4 rounded-xl shadow-lg shadow-black/20">
             <Briefcase className="w-8 h-8 text-white" />
           </div> */}
           <h1 className="font-black text-3xl text-white tracking-tight">OPTIMUS ADMIN</h1>
-          <p className="text-cyan-300 font-medium text-sm mt-2">Access to Administration Panel</p>
+          <p className="text-gray-200 font-medium text-sm mt-2">Access to Administration Panel</p>
         </div>
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl shadow-blue-500/20 p-8 rounded-2xl">
+        <div className="bg-white/8 backdrop-blur-xl border border-white/15 shadow-2xl shadow-black/30 p-8 rounded-2xl">
           <form onSubmit={handleSubmit} autoComplete="off" className="space-y-5">
             <div>
               <label className="block text-xs font-black text-white mb-2 tracking-widest uppercase">Email Address</label>
@@ -915,7 +915,7 @@ const AdminLoginGate = () => {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Enter Email"
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm font-medium focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 transition-all duration-300 rounded-lg backdrop-blur-sm"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm font-medium focus:outline-none focus:border-black/40 focus:ring-2 focus:ring-black/10 transition-all duration-300 rounded-lg backdrop-blur-sm"
                 required
               />
             </div>
@@ -927,16 +927,16 @@ const AdminLoginGate = () => {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Enter Password"
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm font-medium focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 transition-all duration-300 rounded-lg backdrop-blur-sm"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm font-medium focus:outline-none focus:border-black/40 focus:ring-2 focus:ring-black/10 transition-all duration-300 rounded-lg backdrop-blur-sm"
                 required
               />
             </div>
             {error && (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-red-400 text-sm font-semibold">
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-gray-200 text-sm font-semibold">
                 {error}
               </motion.p>
             )}
-            <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-black py-3 rounded-lg hover:shadow-xl hover:shadow-cyan-500/30 active:scale-95 transition-all duration-300 disabled:opacity-60 uppercase tracking-widest text-sm">
+            <button type="submit" disabled={loading} className="w-full bg-gradient-to-r from-black to-gray-700 text-white font-black py-3 rounded-lg hover:shadow-xl hover:shadow-black/20 active:scale-95 transition-all duration-300 disabled:opacity-60 uppercase tracking-widest text-sm">
               {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
@@ -952,19 +952,19 @@ const AdminPanel = () => {
   const { user, isLoading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  if (isLoading) return <div className="min-h-screen flex items-center justify-center text-slate-600 font-medium">Loading...</div>;
+  if (isLoading) return <div className="min-h-screen flex items-center justify-center text-gray-700 font-medium">Loading...</div>;
   if (!user) return <AdminLoginGate />;
   if (user.role !== 'admin') return <Navigate to="/" replace />;
 
   return (
-    <div className="min-h-screen flex bg-slate-50">
+    <div className="min-h-screen flex bg-gray-50">
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
       <div className="flex-1 lg:ml-64 min-h-screen">
-        <div className="bg-white/80 backdrop-blur-sm border-b border-slate-200 px-4 py-4 flex items-center gap-4 lg:hidden shadow-sm">
-          <button onClick={() => setSidebarOpen(true)} className="text-slate-600 hover:text-slate-900">
+        <div className="bg-white/80 backdrop-blur-sm border-b border-gray-200 px-4 py-4 flex items-center gap-4 lg:hidden shadow-sm">
+          <button onClick={() => setSidebarOpen(true)} className="text-gray-700 hover:text-black">
             <Menu className="w-5 h-5" />
           </button>
-          <span className="font-black text-sm text-slate-900">OPTIMUS ADMIN</span>
+          <span className="font-black text-sm text-black">OPTIMUS ADMIN</span>
         </div>
         <div className="p-6 md:p-8">
           <Routes>
@@ -980,5 +980,6 @@ const AdminPanel = () => {
 };
 
 export default AdminPanel;
+
 
 

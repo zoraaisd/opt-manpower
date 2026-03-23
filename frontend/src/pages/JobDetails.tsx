@@ -104,6 +104,7 @@ const JobDetails = () => {
       const fd = new FormData();
       fd.append('job', id!);
       fd.append('resume', cvFile);
+      fd.append('subject', 'Job application');
       
       // Append form fields - map 'name' to 'full_name'
       Object.entries(form).forEach(([k, v]) => {
@@ -362,7 +363,7 @@ const JobDetails = () => {
                     <div className="flex gap-3 pt-2">
                       <button type="button" onClick={() => setApplyModal(false)} className="btn-outline flex-1 justify-center">Cancel</button>
                       <button type="submit" disabled={submitting} className="btn-primary flex-1 justify-center">
-                        {submitting ? 'Submitting...' : 'Submit Form'}
+                        {submitting ? 'Submitted!' : 'Submit Form'}
                       </button>
                     </div>
                   </form>

@@ -15,7 +15,7 @@ const ContactUs = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setLoading(true); setError('');
     try {
-      await contentAPI.employerEnquiry({ ...form, contact_person: form.contact_person || form.email });
+      await contentAPI.employerEnquiry({ ...form, contact_person: form.contact_person || form.email, subject: 'Contacted' });
       setSubmitted(true);
     } catch { setError('Failed to send message. Please try again or email us directly.'); }
     finally { setLoading(false); }
@@ -44,8 +44,8 @@ const ContactUs = () => {
 
           {[
             { icon: MapPin, label: 'Address', value: 'Ground Floor, 12, Rajiv Gandhi Salai,Srinivasa Nagar,Kandhanchavadi, Perungudi,Chennai, Tamil Nadu 600096' },
-            { icon: Phone, label: 'Phone', value: '+91 98765 43210' },
-            { icon: Mail, label: 'Email', value: 'contact@optimusmanpower.com' },
+            { icon: Phone, label: 'Phone', value: '+91 90 92 906 907' },
+            { icon: Mail, label: 'Email', value: 'info@optimusglobalhr.com' },
             { icon: Clock, label: 'Working Hours', value: 'Mon – Sat: 9:00 AM – 7:00 PM IST' },
           ].map(({ icon: Icon, label, value }) => (
             <motion.div key={label} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-start gap-4">
@@ -59,13 +59,6 @@ const ContactUs = () => {
             </motion.div>
           ))}
 
-          {/* Regional Offices */}
-          {/* <div className="pt-4 border-t border-gray-light">
-            <p className="text-gray-light text-xs font-body mb-4 uppercase tracking-wide">Regional Offices</p>
-            {['Delhi NCR', 'Bangalore', 'Hyderabad', 'Chennai', 'Pune'].map((city) => (
-              <p key={city} className="text-gray-medium text-sm font-body py-1">📍 {city}</p>
-            ))}
-          </div> */}
         </div>
 
         {/* Contact Form */}
@@ -114,7 +107,7 @@ const ContactUs = () => {
               </div>
 
               <button type="submit" disabled={loading} className="btn-primary w-full justify-center">
-                {loading ? 'Sending...' : <><Send className="w-4 h-4" /> Send Message</>}
+                {loading ? 'Sent!' : <><Send className="w-4 h-4" /> Send Message</>}
               </button>
             </form>
           )}

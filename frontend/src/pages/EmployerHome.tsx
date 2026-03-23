@@ -6,14 +6,14 @@ import AuthModal from '../components/AuthModal';
 import CountUp from '../components/CountUp';
 
 // Hero Background
-import heroBg from '../asserts/jon-bg1.webp';
+import heroBg from '../asserts/free-pik 3.jpg';
 
 // Solutions Images
-import generalStaffingImg from '../asserts/General-Staffing.webp';
+import generalStaffingImg from '../asserts/general staff.jpg';
 import professionalStaffingImg from '../asserts/Professional-Staffing.webp';
 import permanentRecruitmentImg from '../asserts/Permanent-Recruitment.webp';
 import executiveSearchImg from '../asserts/Executive-Search.webp';
-import internationalRecruitmentImg from '../asserts/International-Recruitment.webp';
+import internationalRecruitmentImg from '../asserts/international.jpg';
 import contractStaffingImg from '../asserts/Contract-Staffing.webp';
 
 const STATS = [
@@ -67,7 +67,7 @@ const EmployerHome = () => {
     e.preventDefault();
     setLoading(true); setError('');
     try {
-      await contentAPI.employerEnquiry({ ...form, number_of_positions: Number(form.number_of_positions) });
+      await contentAPI.employerEnquiry({ ...form, number_of_positions: Number(form.number_of_positions), subject: 'Business enquiry' });
       setSubmitted(true);
     } catch { setError('Failed to submit. Please try again or call us directly.'); }
     finally { setLoading(false); }
@@ -76,19 +76,17 @@ const EmployerHome = () => {
   return (
     <main className="min-h-screen bg-white">
       {/* ── Premium Hero ── */}
-      <section className="relative min-h-[95vh] flex items-center pt-32 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-32">
         {/* Gradient Background */}
         <div className="absolute inset-0 z-0">
-          <img src={heroBg} alt="Business team" className="w-full h-full object-cover opacity-12" />
-          <div className="absolute inset-0 bg-gradient-to-br from-white via-white/98 to-gray-50/30" />
-          <div className="absolute top-0 right-0 w-96 h-96 bg-black/3 rounded-full -mr-48 -mt-48" />
-          <div className="absolute bottom-0 left-0 w-80 h-80 bg-black/2 rounded-full -ml-40 -mb-40" />
+          <img src={heroBg} alt="Business team" className="w-full h-full object-cover opacity-22" />
+          <div className="absolute inset-0 bg-gradient-to-br from-white/85 via-white/60 to-gray-50/30" />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
           <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.15 } } }} className="grid lg:grid-cols-2 gap-16 items-center">
             {/* Left Column */}
-            <div>
+            <div className="h-full flex flex-col">
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="mb-8">
                 <div className="inline-flex items-center gap-2 bg-black/8 border border-black/20 px-4 py-2 mb-6 rounded">
                   <Building2 className="w-4 h-4 text-black" />
@@ -101,9 +99,9 @@ const EmployerHome = () => {
                     <div className="absolute -bottom-3 left-0 w-48 h-1 bg-black/20" />
                   </span>
                 </h1>
-                <p className="text-lg text-gray-medium font-body leading-relaxed max-w-lg">
-                  Access pre-vetted, interview-ready talent across 20+ industries. From general staffing to executive search — we deliver results in record time.
-                </p>
+                <p className="text-lg text-gray-800 font-body leading-relaxed max-w-lg">
+  Access pre-vetted, interview-ready talent across 20+ industries. From general staffing to executive search - we deliver results in record time.
+</p>
               </motion.div>
 
               {/* Mini Stats */}
@@ -127,22 +125,12 @@ const EmployerHome = () => {
                   <p className="text-xs text-gray-medium font-body mt-1">Companies</p>
                 </div>
               </motion.div>
-
-              {/* CTAs */}
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="flex flex-wrap gap-4">
-                <a href="#enquiry" className="px-8 py-4 bg-black text-white font-display font-semibold rounded-full hover:bg-black/90 transition-all duration-300 flex items-center gap-2 shadow-lg hover:shadow-xl">
-                  Start Hiring <ArrowRight className="w-4 h-4" />
-                </a>
-                <a href="#solutions" className="px-8 py-4 bg-white border-2 border-black/20 text-black font-display font-semibold rounded-full hover:border-black hover:bg-black/2 transition-all duration-300">
-                  Explore Solutions
-                </a>
-              </motion.div>
             </div>
 
             {/* Right Column - Premium Visual Card */}
             <motion.div variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { delay: 0.3 } } }}>
               <div className="relative">
-                <div className="bg-white rounded-2xl shadow-[0_20px_80px_rgba(0,0,0,0.1)] p-10 border border-black/5 space-y-8">
+                <div className="card-3d bg-white rounded-2xl shadow-[0_20px_80px_rgba(0,0,0,0.1)] p-10 border border-black/5 space-y-8">
                   <div>
                     <p className="text-xs font-display font-bold text-gray-dark mb-4 tracking-wide uppercase">Why Choose Optimus</p>
                     <ul className="space-y-3">
@@ -164,6 +152,14 @@ const EmployerHome = () => {
                         </div>
                       ))}
                     </div>
+                  </div>
+                  <div className="pt-4">
+                    <a 
+  href="#enquiry" 
+  className="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-black text-white font-display font-semibold rounded-full hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl"
+>
+  Start Hiring <ArrowRight className="w-4 h-4" />
+</a>
                   </div>
                 </div>
               </div>
@@ -188,32 +184,26 @@ const EmployerHome = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {SOLUTIONS.map((solution, i) => (
             <motion.div key={solution.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-              <div className="group relative block bg-white border border-black/5 overflow-hidden rounded-xl h-72 transition-all duration-300 hover:border-black/20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)]">
+              <div className="card-3d group relative block bg-white border border-black/5 overflow-hidden rounded-xl h-72 transition-all duration-300 hover:border-black/20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)]">
                 {/* Image Background */}
                 <img 
                   src={SOLUTIONS_WITH_IMAGES[solution.title]} 
                   alt={solution.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
                 
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10 group-hover:from-black/90 transition-all duration-300" />
-                
-                {/* Icon */}
-                <div className="absolute top-6 right-6 w-12 h-12 bg-white/95 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-300">
-                  <solution.icon className="w-6 h-6 text-black" />
-                </div>
+                {/* Bottom Black Overlay for Text */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent transition-all duration-300 group-hover:from-black/90" />
+        
 
                 {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
+                <div className="absolute inset-0 z-20 flex flex-col justify-end p-6">
                   <h3 className="font-heading font-semibold text-white text-lg mb-2 drop-shadow-lg">{solution.title}</h3>
                   <p className="text-white/90 text-sm font-body drop-shadow-md leading-relaxed line-clamp-2">{solution.desc}</p>
                 </div>
 
                 {/* Hover Arrow */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ArrowRight className="w-8 h-8 text-white drop-shadow-lg transform group-hover:translate-x-2 transition-transform duration-300" />
-                </div>
+                
               </div>
             </motion.div>
           ))}
@@ -240,9 +230,9 @@ const EmployerHome = () => {
               <div className="space-y-5">
                 {WHY_US.map((point, i) => (
                   <motion.div key={point} initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }} 
-                    className="group flex gap-4 p-5 rounded-xl bg-white border border-black/5 hover:border-black/10 hover:shadow-md hover:bg-black/1 transition-all duration-300">
+                    className="card-3d group flex gap-4 p-5 rounded-xl bg-white border border-black/5 hover:border-black/10 hover:shadow-md hover:bg-black/1 transition-all duration-300">
                     <div className="shrink-0 mt-1">
-                      <CheckCircle className="w-5 h-5 text-black group-hover:scale-110 transition-transform duration-300" />
+                      <CheckCircle className="w-5 h-5 text-black" />
                     </div>
                     <div>
                       <p className="text-gray-medium text-sm font-body leading-relaxed">{point}</p>
@@ -256,15 +246,15 @@ const EmployerHome = () => {
             </motion.div>
 
             {/* Stats Grid */}
-            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="grid grid-cols-2 gap-5">
-              {[
+            <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="grid grid-cols-2 gap-5 p-4 border border-black/10 rounded-2xl bg-white/80">
+              {[ 
                 { icon: Users, title: '10,000+', sub: 'Candidates in pool', color: 'from-blue-50 to-blue-50/50' },
                 { icon: Building2, title: '500+', sub: 'Client companies', color: 'from-emerald-50 to-emerald-50/50' },
                 { icon: Globe, title: '12+', sub: 'Countries covered', color: 'from-purple-50 to-purple-50/50' },
                 { icon: Award, title: '98%', sub: 'Client retention', color: 'from-amber-50 to-amber-50/50' },
               ].map(({ icon: Icon, title, sub, color }) => (
                 <motion.div key={sub} whileHover={{ y: -8 }} transition={{ duration: 0.3 }} 
-                  className="group bg-white border border-black/5 hover:border-black/10 rounded-xl p-7 text-center transition-all duration-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)]">
+                  className="card-3d group bg-white border border-black/20 hover:border-black/30 rounded-xl p-7 text-center transition-all duration-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)]">
                   <div className="w-14 h-14 mx-auto mb-4 rounded-lg bg-gradient-to-br from-black/8 to-black/12 flex items-center justify-center group-hover:from-black/12 group-hover:to-black/16 transition-all duration-300">
                     <Icon className="w-7 h-7 text-black" />
                   </div>
@@ -369,10 +359,7 @@ const EmployerHome = () => {
               className="w-full px-8 py-4 bg-black text-white font-display font-semibold rounded-xl hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl mt-2"
             >
               {loading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Sending...
-                </>
+                <>Submitted!</>
               ) : (
                 <>
                   Submit Enquiry <ArrowRight className="w-4 h-4" />

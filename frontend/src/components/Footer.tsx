@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Linkedin, Facebook, Instagram, Twitter, MapPin, Phone, Mail, Youtube, X, XIcon } from 'lucide-react';
-import LogoImage from '../asserts/opt-man-logo.webp';
+import LogoImage from '../asserts/opt-man-logo 1.png';
 
 const Footer = () => {
   return (
@@ -32,6 +32,15 @@ const Footer = () => {
                 <Mail className="w-3.5 h-3.5 text-gray-300 shrink-0" />
                 <a href="mailto:info@optimusglobalhr.com" className="hover:text-white transition-colors truncate">info@optimusglobalhr.com</a>
               </div>
+            </div>
+            <div className="mt-4 w-full max-w-sm overflow-hidden rounded-xl border border-gray-700">
+              <iframe
+                title="Optimus Manpower Office Location"
+                src="https://www.google.com/maps?q=12.9697456,80.2485552&z=17&output=embed"
+                className="w-full h-40"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
 

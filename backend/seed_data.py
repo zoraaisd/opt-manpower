@@ -8,12 +8,11 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'optimus.settings')
 django.setup()
 
-from core.models import Job, Testimonial, CareerAdvice
+from core.models import Job, Testimonial
 
 # ─── CLEAR EXISTING ───────────────────────────────────────────────────────────
 Job.objects.all().delete()
 Testimonial.objects.all().delete()
-CareerAdvice.objects.all().delete()
 print("Cleared existing data.")
 
 # ─── JOBS ─────────────────────────────────────────────────────────────────────
@@ -183,140 +182,10 @@ for t in testimonials_data:
     Testimonial.objects.create(**t)
 
 print(f"Created {len(testimonials_data)} testimonials.")
+print("\nSeed data complete! The platform is ready.")
+print("   Frontend: http://localhost:5173")
+print("   Backend API: http://localhost:8000/api/")
+print("   Admin: admin@optimusmanpower.com / Admin@123")
 
-# ─── CAREER ADVICE ────────────────────────────────────────────────────────────
-articles = [
-    {
-        "title": "10 Resume Tips That Get You More Interview Calls in 2025",
-        "content": """Your resume is your first impression. Here's how to make it count.
 
-**1. Lead With a Strong Summary**
-Don't start with an objective statement. Instead, write a 3-line professional summary that highlights your top value: years of experience, domain expertise, and your biggest achievement.
 
-**2. Quantify Everything**
-Hiring managers skim resumes in under 6 seconds. Numbers stand out. Instead of "managed a team", write "led a team of 12 engineers delivering ₹4Cr project 3 weeks ahead of schedule."
-
-**3. Use ATS-Friendly Formatting**
-Most companies use Applicant Tracking Systems. Avoid tables, graphics, and unusual fonts. Stick to clean sections: Summary, Experience, Skills, Education.
-
-**4. Tailor for Every Application**
-A generic resume gets generic results. Mirror keywords from the job description. If the JD says "stakeholder management", use that exact phrase.
-
-**5. Keep It to 1–2 Pages**
-Unless you have 15+ years of varied experience, keep it concise. Every line should earn its place.
-
-**6. Action Verbs Open Every Bullet**
-Start bullets with power verbs: Spearheaded, Reduced, Designed, Delivered, Negotiated. Never start with "Responsible for."
-
-**7. Education Goes Last**
-Unless you're a fresh graduate, your experience is more relevant. Move education to the bottom.
-
-**8. Include a LinkedIn URL**
-Make sure your LinkedIn profile is complete and mirrors your resume. Recruiters always check.
-
-**9. No Spelling Errors**
-Use Grammarly or have a friend proofread. A single typo is often enough to disqualify you.
-
-**10. Name Your File Properly**
-Name your resume "YourName_Resume_2025.pdf" — never "Resume_Final_v3_new.pdf".""",
-    },
-    {
-        "title": "How to Ace Your Job Interview: A Complete Preparation Guide",
-        "content": """Interviews are predictable if you prepare correctly. Here's a framework used by successful candidates.
-
-**Before the Interview**
-Research the company thoroughly — their products, recent news, competitors, and culture. Visit their LinkedIn, Glassdoor page, and recent press releases.
-
-**The STAR Method**
-For behavioral questions ("Tell me about a time when..."), use STAR:
-- **S**ituation: Set the context
-- **T**ask: Describe your responsibility  
-- **A**ction: Explain what you did specifically
-- **R**esult: Quantify the outcome
-
-**Questions You Must Prepare**
-1. Tell me about yourself (keep to 90 seconds)
-2. Why do you want to leave your current company?
-3. Where do you see yourself in 5 years?
-4. What's your greatest strength and weakness?
-5. Do you have any questions for us? (Always ask 2–3 thoughtful ones)
-
-**Professional Presentation**
-- Arrive 10 minutes early (or join the video call 2 minutes early)
-- Dress one level above the company's standard dress code
-- Make steady eye contact
-- Don't interrupt the interviewer
-
-**Salary Negotiation**
-Wait for them to name a number first. When they ask your expectation, say: "Based on my research and experience, I'm looking at a range of X to Y. Is that aligned with what you have budgeted?"
-
-**Post Interview**
-Send a brief thank-you email within 24 hours. It sets you apart from 90% of candidates.""",
-    },
-    {
-        "title": "Working in the Gulf: What Every Indian Professional Should Know",
-        "content": """The GCC countries (UAE, Saudi Arabia, Qatar, Kuwait, Oman, Bahrain) offer some of the highest paying opportunities for Indian professionals. Here's what to know before you go.
-
-**Tax-Free Income**
-The biggest advantage: zero income tax. A salary of AED 12,000 in Dubai is equivalent to earning ₹23 LPA tax-free in India.
-
-**Understanding the Kafala System**
-Most Gulf countries operate under the Kafala (sponsorship) system. Your employer is your legal sponsor. This means:
-- Your visa is tied to your employer
-- You need a No Objection Certificate (NOC) to switch jobs in some countries
-- UAE has reformed this significantly with the new labor laws (2022)
-
-**Documentation You Need**
-- Passport valid for 2+ years
-- Educational certificates attested by MEA (India) + UAE Embassy
-- Experience letters from previous employers
-- Medical fitness certificate
-- Police clearance certificate
-
-**Cost of Living**
-Dubai and Doha are expensive. Budget approximately AED 3,000–4,000/month for accommodation, food, and transport if not provided by the employer.
-
-**Cultural Etiquette**
-- Dress modestly in public areas
-- Ramadan affects working hours
-- Friday is the day of rest (weekend is Friday-Saturday in most GCC)
-- Alcohol is restricted in most Gulf countries (except UAE and Bahrain)
-
-**Working with Optimus Manpower**
-Our international division specializes in placing Indian candidates in verified, reputed companies across the Gulf. We handle documentation guidance, interview preparation, and post-placement support.""",
-    },
-    {
-        "title": "Career Growth Strategies That Actually Work in 2025",
-        "content": """Career growth doesn't happen accidentally. Here are proven strategies from professionals who have made significant leaps.
-
-**1. Develop T-Shaped Skills**
-Excel in one domain (the vertical bar of T) but have working knowledge of many adjacent areas (the horizontal bar). A finance professional who also understands technology is far more valuable.
-
-**2. Build Internal Visibility**
-Many great performers are overlooked because their work is invisible to leadership. Speak up in meetings, share monthly progress summaries, volunteer for cross-functional projects.
-
-**3. Find a Mentor**
-A mentor who has already walked the path you want to walk can save you years of trial and error. Identify senior professionals in your field and build that relationship genuinely — not instrumentally.
-
-**4. Invest in Certifications Strategically**
-Not all certifications are equal. Focus on ones recognized by your industry: PMP for project management, CFA for finance, AWS for tech, CIPD for HR. Each adds a tangible line to your profile.
-
-**5. Switch Jobs at the Right Time**
-The biggest salary jumps come from job changes. Indian professionals typically see 15–20% raises from internal hikes but 40–60% jumps when switching companies. The optimal time to switch is 2.5–3 years into a role.
-
-**6. Build Your Personal Brand**
-Write on LinkedIn. Comment thoughtfully on industry posts. Share your learnings. Professionals who are known in their domain get inbound opportunities — they don't need to apply.
-
-**7. Salary Benchmark Yourself Annually**
-Use platforms like AmbitionBox, Glassdoor, and LinkedIn Salary to know your market value. If you are underpaid, you deserve to know.""",
-    },
-]
-
-for a in articles:
-    CareerAdvice.objects.create(**a)
-
-print(f"Created {len(articles)} career advice articles.")
-print("\n✅ Seed data complete! The platform is ready.")
-print("   🌐 Frontend: http://localhost:5173")
-print("   🔌 Backend API: http://localhost:8000/api/")
-print("   🔑 Admin: admin@optimusmanpower.com / Admin@123")

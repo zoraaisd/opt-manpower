@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, ChevronDown, Briefcase, User, ShieldCheck, BookOpen, Star, Users, Home } from 'lucide-react';
 import { useMode } from '../context/ModeContext';
-import LogoImage from '../asserts/opt-man-logo.webp';
+import LogoImage from '../asserts/opt-man-logo 1.png';
 
 const Navbar = () => {
   const { mode, setMode } = useMode();
@@ -55,6 +55,10 @@ const Navbar = () => {
     }, 0);
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/95 backdrop-blur-md shadow-[0_2px_20px_rgba(192,192,192,0.2)]' : 'bg-black'}`}>
@@ -66,7 +70,7 @@ const Navbar = () => {
             <img
               src={LogoImage}
               alt="Optimus Manpower Logo"
-              className="h-8 md:h-10 w-auto object-contain hover:opacity-80 transition-opacity duration-200"
+              className="h-9 md:h-12 w-auto object-contain drop-shadow-[0_2px_6px_rgba(255,255,255,0.25)] hover:opacity-95 transition-opacity duration-200"
             />
           </Link>
 
@@ -75,22 +79,22 @@ const Navbar = () => {
             {/* Guest — candidate mode */}
             {mode === 'candidate' && (
               <>
-                <Link to="/" className={navLinkClass('/')}>Home</Link>
-                <Link to="/jobs#jobs-hero" className={navLinkClass('/jobs')} onClick={scrollToJobsHero}>Search Jobs</Link>
-                <Link to="/saved-jobs" className={navLinkClass('/saved-jobs')}>Saved Jobs</Link>
-                <Link to="/career-advice" className={navLinkClass('/career-advice')}>Career Advice</Link>
-                <Link to="/about" className={navLinkClass('/about')}>About Us</Link>
+                <Link to="/" className={navLinkClass('/')} onClick={scrollToTop}>Home</Link>
+                <Link to="/jobs#jobs-hero" className={navLinkClass('/jobs')} onClick={() => { scrollToTop(); scrollToJobsHero(); }}>Search Jobs</Link>
+                <Link to="/saved-jobs" className={navLinkClass('/saved-jobs')} onClick={scrollToTop}>Saved Jobs</Link>
+                <Link to="/career-advice" className={navLinkClass('/career-advice')} onClick={scrollToTop}>Career Advice</Link>
+                <Link to="/about" className={navLinkClass('/about')} onClick={scrollToTop}>About Us</Link>
               </>
             )}
 
             {/* Guest — employer mode */}
             {mode === 'employer' && (
               <>
-                <Link to="/" className={navLinkClass('/')}>Home</Link>
-                <Link to="/solutions" className={navLinkClass('/solutions')}>Solutions</Link>
-                <Link to="/business-enquiry" className={navLinkClass('/business-enquiry')}>Hire Talent</Link>
-                <Link to="/about" className={navLinkClass('/about')}>About Us</Link>
-                <Link to="/contact" className={navLinkClass('/contact')}>Contact Us</Link>
+                <Link to="/" className={navLinkClass('/')} onClick={scrollToTop}>Home</Link>
+                <Link to="/solutions" className={navLinkClass('/solutions')} onClick={scrollToTop}>Solutions</Link>
+                <Link to="/business-enquiry" className={navLinkClass('/business-enquiry')} onClick={scrollToTop}>Hire Talent</Link>
+                <Link to="/about" className={navLinkClass('/about')} onClick={scrollToTop}>About Us</Link>
+                <Link to="/contact" className={navLinkClass('/contact')} onClick={scrollToTop}>Contact Us</Link>
               </>
             )}
           </div>
@@ -102,7 +106,7 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder={mode === 'employer' ? 'Search solutions...' : 'Search jobs...'}
-                className="w-56 lg:w-64 pl-9 pr-3 py-2 bg-white text-black placeholder-gray-400 text-sm font-body rounded border border-gray-300 focus:outline-none focus:border-black transition-colors duration-200"
+                className="w-56 lg:w-64 pl-9 pr-4 py-2 bg-white text-black placeholder-gray-400 text-sm font-body rounded-full border border-gray-300 focus:outline-none focus:border-black transition-colors duration-200"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     const q = (e.target as HTMLInputElement).value;
@@ -181,7 +185,7 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder={mode === 'employer' ? 'Search solutions...' : 'Search jobs...'}
-                className="w-full pl-9 pr-3 py-2 bg-white text-black placeholder-gray-400 text-sm font-body rounded border border-gray-300 focus:outline-none focus:border-black transition-colors duration-200"
+                className="w-full pl-9 pr-4 py-2 bg-white text-black placeholder-gray-400 text-sm font-body rounded-full border border-gray-300 focus:outline-none focus:border-black transition-colors duration-200"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     const q = (e.target as HTMLInputElement).value;
@@ -198,38 +202,38 @@ const Navbar = () => {
             {/* Nav links */}
             {mode === 'candidate' && (
               <>
-                <Link to="/" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <Home className="w-3.5 h-3.5" /> Home
                 </Link>
-                <Link to="/jobs#jobs-hero" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { handleMobileNavClick(); scrollToJobsHero(); }}>
+                <Link to="/jobs#jobs-hero" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); scrollToJobsHero(); }}>
                   <Search className="w-3.5 h-3.5" /> Search Jobs
                 </Link>
-                <Link to="/career-advice" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/career-advice" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <BookOpen className="w-3.5 h-3.5" /> Career Advice
                 </Link>
-                <Link to="/saved-jobs" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/saved-jobs" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <Star className="w-3.5 h-3.5" /> Saved Jobs
                 </Link>
-                <Link to="/about" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/about" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <Users className="w-3.5 h-3.5" /> About Us
                 </Link>
               </>
             )}
             {mode === 'employer' && (
               <>
-                <Link to="/" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <Home className="w-3.5 h-3.5" /> Home
                 </Link>
-                <Link to="/solutions" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/solutions" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <Briefcase className="w-3.5 h-3.5" /> Solutions
                 </Link>
-                <Link to="/business-enquiry" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/business-enquiry" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <User className="w-3.5 h-3.5" /> Hire Talent
                 </Link>
-                <Link to="/about" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/about" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <Users className="w-3.5 h-3.5" /> About Us
                 </Link>
-                <Link to="/contact" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={handleMobileNavClick}>
+                <Link to="/contact" className="flex items-center gap-2 py-2 px-3 text-sm text-gray-200 hover:text-white hover:bg-white/5 rounded transition-colors" onClick={() => { scrollToTop(); handleMobileNavClick(); }}>
                   <ShieldCheck className="w-3.5 h-3.5" /> Contact Us
                 </Link>
               </>

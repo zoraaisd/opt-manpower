@@ -21,7 +21,7 @@ import precisionImg from '../asserts/Precision-Role-Matching.webp';
 import consultancyImg from '../asserts/Expert-Consultancy.webp';
 import strategyImg from '../asserts/Long-Term-Career-Strategy.webp';
 import partnersImg from '../asserts/VettedGlobalPartners.webp';
-import heroBg from '../asserts/Emp-Bg.webp';
+import heroBg from '../asserts/free-pik 1.jpg';
 
 const STATS = [
   { label: 'Placements Made', value: '10,000+', icon: Users },
@@ -257,12 +257,12 @@ const CandidateHome = () => {
                   variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}
                   transition={{ duration: 0.5, ease: 'easeOut' }}
                 >
-                  <div className="group h-full bg-white border border-black/5 hover:border-black/20 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_18px_48px_rgba(0,0,0,0.08)]">
+                  <div className="card-3d group h-full bg-white border border-black/5 hover:border-black/20 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-[0_18px_48px_rgba(0,0,0,0.08)]">
                     <div className="relative h-44 overflow-hidden">
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="absolute inset-0 w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
                       <div className="absolute left-5 bottom-4 flex items-center gap-3">
@@ -323,12 +323,12 @@ const CandidateHome = () => {
           {SECTORS.map((sector, i) => (
             <motion.div key={sector} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
               <Link to={`/jobs?q=${encodeURIComponent(sector)}`}
-                className="group relative block bg-white border border-black/5 overflow-hidden rounded-xl h-48 transition-all duration-300 hover:border-black/20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)]">
+                className="card-3d group relative block bg-white border border-black/5 overflow-hidden rounded-xl h-48 transition-all duration-300 hover:border-black/20 hover:shadow-[0_16px_48px_rgba(0,0,0,0.1)]">
                 {/* Image Background */}
                 <img
                   src={SECTOR_IMAGES[sector]}
                   alt={sector}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover"
                 />
 
                 {/* Dark Overlay */}
@@ -340,9 +340,7 @@ const CandidateHome = () => {
                 </div>
 
                 {/* Hover Indicator */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ArrowRight className="w-6 h-6 text-white drop-shadow-lg" />
-                </div>
+                
               </Link>
             </motion.div>
           ))}
@@ -363,7 +361,7 @@ const CandidateHome = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
               {reviews.slice(0, 3).map((t: any, i: number) => (
                 <motion.div key={t.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                  <div className="group bg-white border border-black/5 hover:border-black/20 rounded-xl p-8 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] h-full flex flex-col">
+                  <div className="card-3d group bg-white border border-black/5 hover:border-black/20 rounded-xl p-8 transition-all duration-300 hover:shadow-[0_16px_40px_rgba(0,0,0,0.06)] h-full flex flex-col">
                     <div className="flex gap-1 mb-6">
                       {[...Array(5)].map((_, j) => <Star key={j} className="w-4 h-4 fill-black text-black" />)}
                     </div>

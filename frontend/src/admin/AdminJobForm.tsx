@@ -64,7 +64,7 @@ const AdminJobForm = ({ job, onClose }: AdminJobFormProps) => {
 
         <form onSubmit={handleSubmit} className="px-8 py-6 space-y-4">
           {error && (
-            <div className="flex items-start gap-2 p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-body">
+            <div className="flex items-start gap-2 p-3 bg-gray-100 border border-gray-200 text-gray-800 text-sm font-body">
               <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" /> {error}
             </div>
           )}

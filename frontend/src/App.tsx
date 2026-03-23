@@ -14,7 +14,8 @@ const Jobs = React.lazy(() => import('./pages/Jobs'));
 const JobDetails = React.lazy(() => import('./pages/JobDetails'));
 const SavedJobs = React.lazy(() => import('./pages/SavedJobs'));
 const CareerAdvice = React.lazy(() => import('./pages/CareerAdvice'));
-const RecruiterHome = React.lazy(() => import('./pages/RecruiterHome'));
+const CareerAdviceDetail = React.lazy(() => import('./pages/CareerAdviceDetail'));
+// const RecruiterHome = React.lazy(() => import('./pages/RecruiterHome'));
 const ContactUs = React.lazy(() => import('./pages/ContactUs'));
 const About = React.lazy(() => import('./pages/About'));
 const Solutions = React.lazy(() => import('./pages/Solutions'));
@@ -90,7 +91,8 @@ function App() {
                   <Route path="/jobs/:id" element={<MainLayout><JobDetails /></MainLayout>} />
                   <Route path="/saved-jobs" element={<MainLayout><SavedJobs /></MainLayout>} />
                   <Route path="/career-advice" element={<MainLayout><CareerAdvice /></MainLayout>} />
-                  <Route path="/recruiter" element={<MainLayout><RecruiterHome /></MainLayout>} />
+                  <Route path="/career-advice/:id" element={<MainLayout><CareerAdviceDetail /></MainLayout>} />
+                  {/* <Route path="/recruiter" element={<MainLayout><RecruiterHome /></MainLayout>} /> */}
                   <Route path="/solutions" element={<MainLayout><Solutions /></MainLayout>} />
                   <Route path="/business-enquiry" element={<MainLayout><BusinessEnquiry /></MainLayout>} />
                   <Route path="/employer-enquiry" element={<MainLayout><BusinessEnquiry /></MainLayout>} />
@@ -107,5 +109,4 @@ function App() {
 }
 
 export default App;
-
 

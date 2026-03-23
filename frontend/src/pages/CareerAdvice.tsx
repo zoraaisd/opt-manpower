@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -7,13 +6,13 @@ import {
   CheckCircle, Briefcase, Globe, Award, Lightbulb, Users,
   FileText, ChevronDown, ChevronUp,
 } from 'lucide-react';
-import { contentAPI } from '../services/api';
 import CountUp from '../components/CountUp';
+import { MOCK_ARTICLES, CATEGORIES } from '../data/careerAdvice';
 
 // ── Static Content ─────────────────────────────────────────────────────────
 
 const QUICK_TIPS = [
-  { icon: FileText, category: 'Resume', color: 'bg-blue-50 text-blue-700', tip: 'Quantify achievements with numbers — "Reduced cost by 30%" beats "Cut costs significantly" every time.' },
+  { icon: FileText, category: 'Resume', color: 'bg-blue-50 text-blue-700', tip: 'Quantify achievements with numbers - "Reduced cost by 30%" beats "Cut costs significantly" every time.' },
   { icon: Target, category: 'Interview', color: 'bg-green-50 text-green-700', tip: 'Use the STAR method for behavioral questions: Situation, Task, Action, Result. Keep each answer under 2 minutes.' },
   { icon: Globe, category: 'International Jobs', color: 'bg-purple-50 text-purple-700', tip: 'Gulf employers look for 3+ years of continuous experience. Gaps must be explained clearly in your cover letter.' },
   { icon: TrendingUp, category: 'Career Growth', color: 'bg-orange-50 text-orange-700', tip: 'The best time to look for a new job is 2.5–3 years into your current role — before stagnation sets in.' },
@@ -25,7 +24,7 @@ const TOPIC_GUIDES = [
   {
     icon: FileText,
     title: 'Resume Writing Masterclass',
-    desc: 'Craft a resume that passes ATS filters and impresses human eyes — from formatting basics to advanced achievement statements.',
+    desc: 'Craft a resume that passes ATS filters and impresses human eyes - from formatting basics to advanced achievement statements.',
     topics: ['ATS-optimized formatting', 'Writing powerful bullet points', 'Tailoring for every application', 'LinkedIn profile alignment'],
     readTime: '12 min read',
   },
@@ -54,7 +53,7 @@ const TOPIC_GUIDES = [
 
 const EXPERT_INSIGHTS = [
   {
-    quote: 'The top mistake candidates make is sending the same resume to every job. Tailor every application — recruiters can tell immediately when you haven\'t.',
+    quote: 'The top mistake candidates make is sending the same resume to every job. Tailor every application- recruiters can tell immediately when you haven\'t.',
     expert: 'Priya Sharma',
     title: 'Head of Talent Acquisition, Optimus Manpower',
     initials: 'PS',
@@ -66,7 +65,7 @@ const EXPERT_INSIGHTS = [
     initials: 'AM',
   },
   {
-    quote: 'Candidates who get hired fastest are the ones who are genuinely prepared — they\'ve researched the company, know why they want the role, and can articulate their value clearly.',
+    quote: 'Candidates who get hired fastest are the ones who are genuinely prepared-they\'ve researched the company, know why they want the role, and can articulate their value clearly.',
     expert: 'Rajesh Kumar',
     title: 'Founder & CEO, Optimus Manpower',
     initials: 'RK',
@@ -105,174 +104,6 @@ const FAQS = [
   },
 ];
 
-const MOCK_ARTICLES = [
-  {
-    id: 'm1',
-    category: 'Resume Tips',
-    title: '7 Resume Mistakes That Get You Rejected in the First 10 Seconds',
-    summary: 'Recruiters spend an average of 7 seconds on a resume. Here are the exact formatting, language, and structure mistakes that trigger instant rejection — and how to fix each one.',
-    readTime: '6 min read',
-    author: 'Priya Sharma',
-    date: 'Mar 10, 2025',
-    icon: FileText,
-    color: 'bg-blue-50 text-blue-700',
-  },
-  {
-    id: 'm2',
-    category: 'Resume Tips',
-    title: 'How to Write a Resume That Beats ATS Filters Every Time',
-    summary: 'Over 75% of resumes never reach a human. Learn how Applicant Tracking Systems parse your resume, which keywords to include, and how to format sections so you always get through.',
-    readTime: '8 min read',
-    author: 'Anil Mehta',
-    date: 'Feb 28, 2025',
-    icon: FileText,
-    color: 'bg-blue-50 text-blue-700',
-  },
-  {
-    id: 'm3',
-    category: 'Resume Tips',
-    title: 'Writing Achievement Statements That Impress Any Hiring Manager',
-    summary: 'Replace weak duty-based bullets with powerful impact statements. Use the Problem–Action–Result formula with real numbers to show what you actually delivered, not just what you did.',
-    readTime: '5 min read',
-    author: 'Priya Sharma',
-    date: 'Feb 14, 2025',
-    icon: FileText,
-    color: 'bg-blue-50 text-blue-700',
-  },
-  {
-    id: 'm4',
-    category: 'Interview Tips',
-    title: 'The STAR Method: A Complete Guide with 15 Real Example Answers',
-    summary: 'Behavioral interview questions trip up great candidates every day. Master the Situation–Task–Action–Result framework with worked examples across the most common competency areas.',
-    readTime: '10 min read',
-    author: 'Rajesh Kumar',
-    date: 'Mar 5, 2025',
-    icon: Target,
-    color: 'bg-green-50 text-green-700',
-  },
-  {
-    id: 'm5',
-    category: 'Interview Tips',
-    title: 'How to Research a Company Before Your Interview (Most Candidates Skip This)',
-    summary: 'Interviewers can instantly tell who has done their homework. A focused 45-minute pre-interview research process — covering business model, competitors, culture, and recent news — sets you apart.',
-    readTime: '7 min read',
-    author: 'Anil Mehta',
-    date: 'Feb 20, 2025',
-    icon: Target,
-    color: 'bg-green-50 text-green-700',
-  },
-  {
-    id: 'm6',
-    category: 'Interview Tips',
-    title: 'Salary Negotiation Scripts That Actually Work',
-    summary: 'Negotiating salary is uncomfortable — but skipping it costs you lakhs over your career. Here are word-for-word scripts for every scenario: first offer, counter-offer, and final pushback.',
-    readTime: '6 min read',
-    author: 'Priya Sharma',
-    date: 'Jan 30, 2025',
-    icon: Star,
-    color: 'bg-green-50 text-green-700',
-  },
-  {
-    id: 'm7',
-    category: 'Career Growth',
-    title: 'When Is the Right Time to Switch Jobs? The 2.5-Year Rule Explained',
-    summary: 'Switching too early labels you a job-hopper. Waiting too long leaves money and growth on the table. Learn the data-backed signals that tell you it is time to move — and how to do it without burning bridges.',
-    readTime: '7 min read',
-    author: 'Rajesh Kumar',
-    date: 'Mar 1, 2025',
-    icon: TrendingUp,
-    color: 'bg-orange-50 text-orange-700',
-  },
-  {
-    id: 'm8',
-    category: 'Career Growth',
-    title: 'Building a T-Shaped Skill Set to Accelerate Promotions',
-    summary: 'The professionals who get promoted fastest combine deep expertise in one area with broad knowledge across related fields. Here is how to identify and build your T-shape intentionally in 12 months.',
-    readTime: '9 min read',
-    author: 'Anil Mehta',
-    date: 'Feb 10, 2025',
-    icon: TrendingUp,
-    color: 'bg-orange-50 text-orange-700',
-  },
-  {
-    id: 'm9',
-    category: 'Industry Trends',
-    title: 'Top 10 In-Demand Skills Across Every Industry in 2025',
-    summary: 'AI literacy, data fluency, cross-functional communication — the skills employers are paying premiums for have shifted. Here is what is hot in IT, Healthcare, Finance, Engineering, and Logistics this year.',
-    readTime: '8 min read',
-    author: 'Priya Sharma',
-    date: 'Mar 12, 2025',
-    icon: Lightbulb,
-    color: 'bg-yellow-50 text-yellow-700',
-  },
-  {
-    id: 'm10',
-    category: 'Industry Trends',
-    title: 'The Rise of Contract and Project-Based Hiring: What Workers Need to Know',
-    summary: 'Companies are increasingly hiring on a project basis to stay agile. Learn how contract roles work, what benefits to negotiate, how to protect your income between contracts, and when to go permanent.',
-    readTime: '7 min read',
-    author: 'Rajesh Kumar',
-    date: 'Feb 22, 2025',
-    icon: Briefcase,
-    color: 'bg-yellow-50 text-yellow-700',
-  },
-  {
-    id: 'm11',
-    category: 'Gulf Jobs',
-    title: 'Complete Guide to Gulf Job Offers: Documents, Visa, and What to Negotiate',
-    summary: 'From educational certificate attestation to understanding your employment contract before signing — everything Indian professionals need to verify before relocating to UAE, KSA, Qatar, or Kuwait.',
-    readTime: '12 min read',
-    author: 'Anil Mehta',
-    date: 'Mar 8, 2025',
-    icon: Globe,
-    color: 'bg-purple-50 text-purple-700',
-  },
-  {
-    id: 'm12',
-    category: 'Gulf Jobs',
-    title: 'Gulf Salary Guide 2025: What Different Roles Actually Pay in UAE, Qatar & Saudi Arabia',
-    summary: 'Real salary ranges for 30+ roles across Engineering, Healthcare, IT, Finance, and Hospitality in the Gulf. Includes accommodation allowances, flight benefits, and negotiation benchmarks by country.',
-    readTime: '10 min read',
-    author: 'Priya Sharma',
-    date: 'Mar 3, 2025',
-    icon: Award,
-    color: 'bg-purple-50 text-purple-700',
-  },
-  {
-    id: 'm13',
-    category: 'Solutions',
-    title: 'Permanent Recruitment vs. Contract Staffing: Which Hiring Model Is Right for Your Business?',
-    summary: 'Understanding the difference between permanent and contract hiring helps you build the right team at the right cost. We break down when each model makes sense, what it costs, and what risks to watch out for.',
-    readTime: '7 min read',
-    author: 'Rajesh Kumar',
-    date: 'Mar 15, 2025',
-    icon: Briefcase,
-    color: 'bg-teal-50 text-teal-700',
-  },
-  {
-    id: 'm14',
-    category: 'Solutions',
-    title: 'Executive Search Demystified: How Top Companies Find C-Suite and Senior Leaders',
-    summary: 'Senior leadership hiring is fundamentally different from regular recruitment. Discover the retained search process, how candidates are evaluated at the C-suite level, and what employers should expect from an executive search partner.',
-    readTime: '9 min read',
-    author: 'Anil Mehta',
-    date: 'Mar 10, 2025',
-    icon: Star,
-    color: 'bg-teal-50 text-teal-700',
-  },
-  {
-    id: 'm15',
-    category: 'Solutions',
-    title: 'How International Recruitment Works: A Step-by-Step Guide for Employers',
-    summary: 'Hiring talent from India, South Asia, or Southeast Asia for your Gulf or European operations? This guide covers sourcing, screening, visa coordination, and onboarding — so you know exactly what to expect at each stage.',
-    readTime: '8 min read',
-    author: 'Priya Sharma',
-    date: 'Feb 25, 2025',
-    icon: Globe,
-    color: 'bg-teal-50 text-teal-700',
-  },
-];
-
 const STATS = [
   { value: 94, suffix: '%', label: 'Interview success rate for our prepared candidates' },
   { value: 40, suffix: '%', label: 'Average salary increase when switching with our support' },
@@ -305,27 +136,9 @@ const FaqItem = ({ q, a }: { q: string; a: string }) => {
 
 // ── Page ───────────────────────────────────────────────────────────────────
 const CareerAdvice = () => {
-  const { data, isLoading } = useQuery({ queryKey: ['career-advice'], queryFn: contentAPI.careerAdvice });
-  const apiArticles = data?.data?.results || data?.data || [];
+  const isLoading = false;
   const [activeCategory, setActiveCategory] = useState('All');
-
-  const CATEGORIES = ['All', 'Resume Tips', 'Interview Tips', 'Career Growth', 'Industry Trends', 'Gulf Jobs', 'Solutions'];
-
-  // Merge API articles (if any) with mock articles
-  const allArticles = [
-    ...apiArticles.map((a: any) => ({
-      id: a.id,
-      category: a.category || 'Career Growth',
-      title: a.title,
-      summary: a.excerpt || a.summary || '',
-      readTime: a.read_time || '5 min read',
-      author: a.author || 'Optimus Team',
-      date: new Date(a.created_at).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' }),
-      icon: BookOpen,
-      color: 'bg-gray-50 text-gray-700',
-    })),
-    ...MOCK_ARTICLES,
-  ];
+  const allArticles = MOCK_ARTICLES;
 
   const filteredArticles = activeCategory === 'All'
     ? allArticles
@@ -497,33 +310,38 @@ const CareerAdvice = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="card p-6 flex flex-col gap-4 hover:border-black/20 hover:shadow-md transition-all duration-300 group"
                 >
-                  {/* Category + icon */}
-                  <div className="flex items-center justify-between">
-                    <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full ${article.color}`}>
-                      <Icon className="w-3 h-3" />
-                      {article.category}
-                    </span>
-                    <span className="text-xs text-gray-medium font-body flex items-center gap-1">
-                      <Clock className="w-3 h-3" /> {article.readTime}
-                    </span>
-                  </div>
+                  <Link
+                    to={`/career-advice/${article.id}`}
+                    state={{ article }}
+                    className="card p-6 flex flex-col gap-4 hover:border-black/20 hover:shadow-md transition-all duration-300 group"
+                  >
+                    {/* Category + icon */}
+                    <div className="flex items-center justify-between">
+                      <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full ${article.color}`}>
+                        <Icon className="w-3 h-3" />
+                        {article.category}
+                      </span>
+                      <span className="text-xs text-gray-medium font-body flex items-center gap-1">
+                        <Clock className="w-3 h-3" /> {article.readTime}
+                      </span>
+                    </div>
 
-                  {/* Title */}
-                  <h3 className="font-heading font-semibold text-black text-sm leading-snug group-hover:underline underline-offset-2 line-clamp-3">
-                    {article.title}
-                  </h3>
+                    {/* Title */}
+                    <h3 className="font-heading font-semibold text-black text-sm leading-snug group-hover:underline underline-offset-2 line-clamp-3">
+                      {article.title}
+                    </h3>
 
-                  {/* Summary */}
-                  <p className="text-gray-medium text-xs font-body leading-relaxed line-clamp-3 flex-1">
-                    {article.summary}
-                  </p>
+                    {/* Summary */}
+                    <p className="text-gray-medium text-xs font-body leading-relaxed line-clamp-3 flex-1">
+                      {article.summary}
+                    </p>
 
-                  {/* Footer */}
-                  <div className="flex items-center justify-end pt-3 border-t border-gray-100">
-                    <span className="text-xs text-gray-light font-body">{article.date}</span>
-                  </div>
+                    {/* Footer */}
+                    <div className="flex items-center justify-end pt-3 border-t border-gray-100">
+                      <span className="text-xs text-gray-light font-body">{article.date}</span>
+                    </div>
+                  </Link>
                 </motion.div>
               );
             })}
@@ -620,7 +438,7 @@ const CareerAdvice = () => {
       {/* ── CTA ──────────────────────────────────────────────────────── */}
       <section className="py-20 bg-black text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <Briefcase className="w-12 h-12 text-white/20 mx-auto mb-6" />
+          {/* <Briefcase className="w-12 h-12 text-white/20 mx-auto mb-6" /> */}
           <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-5">
             Ready to Take the Next Step?
           </h2>

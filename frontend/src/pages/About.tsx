@@ -119,6 +119,8 @@ const LOCATIONS = [
   { city: 'Chennai', type: 'Regional Office', address: 'Anna Nagar, Chennai – 600040' },
 ];
 
+const TESTIMONIAL_RATINGS = [4, 5, 3.5, 4.5, 3];
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 const fadeUp = {
@@ -134,7 +136,7 @@ const About = () => {
     <main className="min-h-screen pt-0">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="bg-black text-white py-16 md:py-24 relative overflow-hidden">
+      <section className="bg-black text-white py-16 md:py-24 min-h-screen flex items-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-white rounded-full -ml-40 -mb-40" />
@@ -242,7 +244,7 @@ const About = () => {
             <motion.div key={name} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp}
               className="card p-6 text-center hover:border-black/20 transition-all group">
               <div className="relative h-24 mb-4 rounded-xl overflow-hidden border border-black/5">
-                <img src={image} alt={name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                <img src={image} alt={name} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/20 to-transparent" />
               </div>
               <p className="font-heading font-semibold text-black text-sm mb-1">{name}</p>
@@ -364,9 +366,31 @@ const About = () => {
               <h2 className="section-title">Candidate <span className="text-black">Success Stories</span></h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {reviews.map((t: any, i: number) => (
+              {reviews.map((t: any, i: number) => {
+                const rating = TESTIMONIAL_RATINGS[i % TESTIMONIAL_RATINGS.length];
+                return (
                 <motion.div key={t.id} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp} className="card p-7">
-                  <div className="flex gap-1 mb-4">{[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 fill-black text-black" />)}</div>
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(5)].map((_, j) => {
+                      const starValue = j + 1;
+                      const isFull = rating >= starValue;
+                      const isHalf = rating >= starValue - 0.5 && rating < starValue;
+                      return (
+                        <span key={j} className="relative w-3.5 h-3.5 inline-block">
+                          <Star className="w-3.5 h-3.5 text-black fill-transparent" />
+                          {isFull && (
+                            <Star className="absolute inset-0 w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                          )}
+                          {isHalf && !isFull && (
+                            <Star
+                              className="absolute inset-0 w-3.5 h-3.5 text-amber-400 fill-amber-400"
+                              style={{ clipPath: 'inset(0 50% 0 0)' }}
+                            />
+                          )}
+                        </span>
+                      );
+                    })}
+                  </div>
                   <p className="text-gray-medium text-sm font-body italic leading-relaxed mb-5">"{t.review}"</p>
                   <div className="flex items-center gap-3">
                     {t.photo ? (
@@ -380,45 +404,27 @@ const About = () => {
                     </div>
                   </div>
                 </motion.div>
-              ))}
+              )})}
             </div>
           </div>
         </section>
       )}
 
-      {/* ── OUR OFFICES ──────────────────────────────────────────────────── */}
-      <section className="py-20 max-w-7xl mx-auto px-4">
-        <div className="text-center mb-14">
-          <p className="section-tag mb-3">Our Presence</p>
-          <h2 className="section-title mb-4">Office <span className="text-black">Locations</span></h2>
-          <p className="text-gray-medium font-body max-w-xl mx-auto">
-            With offices across India's major metros, we're never far from the talent or clients we serve.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {LOCATIONS.map(({ city, type, address }, i) => (
-            <motion.div key={city} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp}
-              className="card p-7">
-              <MapPin className="w-5 h-5 text-black mb-4" />
-              <p className="font-heading font-semibold text-black text-base mb-1">{city}</p>
-              <p className="text-xs font-body text-black mb-3 inline-block bg-black/8 px-2 py-0.5">{type}</p>
-              <p className="text-gray-medium text-xs font-body leading-relaxed">{address}</p>
-            </motion.div>
-          ))}
-        </div>
-        {/* Contact strip */}
-        <div className="mt-10 card p-7 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <p className="font-heading font-semibold text-black text-base mb-1">Get in Touch</p>
-            <p className="text-gray-medium text-sm font-body">Our team is available Monday–Saturday, 9 AM – 7 PM IST.</p>
-          </div>
-          <div className="flex flex-wrap gap-6">
-            <a href="tel:+912222334455" className="flex items-center gap-2 text-sm font-body text-black hover:text-gray-medium transition-colors">
-              <Phone className="w-4 h-4" /> +91 22 2233 4455
-            </a>
-            <a href="mailto:info@optimusmanpower.com" className="flex items-center gap-2 text-sm font-body text-black hover:text-gray-medium transition-colors">
-              <Mail className="w-4 h-4" /> info@optimusmanpower.com
-            </a>
+      <section className="py-12 max-w-7xl mx-auto px-4">
+        <div className="card p-7 flex flex-col gap-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <p className="font-heading font-semibold text-black text-base mb-1">Get in Touch</p>
+              <p className="text-gray-medium text-sm font-body">Our team is available Mondayâ€“Saturday, 9 AM â€“ 7 PM IST.</p>
+            </div>
+            <div className="flex flex-wrap gap-6">
+              <a href="tel:+919092906907" className="flex items-center gap-2 text-sm font-body text-black hover:text-gray-medium transition-colors">
+                <Phone className="w-4 h-4" /> +91 90 92 906 907
+              </a>
+              <a href="mailto:info@optimusglobalhr.com" className="flex items-center gap-2 text-sm font-body text-black hover:text-gray-medium transition-colors">
+                <Mail className="w-4 h-4" /> info@optimusglobalhr.com
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -427,7 +433,7 @@ const About = () => {
       <section className="py-20 bg-black text-white">
         <div className="max-w-3xl mx-auto px-4 text-center">
           <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
-            <Award className="w-12 h-12 text-white/30 mx-auto mb-6" />
+            {/* <Award className="w-12 h-12 text-white/30 mx-auto mb-6" /> */}
             <h2 className="font-display font-black text-4xl md:text-5xl text-white mb-4">
               Ready to Work With Us?
             </h2>

@@ -96,20 +96,6 @@ const Jobs = () => {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 relative overflow-hidden">
-      {/* Premium Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Gradient Orbs */}
-        <motion.div
-          className="absolute top-0 -right-1/3 w-96 h-96 rounded-full bg-gradient-to-br from-blue-200/20 to-cyan-200/10 blur-3xl"
-          animate={{ y: [0, 50, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute -bottom-1/4 -left-1/3 w-80 h-80 rounded-full bg-gradient-to-tr from-indigo-200/20 to-purple-200/10 blur-3xl"
-          animate={{ y: [0, -40, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
 
       {/* Premium Header Section */}
       <div
@@ -121,6 +107,7 @@ const Jobs = () => {
           backgroundPosition: 'center',
         }}
       >
+        <div className="absolute inset-0 z-0 bg-gradient-to-br from-black/75 via-black/55 to-black/40" />
         <div className="max-w-7xl mx-auto w-full">
           <motion.div
             className="text-left max-w-3xl"

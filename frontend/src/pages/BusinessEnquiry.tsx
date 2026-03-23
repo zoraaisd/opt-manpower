@@ -19,7 +19,7 @@ const BusinessEnquiry = () => {
     e.preventDefault();
     setLoading(true); setError('');
     try {
-      await contentAPI.employerEnquiry({ ...form, number_of_positions: Number(form.number_of_positions) });
+      await contentAPI.employerEnquiry({ ...form, number_of_positions: Number(form.number_of_positions), subject: 'Business enquiry' });
       setSubmitted(true);
     } catch { setError('Failed to submit. Please try again or call us directly.'); }
     finally { setLoading(false); }
@@ -81,13 +81,13 @@ const BusinessEnquiry = () => {
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="bg-black text-white p-8 rounded-2xl">
               <h3 className="font-heading font-semibold text-lg mb-6">Need Immediate Assistance?</h3>
               <div className="space-y-5">
-                <a href="tel:+912222334455" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
+                <a href="tel:+919092906907" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
                   <div className="w-10 h-10 bg-white/10 rounded flex items-center justify-center">
                     <Phone className="w-5 h-5" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-xs font-body">Call Our Sales Team</p>
-                    <p className="font-heading font-semibold text-sm">+91 22 2233 4455</p>
+                    <p className="font-heading font-semibold text-sm">+91 90 92 906 907</p>
                   </div>
                 </a>
                 <a href="mailto:info@optimusmanpower.com" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
@@ -182,7 +182,7 @@ const BusinessEnquiry = () => {
 
                     <button type="submit" disabled={loading} className="btn-primary w-full h-14 justify-center text-base">
                       {loading ? (
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <>Submitted!</>
                       ) : (
                         <>Submit Requirement <ArrowRight className="w-5 h-5" /></>
                       )}

@@ -5,6 +5,7 @@ import {
   CheckCircle, ArrowRight, Shield, Zap, Target, Search 
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import CountUp from '../components/CountUp';
 
 const SOLUTIONS = [
   {
@@ -71,7 +72,7 @@ const Solutions = () => {
   return (
     <main className="min-h-screen pt-0">
       {/* ── Hero Section ── */}
-      <section className="bg-black text-white py-16 md:py-24 relative overflow-hidden">
+      <section className="bg-black text-white py-16 md:py-24 min-h-screen flex items-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48 blur-3xl" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-40 -mb-40 blur-3xl" />
@@ -136,9 +137,9 @@ const Solutions = () => {
                 viewport={{ once: true }} 
                 custom={i} 
                 variants={fadeUp}
-                className="bg-white border border-gray-light p-8 hover:border-black/20 transition-all hover:shadow-xl hover:shadow-black/5 group"
+                className="card-3d bg-white border border-gray-light p-8 hover:border-black/20 transition-all hover:shadow-xl hover:shadow-black/5 group"
               >
-                <div className={`w-12 h-12 ${s.color} flex items-center justify-center rounded-lg mb-6 group-hover:scale-110 transition-transform`}>
+                <div className={`w-12 h-12 ${s.color} flex items-center justify-center rounded-lg mb-6`}>
                   <s.icon className="w-6 h-6" />
                 </div>
                 <h3 className="font-heading font-semibold text-black text-lg mb-4">{s.title}</h3>
@@ -190,11 +191,40 @@ const Solutions = () => {
             </div>
             <div className="lg:w-1/2 relative">
               <div className="aspect-square bg-black/5 rounded-full p-12 relative">
-                <div className="w-full h-full border-2 border-dashed border-black/20 rounded-full animate-[spin_20s_linear_infinite]" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <p className="font-display font-black text-6xl text-black">98%</p>
-                    <p className="text-gray-medium font-body text-sm mt-2">Client Success Rate</p>
+                  <div className="relative w-56 h-56">
+                    <svg viewBox="0 0 180 180" className="w-full h-full -rotate-90">
+                      <circle
+                        cx="90"
+                        cy="90"
+                        r="72"
+                        fill="none"
+                        stroke="rgba(0,0,0,0.12)"
+                        strokeWidth="14"
+                      />
+                      <motion.circle
+                        cx="90"
+                        cy="90"
+                        r="72"
+                        fill="none"
+                        stroke="#000000"
+                        strokeWidth="14"
+                        strokeLinecap="round"
+                        strokeDasharray={2 * Math.PI * 72}
+                        initial={{ strokeDashoffset: 2 * Math.PI * 72 }}
+                        whileInView={{ strokeDashoffset: 2 * Math.PI * 72 * (1 - 0.98) }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.6, ease: 'easeOut' }}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <p className="font-display font-black text-6xl text-black">
+                          <CountUp value={98} suffix="%" />
+                        </p>
+                        <p className="text-gray-medium font-body text-sm mt-2">Client Success Rate</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -206,7 +236,7 @@ const Solutions = () => {
       {/* ── Final CTA ── */}
       <section className="py-24 bg-black text-white text-center rounded-3xl mx-4 mb-12">
         <div className="max-w-3xl mx-auto px-4">
-          <Target className="w-12 h-12 text-white/20 mx-auto mb-8" />
+          {/* <Target className="w-12 h-12 text-white/20 mx-auto mb-8" /> */}
           <h2 className="font-display font-black text-4xl md:text-5xl mb-6">Build Your Future Workforce Today</h2>
           <p className="text-gray-400 font-body text-lg mb-10">
             Join 500+ global brands who trust Optimus Manpower to find and secure top-tier talent.
