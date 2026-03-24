@@ -210,7 +210,7 @@ const CareerAdviceDetail = () => {
                 <h2 className="font-heading font-semibold text-black text-base mb-4">Related Articles</h2>
                 <div className="space-y-3">
                   {related.map((a) => (
-                    <Link key={a.id} to={`/career-advice/${a.id}`} state={{ article: a }}
+                    <Link key={a.id} to={`/career-advice/${a.id}`}
                       className="block text-sm font-body text-gray-700 hover:text-black transition-colors">
                       {a.title}
                     </Link>

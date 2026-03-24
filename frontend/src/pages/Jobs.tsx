@@ -100,19 +100,19 @@ const Jobs = () => {
       {/* Premium Header Section */}
       <div
         id="jobs-hero"
-        className="relative min-h-screen flex items-center px-4 pt-28 pb-12 bg-black"
+        className="relative min-h-[auto] md:min-h-screen flex items-center px-4 pt-20 md:pt-28 pb-10 md:pb-12 bg-black"
       >
         <div className="max-w-7xl mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 items-center text-center lg:text-left">
           <motion.div
-            className="text-left max-w-3xl"
+            className="text-center lg:text-left max-w-3xl mx-auto lg:mx-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
             {/* Badge */}
             <motion.div
-              className="inline-flex items-center justify-start gap-2 bg-black/40 border border-white/20 px-6 py-2.5 rounded-full mb-6 backdrop-blur-md shadow-lg"
+              className="inline-flex items-center justify-center lg:justify-start gap-2 bg-black/40 border border-white/20 px-4 py-2 rounded-full mb-5 md:mb-6 backdrop-blur-md shadow-lg"
               whileHover={{ scale: 1.05 }}
             >
               <motion.div
@@ -120,11 +120,11 @@ const Jobs = () => {
                 animate={{ scale: [1, 1.3, 1] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              <span className="text-xs font-display font-bold text-white tracking-widest uppercase">Premium Opportunities</span>
+              <span className="text-[10px] sm:text-xs font-display font-bold text-white tracking-[0.24em] sm:tracking-widest uppercase">Premium Opportunities</span>
             </motion.div>
 
             {/* Main Heading */}
-            <h1 className="hero-title hero-title-animate hero-title-glow text-5xl md:text-6xl lg:text-7xl leading-tight mb-6">
+            <h1 className="hero-title hero-title-animate hero-title-glow text-[2.75rem] sm:text-5xl md:text-6xl lg:text-7xl leading-[0.95] sm:leading-tight mb-5 md:mb-6">
               <span className="block text-white drop-shadow-md">
                 Discover Your
               </span>
@@ -134,48 +134,48 @@ const Jobs = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-lg md:text-xl text-gray-200 font-body mb-10 leading-relaxed max-w-2xl drop-shadow">
+            <p className="text-base sm:text-lg md:text-xl text-gray-200 font-body mb-8 md:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 drop-shadow">
               Connect with world-class companies and unlock career opportunities tailored to your expertise.
               <span className="block mt-2">Your next opportunity awaits.</span>
             </p>
 
             {/* Stats Row */}
             <motion.div
-              className="flex flex-wrap justify-start items-center gap-4 mb-12"
+              className="grid grid-cols-2 gap-3 mb-8 md:mb-10 sm:flex sm:flex-wrap sm:justify-center lg:justify-start sm:items-center sm:gap-4"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              <div className="text-left bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                <div className="text-4xl font-display font-black text-white drop-shadow">
+              <div className="text-center lg:text-left bg-white/10 border border-white/20 rounded-xl px-3 sm:px-4 py-3 backdrop-blur-sm w-full sm:w-auto">
+                <div className="text-3xl sm:text-4xl font-display font-black text-white drop-shadow">
                   {isLoading ? '...' : <CountUp value={totalCount} format="plain" />}
                 </div>
-                <div className="text-sm text-gray-200 font-body mt-1 uppercase tracking-wider font-semibold">Active Positions</div>
+                <div className="text-[11px] sm:text-sm text-gray-200 font-body mt-1 uppercase tracking-[0.18em] sm:tracking-wider font-semibold">Active Positions</div>
               </div>
-              <div className="text-left bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                <div className="text-4xl font-display font-black text-white drop-shadow">
+              <div className="text-center lg:text-left bg-white/10 border border-white/20 rounded-xl px-3 sm:px-4 py-3 backdrop-blur-sm w-full sm:w-auto">
+                <div className="text-3xl sm:text-4xl font-display font-black text-white drop-shadow">
                   <CountUp value={150} format="plain" suffix="+" />
                 </div>
-                <div className="text-sm text-gray-200 font-body mt-1 uppercase tracking-wider font-semibold">Companies</div>
+                <div className="text-[11px] sm:text-sm text-gray-200 font-body mt-1 uppercase tracking-[0.18em] sm:tracking-wider font-semibold">Companies</div>
               </div>
-              <div className="text-left bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                <div className="text-4xl font-display font-black text-white drop-shadow">
+              <div className="col-span-2 justify-self-center w-full max-w-[11rem] text-center lg:text-left bg-white/10 border border-white/20 rounded-xl px-3 sm:px-4 py-3 backdrop-blur-sm sm:w-auto sm:max-w-none sm:col-span-1 sm:justify-self-auto">
+                <div className="text-3xl sm:text-4xl font-display font-black text-white drop-shadow">
                   <CountUp value={50} format="plain" suffix="+" />
                 </div>
-                <div className="text-sm text-gray-200 font-body mt-1 uppercase tracking-wider font-semibold">Countries</div>
+                <div className="text-[11px] sm:text-sm text-gray-200 font-body mt-1 uppercase tracking-[0.18em] sm:tracking-wider font-semibold">Countries</div>
               </div>
             </motion.div>
 
             {/* Quick Filter Buttons - Left Aligned */}
             <motion.div
-              className="flex flex-wrap justify-start gap-3"
+              className="grid grid-cols-1 gap-3 sm:flex sm:flex-wrap sm:justify-center lg:justify-start"
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
               <button
                 onClick={() => setFilters(f => ({ ...f, is_international: '', page: 1 }))}
-                className={`group relative  px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden ${!filters.is_international
+                className={`group relative w-full sm:w-auto px-5 sm:px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden ${!filters.is_international
                     ? 'bg-white text-black border-2 border-white/60 shadow-lg'
                     : 'bg-white/10 text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/60'
                   }`}
@@ -187,7 +187,7 @@ const Jobs = () => {
 
               <button
                 onClick={() => setFilters(f => ({ ...f, is_international: 'false', page: 1 }))}
-                className={`group relative px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center gap-2 ${filters.is_international === 'false'
+                className={`group relative w-full sm:w-auto px-5 sm:px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center justify-center gap-2 ${filters.is_international === 'false'
                     ? 'bg-white text-black border-2 border-white/60 shadow-lg'
                     : 'bg-white/10 text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/60'
                   }`}
@@ -198,7 +198,7 @@ const Jobs = () => {
 
               <button
                 onClick={() => setFilters(f => ({ ...f, is_international: 'true', page: 1 }))}
-                className={`group relative px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center gap-2 ${filters.is_international === 'true'
+                className={`group relative w-full sm:w-auto px-5 sm:px-7 py-3 font-semibold text-sm rounded-full transition-all duration-300 overflow-hidden flex items-center justify-center gap-2 ${filters.is_international === 'true'
                     ? 'bg-white text-black border-2 border-white/60 shadow-lg'
                     : 'bg-white/10 text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/60'
                   }`}
@@ -212,13 +212,13 @@ const Jobs = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="relative w-full"
+            className="relative w-full mt-2 sm:mt-4 lg:mt-0"
           >
             <div className="relative rounded-3xl overflow-hidden border border-black/10 shadow-[0_24px_80px_rgba(0,0,0,0.18)]">
               <img
                 src={job}
                 alt="Jobs"
-                className="w-full h-[420px] md:h-[520px] object-cover"
+                className="w-full h-52 sm:h-80 md:h-[520px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
             </div>

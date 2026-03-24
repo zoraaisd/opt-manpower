@@ -136,22 +136,22 @@ const About = () => {
     <main className="min-h-screen pt-0">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="bg-black text-white py-16 md:py-24 min-h-screen flex items-center relative overflow-hidden">
+      <section className="bg-black text-white py-16 md:py-24 min-h-[85vh] md:min-h-screen flex items-center relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-white rounded-full -ml-40 -mb-40" />
         </div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[65%_35%] gap-12 items-center">
-            <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }} className="text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-[65%_35%] gap-12 items-center text-center lg:text-left">
+            <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }} className="text-center lg:text-left">
               <motion.p variants={fadeUp} className="hero-kicker text-gray-400 mb-4">Our Story</motion.p>
               <motion.h1 variants={fadeUp} className="hero-title hero-title-animate hero-title-glow text-5xl md:text-7xl text-white leading-tight max-w-4xl mb-6">
                 Premier Global <span className="text-gray-300">Recruitment & Staffing</span>
               </motion.h1>
-              <motion.p variants={fadeUp} className="text-gray-300 font-body text-lg leading-relaxed max-w-2xl mb-10">
+              <motion.p variants={fadeUp} className="text-gray-300 font-body text-lg leading-relaxed max-w-2xl mb-10 mx-auto lg:mx-0">
                 Optimus Manpower stands at the forefront of global talent acquisition and strategic staffing. With over 15 years of excellence, we empower organizations across India and the Middle East by delivering exceptional workforce solutions one successful placement at a time.
               </motion.p>
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-4 justify-center lg:justify-start">
                 <Link to="/jobs" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black font-heading font-semibold text-sm rounded-full hover:bg-gray-100 transition-all">
                   Explore Opportunities <ArrowRight className="w-4 h-4" />
                 </Link>

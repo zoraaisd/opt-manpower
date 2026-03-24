@@ -309,7 +309,6 @@ const CareerAdvice = () => {
                 <MotionLink
                   key={article.id}
                   to={`/career-advice/${article.id}`}
-                  state={{ article }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -368,13 +367,7 @@ const CareerAdvice = () => {
                 <Lightbulb className="w-6 h-6 text-black/20 mb-4" />
                 <p className="text-gray-dark text-sm font-body italic leading-relaxed mb-6">"{quote}"</p>
                 <div className="flex items-center gap-3 mt-auto">
-                  <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center font-display font-bold text-black text-xs shrink-0">
-                    {initials}
-                  </div>
-                  <div>
-                    <p className="font-heading font-semibold text-black text-xs">{expert}</p>
-                    <p className="text-gray-light text-xs font-body">{title}</p>
-                  </div>
+                  
                 </div>
               </motion.div>
             ))}

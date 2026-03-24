@@ -33,11 +33,11 @@ const Footer = () => {
                 <a href="mailto:info@optimusglobalhr.com" className="hover:text-white transition-colors truncate">info@optimusglobalhr.com</a>
               </div>
             </div>
-            <div className="mt-4 w-full max-w-sm overflow-hidden rounded-xl border border-gray-700">
+            <div className="mt-4 hidden w-full max-w-sm overflow-hidden rounded-xl border border-gray-700 md:block">
               <iframe
                 title="Optimus Manpower Office Location"
                 src="https://www.google.com/maps?q=12.9697456,80.2485552&z=17&output=embed"
-                className="w-full h-40"
+                className="h-40 w-full"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               />
@@ -83,26 +83,41 @@ const Footer = () => {
 
             {/* Employers + Career Advice */}
             <div className="col-span-2 md:col-span-1">
-              <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-widest mb-4">Employers</h4>
-              <ul className="space-y-2.5 mb-5">
-                {[
-                  { label: 'Business Enquiry', to: '/business-enquiry' },
-                  { label: 'Solutions', to: '/solutions' },
-                  { label: 'Post a Job', to: '/business-enquiry' },
-                ].map(({ label, to }) => (
-                  <li key={label}>
-                    <Link to={to} onClick={() => window.scrollTo(0, 0)} className="text-gray-400 text-xs font-body hover:text-white transition-colors">{label}</Link>
-                  </li>
-                ))}
-              </ul>
-              <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-widest mb-4">Career Advice</h4>
-              <ul className="space-y-2.5">
-                {['Resume Tips', 'Interview Tips', 'Career Growth'].map((item) => (
-                  <li key={item}>
-                    <Link to="/career-advice" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 text-xs font-body hover:text-white transition-colors">{item}</Link>
-                  </li>
-                ))}
-              </ul>
+              <div className="flex items-start justify-between gap-4 md:block">
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-widest mb-4">Employers</h4>
+                  <ul className="space-y-2.5 mb-5">
+                    {[
+                      { label: 'Business Enquiry', to: '/business-enquiry' },
+                      { label: 'Solutions', to: '/solutions' },
+                      { label: 'Post a Job', to: '/business-enquiry' },
+                    ].map(({ label, to }) => (
+                      <li key={label}>
+                        <Link to={to} onClick={() => window.scrollTo(0, 0)} className="text-gray-400 text-xs font-body hover:text-white transition-colors">{label}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <h4 className="text-white font-heading font-semibold text-xs uppercase tracking-widest mb-4">Career Advice</h4>
+                  <ul className="space-y-2.5">
+                    {['Resume Tips', 'Interview Tips', 'Career Growth'].map((item) => (
+                      <li key={item}>
+                        <Link to="/career-advice" onClick={() => window.scrollTo(0, 0)} className="text-gray-400 text-xs font-body hover:text-white transition-colors">{item}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="shrink-0 md:hidden">
+                  <div className="w-44 overflow-hidden rounded-xl border border-gray-700">
+                    <iframe
+                      title="Optimus Manpower Office Location Mobile"
+                      src="https://www.google.com/maps?q=12.9697456,80.2485552&z=17&output=embed"
+                      className="h-36 w-full"
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -114,21 +129,21 @@ const Footer = () => {
           </p>
           <div className="flex items-center gap-3">
             {[
-              { icon: Linkedin, href: 'https://www.linkedin.com/company/optimus-global-manpower/', label: 'LinkedIn' },
-              { icon: Facebook, href: 'https://www.facebook.com/people/Optimus-Global-Manpower/61578491547950/', label: 'Facebook' },
-              { icon: Instagram, href: 'https://www.instagram.com/optimusglobalhr', label: 'Instagram' },
-              { icon: XIcon, href: 'https://x.com/optimusglobalhr', label: 'X' },
-              { icon: Youtube, href: 'https://www.youtube.com/@optimusglobalhr', label: 'Youtube' },
-            ].map(({ icon: Icon, href, label }) => (
+              { icon: Linkedin, href: 'https://www.linkedin.com/company/optimus-global-manpower/', label: 'LinkedIn', className: 'bg-[#0A66C2] text-white border-[#0A66C2] hover:scale-105 hover:shadow-[0_0_18px_rgba(10,102,194,0.45)]' },
+              { icon: Facebook, href: 'https://www.facebook.com/people/Optimus-Global-Manpower/61578491547950/', label: 'Facebook', className: 'bg-[#1877F2] text-white border-[#1877F2] hover:scale-105 hover:shadow-[0_0_18px_rgba(24,119,242,0.45)]' },
+              { icon: Instagram, href: 'https://www.instagram.com/optimusglobalhr', label: 'Instagram', className: 'bg-gradient-to-br from-[#F9CE34] via-[#EE2A7B] to-[#6228D7] text-white border-[#EE2A7B]/40 hover:scale-105 hover:shadow-[0_0_18px_rgba(238,42,123,0.45)]' },
+              { icon: XIcon, href: 'https://x.com/optimusglobalhr', label: 'X', className: 'bg-black text-white border-white/20 hover:scale-105 hover:shadow-[0_0_18px_rgba(255,255,255,0.18)]' },
+              { icon: Youtube, href: 'https://www.youtube.com/@optimusglobalhr', label: 'Youtube', className: 'bg-[#FF0000] text-white border-[#FF0000] hover:scale-105 hover:shadow-[0_0_18px_rgba(255,0,0,0.45)]' },
+            ].map(({ icon: Icon, href, label, className }) => (
               <a
                 key={href}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="w-9 h-9 border border-gray-700 flex items-center justify-center text-gray-400 hover:border-gray-400 hover:text-white transition-all duration-200"
+                className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all duration-200 ${className}`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-4 h-4" />
               </a>
             ))}
           </div>

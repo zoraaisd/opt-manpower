@@ -75,9 +75,9 @@ const EmployerHome = () => {
   };
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white overflow-x-hidden">
       {/* ── Premium Hero ── */}
-      <section className="relative min-h-screen flex items-center pt-32">
+      <section className="relative min-h-[85vh] md:min-h-screen flex items-center pt-24 md:pt-32">
         {/* Gradient Background */}
         <div className="absolute inset-0 z-0">
           <img src={heroBg} alt="Business team" className="w-full h-full object-cover opacity-22" />
@@ -85,11 +85,11 @@ const EmployerHome = () => {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 w-full">
-          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.15 } } }} className="grid lg:grid-cols-2 gap-16 items-center">
+          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.15 } } }} className="grid lg:grid-cols-2 gap-16 items-center text-center lg:text-left">
             {/* Left Column */}
-            <div className="h-full flex flex-col">
+            <div className="h-full flex flex-col items-center lg:items-start">
               <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="mb-8">
-                <div className="inline-flex items-center gap-2 bg-black/8 border border-black/20 px-4 py-2 mb-6 rounded">
+                <div className="inline-flex items-center justify-center lg:justify-start gap-2 bg-black/8 border border-black/20 px-4 py-2 mb-6 rounded">
                   <Building2 className="w-4 h-4 text-black" />
                   <span className="text-xs font-display font-semibold tracking-[0.45em] uppercase text-black">EMPLOYER SOLUTIONS</span>
                 </div>
@@ -100,29 +100,37 @@ const EmployerHome = () => {
                   borderColor="#5227FF"
                   animationDuration={0.5}
                   pauseBetweenAnimations={1}
+                  className="mx-auto max-w-[16rem] gap-x-3 gap-y-1 sm:max-w-none sm:gap-4 lg:mx-0"
+                  wordClassName="text-[2.2rem] sm:text-[3rem]"
                 />
-                <p className="text-base text-gray-800 font-heading leading-relaxed max-w-lg">
+                <p className="text-base text-gray-800 font-heading leading-relaxed max-w-lg mx-auto lg:mx-0">
                   Access pre-vetted, interview-ready talent across 20+ industries. From general staffing to executive search - we deliver results in record time.
                 </p>
               </motion.div>
 
               {/* Mini Stats */}
-              <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="flex flex-wrap gap-4 mt-10 mb-10">
-                <div className="bg-black/5 border border-black/10 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-black text-3xl text-black">
-                    <CountUp value={10000} format="compact" suffix="+" />
+              <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="grid grid-cols-2 gap-4 mt-10 mb-10 w-full max-w-sm mx-auto lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                <div className="bg-black/5 border border-black/10 rounded-xl px-4 py-3 backdrop-blur-sm text-center lg:text-left">
+                  <p className="font-display font-black text-3xl text-black tabular-nums">
+                    <span className="inline-flex min-w-[4ch] justify-center lg:justify-start">
+                      <CountUp value={10000} format="compact" suffix="+" />
+                    </span>
                   </p>
                   <p className="text-xs text-gray-medium font-body mt-1">Candidates</p>
                 </div>
-                <div className="bg-black/5 border border-black/10 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-black text-3xl text-black">
-                    <CountUp value={14} />
+                <div className="bg-black/5 border border-black/10 rounded-xl px-4 py-3 backdrop-blur-sm text-center lg:text-left">
+                  <p className="font-display font-black text-3xl text-black tabular-nums">
+                    <span className="inline-flex min-w-[3ch] justify-center lg:justify-start">
+                      <CountUp value={14} />
+                    </span>
                   </p>
                   <p className="text-xs text-gray-medium font-body mt-1">Days Average</p>
                 </div>
-                <div className="bg-black/5 border border-black/10 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-black text-3xl text-black">
-                    <CountUp value={500} format="plain" suffix="+" />
+                <div className="col-span-2 justify-self-center w-full max-w-[11rem] bg-black/5 border border-black/10 rounded-xl px-4 py-3 backdrop-blur-sm text-center lg:col-span-1 lg:max-w-none lg:justify-self-auto lg:text-left">
+                  <p className="font-display font-black text-3xl text-black tabular-nums">
+                    <span className="inline-flex min-w-[4ch] justify-center lg:justify-start">
+                      <CountUp value={500} format="plain" suffix="+" />
+                    </span>
                   </p>
                   <p className="text-xs text-gray-medium font-body mt-1">Companies</p>
                 </div>
@@ -130,7 +138,7 @@ const EmployerHome = () => {
             </div>
 
             {/* Right Column - Premium Visual Card */}
-            <motion.div variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { delay: 0.3 } } }}>
+            <motion.div variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { delay: 0.3 } } }} className="w-full max-w-xl mx-auto lg:mx-0">
               <div className="relative">
                 <div className="card-3d bg-white rounded-2xl shadow-[0_20px_80px_rgba(0,0,0,0.1)] p-10 border border-black/5 space-y-8">
                   <div>
