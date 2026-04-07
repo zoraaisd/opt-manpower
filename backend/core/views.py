@@ -25,6 +25,14 @@ from .tasks import send_application_confirmation, notify_admin_new_application, 
 
 User = get_user_model()
 
+class HealthCheckView(APIView):
+    permission_classes = [permissions.AllowAny]
+    authentication_classes = []
+    throttle_classes = []
+
+    def get(self, request):
+        return Response({'status': 'ok'})
+
 # ── Permissions ───────────────────────────────────────────────────────────────
 
 class IsAdmin(permissions.BasePermission):

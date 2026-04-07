@@ -3,6 +3,8 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from . import views
 
 urlpatterns = [
+    path('health/', views.HealthCheckView.as_view(), name='health'),
+
     # ── Auth ──────────────────────────────────────────────────────────────────
     path('login/', views.LoginView.as_view(), name='login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

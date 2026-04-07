@@ -8,7 +8,44 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'optimus.settings')
 django.setup()
 
+from django.contrib.auth import get_user_model
 from core.models import Job, Testimonial
+
+
+def ensure_admin_from_env():
+    """
+    Create or update admin user using environment variables only.
+    Required env vars:
+    - DJANGO_SUPERUSER_EMAIL
+    - DJANGO_SUPERUSER_PASSWORD
+    """
+    email = os.getenv("DJANGO_SUPERUSER_EMAIL", "").strip().lower()
+    password = os.getenv("DJANGO_SUPERUSER_PASSWORD", "")
+
+    if not email or not password:
+        print("Skipped admin setup: set DJANGO_SUPERUSER_EMAIL and DJANGO_SUPERUSER_PASSWORD.")
+        return
+
+    User = get_user_model()
+    user, created = User.objects.get_or_create(
+        email=email,
+        defaults={
+            "role": "admin",
+            "is_staff": True,
+            "is_superuser": True,
+        },
+    )
+
+    user.role = "admin"
+    user.is_staff = True
+    user.is_superuser = True
+    user.set_password(password)
+    user.save()
+
+    if created:
+        print(f"Created admin user from env: {email}")
+    else:
+        print(f"Updated admin user from env: {email}")
 
 # ─── CLEAR EXISTING ───────────────────────────────────────────────────────────
 Job.objects.all().delete()
@@ -182,10 +219,10 @@ for t in testimonials_data:
     Testimonial.objects.create(**t)
 
 print(f"Created {len(testimonials_data)} testimonials.")
+ensure_admin_from_env()
 print("\nSeed data complete! The platform is ready.")
 print("   Frontend: http://localhost:5173")
 print("   Backend API: http://localhost:8000/api/")
-print("   Admin: admin@optimusmanpower.com / Admin@123")
 
 
 

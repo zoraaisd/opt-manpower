@@ -4,9 +4,10 @@ from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env_path = BASE_DIR.parent / '.env'
-if env_path.exists():
-    with open(env_path, encoding='utf-8') as f:
+def _load_env_file(path: Path) -> None:
+    if not path.exists():
+        return
+    with open(path, encoding='utf-8') as f:
         for line in f:
             if line.strip() and not line.strip().startswith('#'):
                 try:
@@ -15,10 +16,14 @@ if env_path.exists():
                 except ValueError:
                     pass
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-dummy-key-for-dev')
-DEBUG = os.getenv('DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
+_load_env_file(BASE_DIR / '.env')
+_load_env_file(BASE_DIR.parent / '.env')
+
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'django-insecure-dummy-key-for-dev')
+DEBUG = os.getenv('DEBUG', '0') == '1'
+
+ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',') if h.strip()]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,6 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -94,6 +100,9 @@ USE_TZ = True
 # ── Static & Media ────────────────────────────────────────────────────────────
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -151,6 +160,10 @@ else:
 
 CORS_ALLOW_CREDENTIALS = True
 
+_csrf_origins = os.getenv('CSRF_TRUSTED_ORIGINS', '')
+if _csrf_origins:
+    CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf_origins.split(',') if o.strip()]
+
 # ── Cache (in-process memory cache - no Redis needed) ────────────────────────
 CACHES = {
     "default": {
@@ -171,11 +184,17 @@ ADMIN_NOTIFICATION_EMAIL = os.getenv('ADMIN_NOTIFICATION_EMAIL', 'optimusglobalh
 
 # ── Security (production hardening) ──────────────────────────────────────────
 if not DEBUG:
+    if SECRET_KEY == 'django-insecure-dummy-key-for-dev':
+        raise ValueError('DJANGO_SECRET_KEY must be set in production')
+
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
     X_FRAME_OPTIONS = 'DENY'
-    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_SECONDS = int(os.getenv('SECURE_HSTS_SECONDS', '31536000'))
     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
     SECURE_HSTS_PRELOAD = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    USE_X_FORWARDED_HOST = True
+    SECURE_SSL_REDIRECT = os.getenv('SECURE_SSL_REDIRECT', '1') == '1'
