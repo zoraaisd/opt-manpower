@@ -31,7 +31,7 @@ const TOPIC_GUIDES = [
   {
     icon: Target,
     title: 'Interview Preparation Blueprint',
-    desc: 'A complete framework for researching companies, preparing answers, and navigating every stage from HR screening to final round.',
+    desc: 'A complete framework for researching companies, preparing answers and navigating every stage from HR screening to final round.',
     topics: ['Research framework & company analysis', 'Common question bank with STAR answers', 'Salary negotiation tactics', 'Post-interview follow-up templates'],
     readTime: '15 min read',
   },
@@ -65,7 +65,7 @@ const EXPERT_INSIGHTS = [
     initials: 'AM',
   },
   {
-    quote: 'Candidates who get hired fastest are the ones who are genuinely prepared-they\'ve researched the company, know why they want the role, and can articulate their value clearly.',
+    quote: 'Candidates who get hired fastest are the ones who are genuinely prepared-they\'ve researched the company, know why they want the role and can articulate their value clearly.',
     expert: 'Rajesh Kumar',
     title: 'Founder & CEO, Optimus Manpower',
     initials: 'RK',
@@ -92,7 +92,7 @@ const FAQS = [
   },
   {
     q: 'What documents do I need for Gulf placements?',
-    a: 'You\'ll need: valid passport (2+ years validity), educational certificates with MEA attestation, experience letters, police clearance certificate, and a medical fitness certificate. We guide you through every step.',
+    a: 'You\'ll need: valid passport (2+ years validity), educational certificates with MEA attestation, experience letters, police clearance certificate and a medical fitness certificate. We guide you through every step.',
   },
   {
     q: 'How do I know if a Gulf job offer is legitimate?',
@@ -100,7 +100,7 @@ const FAQS = [
   },
   {
     q: 'What is the best way to negotiate salary?',
-    a: 'Research market rates on AmbitionBox, Glassdoor, and LinkedIn Salary. Let the employer name a number first. Then counter with data: "Based on my research and X years of experience, I was expecting Y–Z." Always negotiate respectfully and in writing.',
+    a: 'Research market rates on AmbitionBox, Glassdoor and LinkedIn Salary. Let the employer name a number first. Then counter with data: "Based on my research and X years of experience, I was expecting Y–Z." Always negotiate respectfully and in writing.',
   },
 ];
 
@@ -150,19 +150,19 @@ const CareerAdvice = () => {
     <main className="min-h-screen pt-0 bg-gray-50/30">
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="bg-black text-white min-h-screen flex items-center py-14 md:py-20 relative overflow-hidden border-b border-gray-800">
+      <section className="relative overflow-hidden border-b border-gray-800 bg-black py-8 text-white md:flex md:min-h-screen md:items-center md:py-20">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-80 h-80 bg-white rounded-full -mr-40 -mt-40" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-[1.3fr_0.7fr] gap-10 items-end">
+        <div className="relative z-10 mx-auto max-w-7xl px-4">
+          <div className="grid grid-cols-1 gap-8 items-stretch md:grid-cols-[1.1fr_0.9fr] md:gap-10">
             <div>
               <p className="hero-kicker text-gray-400 mb-4">Expert Knowledge Hub</p>
-              <h1 className="hero-title hero-title-animate hero-title-glow text-5xl md:text-6xl text-white leading-tight mb-5">
+              <h1 className="hero-title hero-title-animate hero-title-glow mb-4 text-4xl leading-tight text-white sm:text-5xl md:mb-5 md:text-6xl">
                 Career <span className="text-gray-300">Advice</span>
               </h1>
-              <p className="text-gray-300 font-body text-base leading-relaxed mb-8">
-                Industry-leading insights, expert resume tips, and interview strategies from our seasoned recruitment professionals - to help you land the right role, faster.
+              <p className="mb-6 text-sm font-body leading-relaxed text-gray-300 sm:text-base md:mb-8">
+                Industry-leading insights, expert resume tips and interview strategies from our seasoned recruitment professionals - to help you land the right role, faster.
               </p>
               <div className="flex flex-wrap items-center gap-3 text-xs font-body text-gray-300">
                 <span className="bg-white/10 border border-white/20 rounded-full px-3 py-1 backdrop-blur-sm">✍ 50+ Expert Articles</span>
@@ -171,22 +171,61 @@ const CareerAdvice = () => {
                 <span className="bg-white/10 border border-white/20 rounded-full px-3 py-1 backdrop-blur-sm">✅ ATS‑Ready Tips</span>
               </div>
             </div>
-            <div className="flex flex-wrap gap-4 md:justify-end">
-              <Link to="/jobs" className="btn-primary bg-white text-black hover:bg-gray-100">
-                Explore Jobs <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link to="/contact" className="btn-outline border-white/40 text-white hover:bg-white/10">
-                Get Expert Help
-              </Link>
+            <div className="flex flex-col justify-between gap-5 rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur-sm md:p-6">
+              <div>
+                <p className="mb-3 text-[11px] font-display font-bold uppercase tracking-[0.22em] text-gray-400">What You Get</p>
+                <div className="space-y-3">
+                  {[
+                    { icon: BookOpen, title: 'Deep Guides', text: 'Structured step-by-step playbooks for resumes, interviews, negotiation and international job moves.' },
+                    { icon: Briefcase, title: 'Practical Templates', text: 'Real-world prompts, frameworks and examples you can use in your next application cycle.' },
+                    { icon: Lightbulb, title: 'Recruiter Insight', text: 'Advice shaped by what hiring teams actually notice when shortlisting and interviewing candidates.' },
+                  ].map(({ icon: Icon, title, text }) => (
+                    <div key={title} className="flex items-start gap-3 rounded-2xl border border-white/8 bg-black/20 p-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/10">
+                        <Icon className="h-4 w-4 text-white" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-heading font-semibold text-white">{title}</p>
+                        <p className="mt-1 text-xs font-body leading-relaxed text-gray-300">{text}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="grid grid-cols-2 gap-3 mb-5">
+                  {[
+                    { value: '50+', label: 'articles' },
+                    { value: '1,200+', label: 'consults' },
+                    { value: '15+', label: 'years' },
+                    { value: 'India + Gulf', label: 'focus' },
+                  ].map(({ value, label }) => (
+                    <div key={label} className="rounded-2xl border border-white/10 bg-black/20 px-3 py-3 text-center">
+                      <p className="text-lg font-display font-black text-white">{value}</p>
+                      <p className="mt-1 text-[10px] font-body uppercase tracking-[0.16em] text-gray-400">{label}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap gap-3 md:gap-4">
+                  <Link to="/jobs" className="btn-primary bg-white text-black hover:bg-gray-100">
+                    Explore Jobs <ArrowRight className="w-4 h-4" />
+                  </Link>
+                  <Link to="/contact" className="btn-outline border-white/40 text-white hover:bg-white/10">
+                    Get Expert Help
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── STATS STRIP ──────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-gray-light py-10">
+      <section className="bg-white border-b border-gray-light py-8 md:py-10">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+          <div className="grid grid-cols-2 gap-5 text-center md:gap-8 lg:grid-cols-4">
             {STATS.map(({ value, suffix, label }, i) => (
               <motion.div key={value} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp}>
                 <p className="font-display font-black text-4xl text-black">
@@ -338,7 +377,7 @@ const CareerAdvice = () => {
 
                   {/* Footer */}
                   <div className="flex items-center justify-end pt-3 border-t border-gray-100">
-                    <span className="text-xs text-gray-light font-body">{article.date}</span>
+                    <span className="text-xs text-gray-dark font-body">{article.date}</span>
                   </div>
                 </MotionLink>
               );
@@ -405,7 +444,7 @@ const CareerAdvice = () => {
             </table>
           </div>
           <div className="bg-gray-50 px-6 py-4 border-t border-gray-light">
-            <p className="text-gray-light text-xs font-body">* Ranges are indicative and vary based on location, company size, education, and specific experience. Source: Optimus Manpower placement data 2024–2025.</p>
+            <p className="text-gray-dark text-xs font-body">* Ranges are indicative and vary based on location, company size, education and specific experience. Source: Optimus Manpower placement data 2024–2025.</p>
           </div>
         </div>
       </section>

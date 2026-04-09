@@ -1,10 +1,20 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Users, Globe, Layers, Cpu, Award, TrendingUp, Clock, Star, Building2 } from 'lucide-react';
-import { contentAPI } from '../services/api';
 import AuthModal from '../components/AuthModal';
 import CountUp from '../components/CountUp';
 import TrueFocus from './TrueFocus';
+import {
+  PHONE_LENGTH,
+  sanitizeDigits,
+  sanitizeEmail,
+  sanitizeName,
+  sanitizeText,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from '../utils/formValidation';
+import { submitEnquiry } from '../features/enquiries/service';
 
 // Hero Background
 import heroBg from '../asserts/free-pik 3.webp';
@@ -61,14 +71,62 @@ const EmployerHome = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    let nextValue = value;
+
+    if (name === 'contact_person') {
+      nextValue = sanitizeName(value);
+    } else if (name === 'email') {
+      nextValue = sanitizeEmail(value);
+    } else if (name === 'phone') {
+      nextValue = sanitizeDigits(value);
+    } else {
+      nextValue = sanitizeText(value);
+    }
+
+    setForm(f => ({ ...f, [name]: nextValue }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const payload = {
+      ...form,
+      company_name: form.company_name.trim(),
+      contact_person: form.contact_person.trim(),
+      email: sanitizeEmail(form.email),
+      phone: sanitizeDigits(form.phone),
+      hiring_requirement: form.hiring_requirement.trim(),
+      job_location: form.job_location.trim(),
+      message: form.message.trim(),
+      number_of_positions: form.number_of_positions,
+    };
+
+    if (!payload.company_name) { setError('Company Name is required.'); return; }
+    if (!isValidName(payload.contact_person)) { setError('Contact Person should contain only letters, single spaces, and be at most 30 characters.'); return; }
+    if (!isValidEmail(payload.email)) { setError('Enter a valid email address without spaces.'); return; }
+    if (!isValidPhone(payload.phone)) { setError(`Phone Number must contain exactly ${PHONE_LENGTH} digits.`); return; }
+    if (!payload.hiring_requirement) { setError('Hiring Requirement is required.'); return; }
+    if (!payload.job_location) { setError('Job Location is required.'); return; }
+    if (!payload.number_of_positions || Number(payload.number_of_positions) < 1) { setError('Number of Positions must be at least 1.'); return; }
+
     setLoading(true); setError('');
     try {
-      await contentAPI.employerEnquiry({ ...form, number_of_positions: Number(form.number_of_positions), subject: 'Business enquiry' });
+      await submitEnquiry(
+        {
+          ...payload,
+          number_of_positions: Number(payload.number_of_positions),
+          metadata: {
+            form_source: 'employer-home'
+          }
+        },
+        {
+          formType: 'employer-home',
+          subject: 'Business enquiry',
+          enquiryType: payload.hiring_requirement,
+          serviceInterestedIn: payload.job_location
+        }
+      );
       setSubmitted(true);
     } catch { setError('Failed to submit. Please try again or call us directly.'); }
     finally { setLoading(false); }
@@ -95,6 +153,7 @@ const EmployerHome = () => {
                 </div>
                 <TrueFocus 
                   sentence="Build Your Elite Team"
+                  groupSize={2}
                   manualMode={false}
                   blurAmount={5}
                   borderColor="#5227FF"
@@ -147,7 +206,7 @@ const EmployerHome = () => {
                       {['24-hour delivery on first candidate', 'Pre-screened & interview-ready talent', 'Zero upfront charges, transparent pricing', 'Pan-India & global talent network'].map((item, i) => (
                         <li key={i} className="flex items-center gap-3">
                           <CheckCircle className="w-5 h-5 text-black shrink-0" />
-                          <span className="text-sm font-body text-gray-medium">{item}</span>
+                          <span className="text-sm font-body text-gray-dark">{item}</span>
                         </li>
                       ))}
                     </ul>
@@ -229,7 +288,7 @@ const EmployerHome = () => {
               Why We're Your <span className="text-black">Hiring Partner</span>
             </h2>
             <p className="text-gray-medium font-body max-w-2xl mx-auto mt-4">
-              We combine advanced technology, industry expertise, and a vast talent pool to deliver results that exceed expectations.
+              We combine advanced technology, industry expertise and a vast talent pool to deliver results that exceed expectations.
             </p>
             <div className="accent-line mt-6 mx-auto" />
           </motion.div>
@@ -245,7 +304,7 @@ const EmployerHome = () => {
                       <CheckCircle className="w-5 h-5 text-black" />
                     </div>
                     <div>
-                      <p className="text-gray-medium text-sm font-body leading-relaxed">{point}</p>
+                      <p className="text-gray-dark text-sm font-body leading-relaxed">{point}</p>
                     </div>
                   </motion.div>
                 ))}
@@ -325,6 +384,8 @@ const EmployerHome = () => {
                     name={name} 
                     value={(form as any)[name]} 
                     onChange={handleChange} 
+                    maxLength={name === 'contact_person' ? 30 : name === 'phone' ? PHONE_LENGTH : undefined}
+                    inputMode={name === 'phone' ? 'numeric' : name === 'number_of_positions' ? 'numeric' : undefined}
                     placeholder={placeholder}
                     required={required} 
                     className="w-full px-5 py-3.5 bg-white border border-gray-light text-black placeholder-gray-medium text-sm font-body focus:outline-none focus:border-black focus:ring-2 focus:ring-black/10 transition-all duration-300 rounded-lg"

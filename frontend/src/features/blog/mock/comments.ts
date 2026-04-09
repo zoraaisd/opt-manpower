@@ -1,0 +1,48 @@
+import type { Comment } from '../types';
+
+export const comments: Comment[] = [
+  {
+    id: '1',
+    blog_id: '1',
+    name: 'Ritika Sharma',
+    email: 'ritika@example.com',
+    content: 'This breakdown of workforce planning is excellent. The point about aligning hiring with operational readiness is especially useful.',
+    status: 'APPROVED',
+    created_at: '2026-04-04T13:15:00.000Z',
+    updated_at: '2026-04-04T13:15:00.000Z',
+    deleted_at: null,
+  },
+  {
+    id: '2',
+    blog_id: '1',
+    name: 'Faisal Ahmed',
+    email: 'faisal@example.com',
+    content: 'We recently tightened our interview loops and saw a big improvement in offer acceptance. Great article.',
+    status: 'APPROVED',
+    created_at: '2026-04-04T15:45:00.000Z',
+    updated_at: '2026-04-04T15:45:00.000Z',
+    deleted_at: null,
+  },
+  {
+    id: '3',
+    blog_id: '2',
+    name: 'Neha Kapoor',
+    email: 'neha@example.com',
+    content: 'The candidate expectation section matches what we are seeing in our own hiring funnels.',
+    status: 'APPROVED',
+    created_at: '2026-04-03T09:20:00.000Z',
+    updated_at: '2026-04-03T09:20:00.000Z',
+    deleted_at: null,
+  },
+  {
+    id: '4',
+    blog_id: '4',
+    name: 'Mohamed Khan',
+    email: 'mohamed@example.com',
+    content: 'Specific proof points really do matter more than slogans. Helpful reminder for employer branding teams.',
+    status: 'APPROVED',
+    created_at: '2026-03-27T16:05:00.000Z',
+    updated_at: '2026-03-27T16:05:00.000Z',
+    deleted_at: null,
+  },
+];

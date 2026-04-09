@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, Filter, X, ChevronLeft, ChevronRight, Globe, MapPin, Sparkles, TrendingUp } from 'lucide-react';
 import { jobsAPI } from '../services/api';
@@ -16,6 +16,7 @@ const EXPERIENCE_LEVELS = ['Fresher (0-1 yr)', '1-3 years', '3-5 years', '5-8 ye
 
 const Jobs = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const [authModal, setAuthModal] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const searchRef = useRef<HTMLDivElement | null>(null);
@@ -94,16 +95,27 @@ const Jobs = () => {
     window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
   }, [filters.page]);
 
+  useEffect(() => {
+    if (location.hash !== '#jobs-hero') return;
+    const frame = window.requestAnimationFrame(() => {
+      const el = document.getElementById('jobs-hero');
+      if (!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY - 96;
+      window.scrollTo({ top: Math.max(top, 0), behavior: 'smooth' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.hash]);
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 relative overflow-hidden">
 
       {/* Premium Header Section */}
       <div
         id="jobs-hero"
-        className="relative min-h-[auto] md:min-h-screen flex items-center px-4 pt-20 md:pt-28 pb-10 md:pb-12 bg-black"
+        className="relative flex items-center bg-black px-4 pt-20 pb-10 md:min-h-[calc(100vh-72px)] md:pt-12 md:pb-10 scroll-mt-24"
       >
         <div className="max-w-7xl mx-auto w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 items-center text-center lg:text-left">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 items-center text-center lg:text-left min-h-full">
           <motion.div
             className="text-center lg:text-left max-w-3xl mx-auto lg:mx-0"
             initial={{ opacity: 0, y: 20 }}

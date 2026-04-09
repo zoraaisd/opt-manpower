@@ -7,6 +7,16 @@ import {
   CheckCircle, X, AlertCircle, Upload, Globe,
 } from 'lucide-react';
 import { jobsAPI, applicationsAPI } from '../services/api';
+import {
+  PHONE_LENGTH,
+  sanitizeDigits,
+  sanitizeEmail,
+  sanitizeName,
+  sanitizeText,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from '../utils/formValidation';
 
 const EXP_YEARS = ['< 1 year', '1 year', '2 years', '3 years', '4 years', '5 years', '6-8 years', '8-10 years', '10+ years'];
 
@@ -84,19 +94,51 @@ const JobDetails = () => {
     setCvFile(file); setError('');
   };
 
+  const updateFormField = (field: keyof typeof form, value: string | boolean) => {
+    if (typeof value === 'boolean') {
+      setForm(current => ({ ...current, [field]: value }));
+      return;
+    }
+
+    let nextValue = value;
+
+    if (field === 'name') {
+      nextValue = sanitizeName(value);
+    } else if (field === 'email') {
+      nextValue = sanitizeEmail(value);
+    } else if (field === 'phone') {
+      nextValue = sanitizeDigits(value);
+    } else {
+      nextValue = sanitizeText(value);
+    }
+
+    setForm(current => ({ ...current, [field]: nextValue }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const payload = {
+      ...form,
+      name: form.name.trim(),
+      email: sanitizeEmail(form.email),
+      phone: sanitizeDigits(form.phone),
+      qualification: form.qualification.trim(),
+      previous_company: form.previous_company.trim(),
+      role: form.role.trim(),
+    };
     
     // Validate mandatory fields
-    if (!form.name.trim()) { setError('Full Name is required.'); return; }
-    if (!form.email.trim()) { setError('Email is required.'); return; }
-    if (!form.phone.trim()) { setError('Phone Number is required.'); return; }
-    if (!/^[6-9]\d{9}$/.test(form.phone)) { setError('Phone Number must be valid (10 digits, starting with 6-9).'); return; }
-    if (!form.qualification.trim()) { setError('Highest Qualification is required.'); return; }
+    if (!payload.name) { setError('Full Name is required.'); return; }
+    if (!isValidName(payload.name)) { setError('Full Name should contain only letters, single spaces, and be at most 30 characters.'); return; }
+    if (!payload.email) { setError('Email is required.'); return; }
+    if (!isValidEmail(payload.email)) { setError('Enter a valid email address without spaces.'); return; }
+    if (!payload.phone) { setError('Phone Number is required.'); return; }
+    if (!isValidPhone(payload.phone)) { setError(`Phone Number must contain exactly ${PHONE_LENGTH} digits.`); return; }
+    if (!payload.qualification) { setError('Highest Qualification is required.'); return; }
     if (!experienceSelected) { setError('Please select whether you are a Fresher or Experienced.'); return; }
-    if (form.is_experienced && !form.years_of_experience) { setError('Total Experience is required for experienced candidates.'); return; }
-    if (form.is_experienced && !form.previous_company.trim()) { setError('Current/Previous Company is required for experienced candidates.'); return; }
-    if (form.is_experienced && !form.role.trim()) { setError('Current Role/Position is required for experienced candidates.'); return; }
+    if (payload.is_experienced && !payload.years_of_experience) { setError('Total Experience is required for experienced candidates.'); return; }
+    if (payload.is_experienced && !payload.previous_company) { setError('Current/Previous Company is required for experienced candidates.'); return; }
+    if (payload.is_experienced && !payload.role) { setError('Current Role/Position is required for experienced candidates.'); return; }
     if (!cvFile) { setError('Please upload your CV / Resume.'); return; }
     
     setSubmitting(true); setError('');
@@ -107,7 +149,7 @@ const JobDetails = () => {
       fd.append('subject', 'Job application');
       
       // Append form fields - map 'name' to 'full_name'
-      Object.entries(form).forEach(([k, v]) => {
+      Object.entries(payload).forEach(([k, v]) => {
         const key = k === 'name' ? 'full_name' : k;
         if (typeof v === 'boolean') {
            fd.append(key, v ? 'True' : 'False');
@@ -284,19 +326,19 @@ const JobDetails = () => {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                           <label className="text-gray-medium text-xs font-body block mb-1">Full Name *</label>
-                          <input type="text" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} required className="input-field w-full" />
+                          <input type="text" value={form.name} onChange={e => updateFormField('name', e.target.value)} maxLength={30} required className="input-field w-full" />
                         </div>
                         <div>
                           <label className="text-gray-medium text-xs font-body block mb-1">Email *</label>
-                          <input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} required className="input-field w-full" />
+                          <input type="email" value={form.email} onChange={e => updateFormField('email', e.target.value)} required className="input-field w-full" />
                         </div>
                         <div>
                           <label className="text-gray-medium text-xs font-body block mb-1">Phone Number *</label>
-                          <input type="tel" value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} required className="input-field w-full" />
+                          <input type="tel" value={form.phone} onChange={e => updateFormField('phone', e.target.value)} maxLength={PHONE_LENGTH} inputMode="numeric" required className="input-field w-full" />
                         </div>
                         <div>
                           <label className="text-gray-medium text-xs font-body block mb-1">Highest Qualification *</label>
-                          <input type="text" value={form.qualification} onChange={e => setForm({ ...form, qualification: e.target.value })} required placeholder="e.g. Master's in CS" className="input-field w-full" />
+                          <input type="text" value={form.qualification} onChange={e => updateFormField('qualification', e.target.value)} required placeholder="e.g. Master's in CS" className="input-field w-full" />
                         </div>
                       </div>
                     </div>
@@ -338,11 +380,11 @@ const JobDetails = () => {
                               </div>
                               <div>
                                 <label className="text-gray-medium text-xs font-body block mb-1">Current/Previous Company *</label>
-                                <input value={form.previous_company} onChange={e => setForm({ ...form, previous_company: e.target.value })} required={form.is_experienced} className="input-field w-full" />
+                                <input value={form.previous_company} onChange={e => updateFormField('previous_company', e.target.value)} required={form.is_experienced} className="input-field w-full" />
                               </div>
                               <div className="sm:col-span-2">
                                 <label className="text-gray-medium text-xs font-body block mb-1">Current Role/Position *</label>
-                                <input value={form.role} onChange={e => setForm({ ...form, role: e.target.value })} required={form.is_experienced} placeholder="e.g. Senior Software Engineer" className="input-field w-full" />
+                                <input value={form.role} onChange={e => updateFormField('role', e.target.value)} required={form.is_experienced} placeholder="e.g. Senior Software Engineer" className="input-field w-full" />
                               </div>
                             </div>
                           </motion.div>

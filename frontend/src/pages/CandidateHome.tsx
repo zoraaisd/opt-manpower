@@ -75,7 +75,7 @@ const CandidateHome = () => {
     <main className="min-h-screen bg-white">
       {/* ── Premium Hero ── */}
       <section
-        className="relative min-h-screen flex items-center pt-32 pb-12"
+        className="relative py-8 sm:py-10 md:flex md:min-h-screen md:items-center md:pt-16 md:pb-12"
         style={{ backgroundImage: `url(${heroBg})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       >
         {/* Dark overlay for readability */}
@@ -83,52 +83,49 @@ const CandidateHome = () => {
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 w-full">
           {/* Main Content */}
-          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.15 } } }} className="grid lg:grid-cols-2 gap-10 items-center">
+          <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.15 } } }} className="grid items-center gap-5 md:gap-8 lg:grid-cols-2 lg:gap-10">
             {/* Left Column */}
-            <div>
-              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="mb-8">
-                <div className="inline-flex items-center gap-2 bg-white/15 border border-white/30 px-4 py-2 mb-6 rounded backdrop-blur-sm">
-                  <TrendingUp className="w-4 h-4 text-white" />
-                  <span className="hero-kicker text-white">PREMIER RECRUITMENT SERVICES</span>
+            <div className="mx-auto max-w-md text-center lg:mx-0 lg:max-w-2xl lg:text-left">
+              <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }} className="mb-4 md:mb-8">
+                <div className="mb-3 inline-flex max-w-full items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-2.5 py-1 backdrop-blur-sm md:mb-6">
+                  <TrendingUp className="h-3.5 w-3.5 text-white" />
+                  <span className="hero-kicker text-[9px] text-white/90 sm:text-[10px]">PREMIER RECRUITMENT SERVICES</span>
                 </div>
-                <h1 className="hero-title hero-title-animate hero-title-glow text-6xl lg:text-7xl leading-[1.1] text-white mb-6 drop-shadow-lg">
-                  Accelerate Your <br />
-                  <span className="relative">
-                    Career Growth
-                  </span>
+                <h1 className="hero-title hero-title-animate hero-title-glow mb-3 text-[1.85rem] leading-[1.03] text-white drop-shadow-lg sm:text-[2.35rem] md:mb-5 lg:text-7xl">
+                  Accelerate Your
+                  <span className="relative block">Career Growth</span>
                 </h1>
-                <p className="text-lg text-white/80 font-body leading-relaxed max-w-lg">
+                <p className="mx-auto max-w-md text-[13px] font-body leading-relaxed text-white/80 sm:text-sm lg:mx-0 lg:max-w-lg lg:text-lg">
                   Partner with industry-leading recruitment experts to discover transformative career opportunities. We connect exceptional talent with premier organizations across India and the Middle East.
                 </p>
               </motion.div>
 
               {/* Stats Mini */}
-              <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="flex flex-wrap gap-4 mt-10">
-                <div className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-semibold text-3xl text-white">
-                    <CountUp value={10000} format="compact" suffix="+" />
-                  </p>
-                  <p className="text-xs text-white/60 font-body mt-1">Placements</p>
-                </div>
-                <div className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-semibold text-3xl text-white">
-                    <CountUp value={500} format="plain" suffix="+" />
-                  </p>
-                  <p className="text-xs text-white/60 font-body mt-1">Clients</p>
-                </div>
-                <div className="bg-white/10 border border-white/20 rounded-xl px-4 py-3 backdrop-blur-sm">
-                  <p className="font-display font-semibold text-3xl text-white">
-                    <CountUp value={1200} format="compact" decimals={1} suffix="+" />
-                  </p>
-                  <p className="text-xs text-white/60 font-body mt-1">Active Roles</p>
-                </div>
+              <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="mt-4 grid grid-cols-1 gap-2 sm:mt-6 sm:max-w-xs">
+                {[
+                  { icon: Users, value: 10000, format: 'compact' as const, suffix: '+', label: 'Placements' },
+                  { icon: Globe, value: 500, format: 'plain' as const, suffix: '+', label: 'Clients' },
+                  { icon: TrendingUp, value: 1200, format: 'compact' as const, decimals: 1, suffix: '+', label: 'Active Roles' },
+                ].map(({ icon: Icon, value, format, suffix, label, decimals }) => (
+                  <div key={label} className="flex items-center gap-3 rounded-xl border border-white/12 bg-white/8 px-3 py-3 text-left backdrop-blur-sm">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/10">
+                      <Icon className="h-3.5 w-3.5 text-white" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="min-h-[1.5rem] font-display text-lg font-semibold leading-none text-white tabular-nums">
+                        <CountUp value={value} format={format} decimals={decimals} suffix={suffix} />
+                      </p>
+                      <p className="mt-1 text-[10px] font-body uppercase tracking-[0.12em] leading-tight text-white/60">{label}</p>
+                    </div>
+                  </div>
+                ))}
               </motion.div>
             </div>
 
             {/* Right Column - Premium Search Card */}
             <motion.div variants={{ hidden: { opacity: 0, y: 40 }, visible: { opacity: 1, y: 0, transition: { delay: 0.3 } } }}>
-              <div className="bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.08)] p-8 lg:p-10 border border-black/5 max-w-[480px] ml-auto">
-                <h3 className="font-heading font-semibold text-black text-lg mb-8">Find Your Perfect Role</h3>
+              <div className="mx-auto max-w-[420px] rounded-2xl border border-black/5 bg-white p-4 shadow-[0_20px_60px_rgba(0,0,0,0.08)] sm:p-5 lg:ml-auto lg:max-w-[480px] lg:p-10">
+                <h3 className="mb-5 text-base font-heading font-semibold text-black sm:mb-6 sm:text-lg">Find Your Perfect Role</h3>
                 <form onSubmit={handleSearch} className="space-y-5">
                   {/* Job Search */}
                   <div>
@@ -140,7 +137,7 @@ const CandidateHome = () => {
                         placeholder="Job title, skill, or keyword..."
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-light text-black placeholder-gray-medium text-sm font-body focus:outline-none focus:border-black focus:bg-white transition-all duration-300"
+                        className="w-full border border-gray-light bg-gray-50 py-3 pl-11 pr-4 text-sm font-body text-black placeholder-gray-medium transition-all duration-300 focus:bg-white focus:outline-none focus:border-black"
                       />
                     </div>
                   </div>
@@ -155,23 +152,23 @@ const CandidateHome = () => {
                         placeholder="City or region..."
                         value={location}
                         onChange={e => setLocation(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3.5 bg-gray-50 border border-gray-light text-black placeholder-gray-medium text-sm font-body focus:outline-none focus:border-black focus:bg-white transition-all duration-300"
+                        className="w-full border border-gray-light bg-gray-50 py-3 pl-11 pr-4 text-sm font-body text-black placeholder-gray-medium transition-all duration-300 focus:bg-white focus:outline-none focus:border-black"
                       />
                     </div>
                   </div>
 
                   {/* Submit Button */}
-                  <button type="submit" className="w-full btn-primary py-4 justify-center mt-8">
+                  <button type="submit" className="mt-6 w-full btn-primary justify-center py-3.5 sm:mt-8 sm:py-4">
                     Explore Opportunities <ArrowRight className="w-4 h-4" />
                   </button>
                 </form>
 
                 {/* Quick Tags */}
-                <div className="mt-8 pt-8 border-t border-gray-light">
-                  <p className="text-xs font-display font-bold text-gray-medium mb-4 tracking-wide uppercase">Popular searches</p>
-                  <div className="flex flex-wrap gap-2">
+                <div className="mt-5 border-t border-gray-light pt-4 sm:mt-6 sm:pt-6">
+                  <p className="mb-3 text-[11px] font-display font-bold uppercase tracking-[0.16em] text-gray-medium sm:mb-4">Popular searches</p>
+                  <div className="flex flex-wrap justify-center gap-1.5 sm:justify-start sm:gap-2">
                     {['IT Jobs', 'Gulf Roles', 'Leadership', 'Contract Work'].map(tag => (
-                      <Link key={tag} to={`/jobs?q=${encodeURIComponent(tag)}`} className="text-xs font-body text-gray-medium hover:text-black border border-gray-light hover:border-black/30 hover:bg-black/2 px-3 py-1.5 transition-all duration-200">
+                      <Link key={tag} to={`/jobs?q=${encodeURIComponent(tag)}`} className="rounded-full border border-gray-light bg-gray-50 px-2.5 py-1 text-[10px] font-body text-gray-medium transition-all duration-200 hover:border-black/30 hover:bg-black/2 hover:text-black sm:px-3 sm:py-1.5 sm:text-xs">
                         {tag}
                       </Link>
                     ))}
@@ -193,7 +190,7 @@ const CandidateHome = () => {
                 Why Top Talent <span className="text-black">Chooses Us</span>
               </h2>
               <p className="text-gray-medium font-body max-w-xl leading-relaxed">
-                We provide a consultative approach to recruitment, focusing on long-term career growth rather than quick placements. Our expert team ensures highly tailored role-matching, complete transparency, and steadfast advocacy for your career ambitions.
+                We provide a consultative approach to recruitment, focusing on long-term career growth rather than quick placements. Our expert team ensures highly tailored role-matching, complete transparency and steadfast advocacy for your career ambitions.
               </p>
 
               <div className="mt-10 grid grid-cols-2 gap-6 max-w-xl">
@@ -246,7 +243,7 @@ const CandidateHome = () => {
                 },
                 {
                   title: 'Vetted Global Partners',
-                  desc: 'We strictly collaborate with reputable employers renowned for their credibility, inclusive cultures, and accelerated growth potential.',
+                  desc: 'We strictly collaborate with reputable employers renowned for their credibility, inclusive cultures and accelerated growth potential.',
                   icon: Award,
                   image: partnersImg,
                 },

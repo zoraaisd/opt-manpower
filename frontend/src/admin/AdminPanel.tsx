@@ -106,7 +106,7 @@ const Dashboard = () => {
             <div>
               <p className="text-gray-800 font-semibold text-sm uppercase tracking-widest mb-2">Administration Dashboard</p>
               <h1 className="gramond-title font-black text-4xl text-black mb-2">Welcome Back</h1>
-              <p className="text-gray-700 text-base">Manage jobs, applications, and business enquiries</p>
+              <p className="text-gray-700 text-base">Manage jobs, applications and business enquiries</p>
             </div>
           </div>
         </div>

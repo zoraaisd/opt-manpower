@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useParams } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './context/AuthContext';
@@ -15,6 +15,8 @@ const JobDetails = React.lazy(() => import('./pages/JobDetails'));
 const SavedJobs = React.lazy(() => import('./pages/SavedJobs'));
 const CareerAdvice = React.lazy(() => import('./pages/CareerAdvice'));
 const CareerAdviceDetail = React.lazy(() => import('./pages/CareerAdviceDetail'));
+const BlogListPage = React.lazy(() => import('./pages/BlogListPage'));
+const BlogDetailsPage = React.lazy(() => import('./pages/BlogDetailsPage'));
 // const RecruiterHome = React.lazy(() => import('./pages/RecruiterHome'));
 const ContactUs = React.lazy(() => import('./pages/ContactUs'));
 const About = React.lazy(() => import('./pages/About'));
@@ -35,7 +37,9 @@ const PageLoader = () => (
 const MainLayout = ({ children }: { children: React.ReactNode }) => (
   <>
     <Navbar />
-    {children}
+    <main className="pt-[92px] lg:pt-[72px]">
+      {children}
+    </main>
     <Footer />
   </>
 );
@@ -56,13 +60,18 @@ const ScrollToTop = () => {
   return null;
 };
 
+const LegacyBlogDetailsRedirect = () => {
+  const { slug } = useParams();
+  return <Navigate to={slug ? `/blogs/${slug}` : '/blogs'} replace />;
+};
+
 function App() {
   return (
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ModeProvider>
-            <BrowserRouter>
+            <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
               <ScrollToTop />
               <Suspense fallback={<PageLoader />}>
                 <Routes>
@@ -90,10 +99,15 @@ function App() {
                   <Route path="/jobs" element={<MainLayout><Jobs /></MainLayout>} />
                   <Route path="/jobs/:id" element={<MainLayout><JobDetails /></MainLayout>} />
                   <Route path="/saved-jobs" element={<MainLayout><SavedJobs /></MainLayout>} />
+                  <Route path="/blog" element={<Navigate to="/blogs" replace />} />
+                  <Route path="/blog/:slug" element={<LegacyBlogDetailsRedirect />} />
+                  <Route path="/blogs" element={<MainLayout><BlogListPage /></MainLayout>} />
+                  <Route path="/blogs/:slug" element={<MainLayout><BlogDetailsPage /></MainLayout>} />
                   <Route path="/career-advice" element={<MainLayout><CareerAdvice /></MainLayout>} />
                   <Route path="/career-advice/:id" element={<MainLayout><CareerAdviceDetail /></MainLayout>} />
                   {/* <Route path="/recruiter" element={<MainLayout><RecruiterHome /></MainLayout>} /> */}
                   <Route path="/solutions" element={<MainLayout><Solutions /></MainLayout>} />
+                  <Route path="/services/manpower" element={<MainLayout><Solutions /></MainLayout>} />
                   <Route path="/business-enquiry" element={<MainLayout><BusinessEnquiry /></MainLayout>} />
                   <Route path="/employer-enquiry" element={<MainLayout><BusinessEnquiry /></MainLayout>} />
                   <Route path="/contact" element={<MainLayout><ContactUs /></MainLayout>} />

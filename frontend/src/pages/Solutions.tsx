@@ -11,7 +11,7 @@ const SOLUTIONS = [
   {
     icon: Users,
     title: 'General Staffing',
-    desc: 'Scalable hiring solutions for blue-collar, entry-level, and bulk recruitment needs across manufacturing, logistics, and retail sectors.',
+    desc: 'Scalable hiring solutions for blue-collar, entry-level and bulk recruitment needs across manufacturing, logistics and retail sectors.',
     features: ['High-volume sourcing', 'Rapid deployment', 'Full compliance management'],
     color: 'bg-blue-50 text-blue-700'
   },
@@ -32,14 +32,14 @@ const SOLUTIONS = [
   {
     icon: Cpu,
     title: 'Executive Search',
-    desc: 'Confidential and proactive talent acquisition for C-suite, board-level, and senior leadership positions that define your future.',
+    desc: 'Confidential and proactive talent acquisition for C-suite, board-level and senior leadership positions that define your future.',
     features: ['Confidential headhunting', 'Global market mapping', 'Leadership benchmarking'],
     color: 'bg-yellow-50 text-yellow-700'
   },
   {
     icon: Globe,
     title: 'International Recruitment',
-    desc: 'Licensed cross-border recruitment solutions specializing in Gulf, European, and SE Asian markets with complete visa support.',
+    desc: 'Licensed cross-border recruitment solutions specializing in Gulf, European and SE Asian markets with complete visa support.',
     features: ['Visa processing support', 'Cultural orientation', 'Pre-departure assistance'],
     color: 'bg-cyan-50 text-cyan-700'
   },
@@ -53,7 +53,7 @@ const SOLUTIONS = [
 ];
 
 const PROCESS = [
-  { step: '01', title: 'Consultation', desc: 'We dive deep into your company culture, technical requirements, and long-term business objectives.' },
+  { step: '01', title: 'Consultation', desc: 'We dive deep into your company culture, technical requirements and long-term business objectives.' },
   { step: '02', title: 'Sourcing & Vetting', desc: 'Our experts leverage global networks and proprietary tools to identify and rigorously screen top-tier talent.' },
   { step: '03', title: 'Curated Shortlist', desc: 'You receive a hand-picked shortlist of candidates who are not just qualified, but ready to deliver impact from day one.' },
   { step: '04', title: 'Selection & Support', desc: 'From coordinating interviews to final negotiations and onboarding support, we manage the entire lifecycle.' },
@@ -79,23 +79,23 @@ const Solutions = () => {
   return (
     <main className="min-h-screen pt-0">
       {/* ── Hero Section ── */}
-      <section className="bg-black text-white py-16 md:py-24 min-h-screen flex items-center relative overflow-hidden">
+      <section className="relative overflow-hidden bg-black py-8 text-white md:flex md:min-h-screen md:items-center md:py-24">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48 blur-3xl" />
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-white rounded-full -ml-40 -mb-40 blur-3xl" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="relative z-10 mx-auto max-w-7xl px-4">
           <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
             <motion.p variants={fadeUp} className="hero-kicker text-gray-400 mb-4">What We Deliver</motion.p>
-            <motion.h1 variants={fadeUp} className="hero-title hero-title-animate hero-title-glow text-5xl md:text-7xl mb-6">
+            <motion.h1 variants={fadeUp} className="hero-title hero-title-animate hero-title-glow mb-5 text-4xl sm:text-5xl md:mb-6 md:text-7xl">
               Empowering Businesses with <br />
               <span className="text-gray-300">Elite Workforce Solutions</span>
             </motion.h1>
-            <motion.p variants={fadeUp} className="text-gray-400 font-body text-lg max-w-2xl mb-10 leading-relaxed">
+            <motion.p variants={fadeUp} className="mb-8 max-w-2xl text-sm font-body leading-relaxed text-gray-400 sm:text-base md:mb-10 md:text-lg">
               Optimus Manpower provides a comprehensive suite of recruitment services designed to meet the evolving needs of modern organizations across the globe.
             </motion.p>
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-4">
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-3 md:gap-4">
               <Link to="/business-enquiry" className="btn-primary bg-white text-black hover:bg-gray-200 border-none">
                 Start Hiring Now
               </Link>
@@ -127,9 +127,9 @@ const Solutions = () => {
       </section>
 
       {/* ── All Solutions ── */}
-      <section id="all-solutions" className="py-24 bg-gray-50/50">
+      <section id="all-solutions" className="bg-gray-50/50 py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
+          <div className="mb-10 text-center md:mb-16">
             <p className="section-tag mb-3">Our Expertise</p>
             <h2 className="section-title">Specialized <span className="text-black">Hiring Verticals</span></h2>
             <div className="accent-line mt-4 mx-auto" />
@@ -144,7 +144,7 @@ const Solutions = () => {
                 viewport={{ once: true }} 
                 custom={i} 
                 variants={fadeUp}
-                className="card-3d bg-white border border-gray-light p-8 hover:border-black/20 transition-all hover:shadow-xl hover:shadow-black/5 group"
+                className="card-3d group bg-white border border-gray-light p-6 hover:border-black/20 transition-all hover:shadow-xl hover:shadow-black/5 md:p-8"
               >
                 <div className={`w-12 h-12 ${s.color} flex items-center justify-center rounded-lg mb-6`}>
                   <s.icon className="w-6 h-6" />
@@ -167,9 +167,9 @@ const Solutions = () => {
       </section>
 
       {/* ── Our Process ── */}
-      <section className="py-24 bg-white overflow-hidden">
+      <section className="py-16 md:py-24 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-16 items-center">
+          <div className="flex flex-col lg:flex-row gap-10 md:gap-16 items-center">
             <div className="lg:w-1/2">
               <p className="section-tag mb-4">Precision Workflow</p>
               <h2 className="section-title mb-8">How We Deliver <br /> Excellence</h2>
@@ -197,7 +197,7 @@ const Solutions = () => {
               </div>
             </div>
             <div className="lg:w-1/2 relative">
-              <div className="bg-black/5 rounded-3xl p-10">
+              <div className="bg-black/5 rounded-3xl p-5 sm:p-7 md:p-10">
                 <div className="flex items-end justify-between mb-8">
                   <div>
                     <p className="text-xs uppercase tracking-[0.2em] text-gray-500 font-body">Process Rates</p>

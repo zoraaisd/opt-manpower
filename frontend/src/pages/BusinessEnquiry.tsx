@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Building2, Mail, Phone, Clock, ShieldCheck, Zap, Star } from 'lucide-react';
-import { contentAPI } from '../services/api';
+import {
+  PHONE_LENGTH,
+  sanitizeDigits,
+  sanitizeEmail,
+  sanitizeName,
+  sanitizeText,
+  isValidEmail,
+  isValidName,
+  isValidPhone,
+} from '../utils/formValidation';
+import { submitEnquiry } from '../features/enquiries/service';
 
 const BusinessEnquiry = () => {
   const [form, setForm] = useState({
@@ -12,14 +22,62 @@ const BusinessEnquiry = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    let nextValue = value;
+
+    if (name === 'contact_person') {
+      nextValue = sanitizeName(value);
+    } else if (name === 'email') {
+      nextValue = sanitizeEmail(value);
+    } else if (name === 'phone') {
+      nextValue = sanitizeDigits(value);
+    } else {
+      nextValue = sanitizeText(value);
+    }
+
+    setForm(f => ({ ...f, [name]: nextValue }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const payload = {
+      ...form,
+      company_name: form.company_name.trim(),
+      contact_person: form.contact_person.trim(),
+      email: sanitizeEmail(form.email),
+      phone: sanitizeDigits(form.phone),
+      hiring_requirement: form.hiring_requirement.trim(),
+      job_location: form.job_location.trim(),
+      message: form.message.trim(),
+      number_of_positions: form.number_of_positions,
+    };
+
+    if (!payload.company_name) { setError('Company Name is required.'); return; }
+    if (!isValidName(payload.contact_person)) { setError('Contact Person should contain only letters, single spaces, and be at most 30 characters.'); return; }
+    if (!isValidEmail(payload.email)) { setError('Enter a valid email address without spaces.'); return; }
+    if (!isValidPhone(payload.phone)) { setError(`Phone Number must contain exactly ${PHONE_LENGTH} digits.`); return; }
+    if (!payload.hiring_requirement) { setError('Job Title / Requirement is required.'); return; }
+    if (!payload.job_location) { setError('Work Location is required.'); return; }
+    if (!payload.number_of_positions || Number(payload.number_of_positions) < 1) { setError('Number of Openings must be at least 1.'); return; }
+
     setLoading(true); setError('');
     try {
-      await contentAPI.employerEnquiry({ ...form, number_of_positions: Number(form.number_of_positions), subject: 'Business enquiry' });
+      await submitEnquiry(
+        {
+          ...payload,
+          number_of_positions: Number(payload.number_of_positions),
+          metadata: {
+            form_source: 'business-enquiry'
+          }
+        },
+        {
+          formType: 'business-enquiry',
+          subject: 'Business enquiry',
+          enquiryType: payload.hiring_requirement,
+          serviceInterestedIn: payload.job_location
+        }
+      );
       setSubmitted(true);
     } catch { setError('Failed to submit. Please try again or call us directly.'); }
     finally { setLoading(false); }
@@ -35,27 +93,27 @@ const BusinessEnquiry = () => {
   };
 
   return (
-    <main className="min-h-screen pt-24 bg-gray-50/50">
+    <main className="min-h-screen pt-16 md:pt-24 bg-gray-50/50">
       {/* ── Header ── */}
-      <section className="bg-white border-b border-gray-light py-20">
+      <section className="bg-white border-b border-gray-light py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }}>
             <motion.p variants={fadeUp} className="section-tag mb-4">Partner With Us</motion.p>
-            <motion.h1 variants={fadeUp} className="section-title mb-6 text-black">
+            <motion.h1 variants={fadeUp} className="section-title mb-4 md:mb-6 text-black">
               Business <span className="text-black/60">Enquiry</span>
             </motion.h1>
-            <motion.p variants={fadeUp} className="text-gray-medium font-body text-lg max-w-2xl mx-auto leading-relaxed">
+            <motion.p variants={fadeUp} className="max-w-2xl mx-auto text-sm font-body leading-relaxed text-gray-medium sm:text-base md:text-lg">
               Scale your team with the right talent. Fill out the form below and our recruitment consultants will contact you within 24 business hours.
             </motion.p>
           </motion.div>
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+      <div className="max-w-7xl mx-auto px-4 py-10 md:py-20">
+        <div className="grid grid-cols-1 gap-10 md:gap-16 lg:grid-cols-12">
           
           {/* ── Sidebar Info ── */}
-          <div className="lg:col-span-4 space-y-10">
+          <div className="space-y-8 lg:col-span-4 md:space-y-10">
             <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp}>
               <h3 className="font-heading font-semibold text-black text-xl mb-6">Why Partner With Us?</h3>
               <div className="space-y-6">
@@ -78,7 +136,7 @@ const BusinessEnquiry = () => {
               </div>
             </motion.div>
 
-            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="bg-black text-white p-8 rounded-2xl">
+            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeUp} className="rounded-2xl bg-black p-6 text-white md:p-8">
               <h3 className="font-heading font-semibold text-lg mb-6">Need Immediate Assistance?</h3>
               <div className="space-y-5">
                 <a href="tel:+919092906907" className="flex items-center gap-4 hover:opacity-80 transition-opacity">
@@ -129,7 +187,7 @@ const BusinessEnquiry = () => {
                   </button>
                 </div>
               ) : (
-                <div className="bg-white border border-gray-light p-10 shadow-xl shadow-black/5">
+                <div className="bg-white border border-gray-light p-5 shadow-xl shadow-black/5 sm:p-6 md:p-10">
                   <form onSubmit={handleSubmit} className="space-y-6">
                     {error && (
                       <div className="p-4 bg-red-50 border border-red-100 text-red-600 text-sm font-body rounded">
@@ -144,7 +202,7 @@ const BusinessEnquiry = () => {
                       </div>
                       <div className="space-y-2">
                         <label className="text-black font-heading font-semibold text-xs uppercase tracking-wider block">Contact Person *</label>
-                        <input name="contact_person" value={form.contact_person} onChange={handleChange} required className="input-field w-full h-12 bg-gray-50 border-gray-200" placeholder="John Doe" />
+                        <input name="contact_person" value={form.contact_person} onChange={handleChange} required maxLength={30} className="input-field w-full h-12 bg-gray-50 border-gray-200" placeholder="John Doe" />
                       </div>
                     </div>
 
@@ -155,7 +213,7 @@ const BusinessEnquiry = () => {
                       </div>
                       <div className="space-y-2">
                         <label className="text-black font-heading font-semibold text-xs uppercase tracking-wider block">Phone Number *</label>
-                        <input name="phone" value={form.phone} onChange={handleChange} required className="input-field w-full h-12 bg-gray-50 border-gray-200" placeholder="+91 98765 43210" />
+                        <input name="phone" value={form.phone} onChange={handleChange} required maxLength={PHONE_LENGTH} inputMode="numeric" className="input-field w-full h-12 bg-gray-50 border-gray-200" placeholder="9876543210" />
                       </div>
                     </div>
 
@@ -172,12 +230,12 @@ const BusinessEnquiry = () => {
 
                     <div className="space-y-2">
                       <label className="text-black font-heading font-semibold text-xs uppercase tracking-wider block">Number of Openings</label>
-                      <input type="number" name="number_of_positions" value={form.number_of_positions} onChange={handleChange} min="1" className="input-field w-32 h-12 bg-gray-50 border-gray-200" />
+                      <input type="number" name="number_of_positions" value={form.number_of_positions} onChange={handleChange} min="1" inputMode="numeric" className="input-field w-32 h-12 bg-gray-50 border-gray-200" />
                     </div>
 
                     <div className="space-y-2">
                       <label className="text-black font-heading font-semibold text-xs uppercase tracking-wider block">Requirement Details</label>
-                      <textarea name="message" value={form.message} onChange={handleChange} rows={5} className="input-field w-full bg-gray-50 border-gray-200 resize-none" placeholder="Briefly describe the candidate profile, experience level, and any specific technical skills needed..." />
+                      <textarea name="message" value={form.message} onChange={handleChange} rows={5} className="input-field w-full bg-gray-50 border-gray-200 resize-none" placeholder="Briefly describe the candidate profile, experience level and any specific technical skills needed..." />
                     </div>
 
                     <button type="submit" disabled={loading} className="btn-primary w-full h-14 justify-center text-base">

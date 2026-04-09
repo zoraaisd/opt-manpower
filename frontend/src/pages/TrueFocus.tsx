@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 interface TrueFocusProps {
   sentence?: string;
   separator?: string;
+  groupSize?: number;
   manualMode?: boolean;
   blurAmount?: number;
   borderColor?: string;
@@ -24,6 +25,7 @@ interface FocusRect {
 const TrueFocus: React.FC<TrueFocusProps> = ({
   sentence = 'True Focus',
   separator = ' ',
+  groupSize = 2,
   manualMode = false,
   blurAmount = 5,
   borderColor = 'green',
@@ -33,20 +35,42 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
   className = '',
   wordClassName = ''
 }) => {
-  const words = sentence.split(separator);
+  const words = sentence.split(separator).filter(Boolean);
+  const groups = words.reduce<string[]>((acc, _, index) => {
+    if (index % groupSize === 0) {
+      acc.push(words.slice(index, index + groupSize).join(separator));
+    }
+    return acc;
+  }, []);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [lastActiveIndex, setLastActiveIndex] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const groupRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const [focusRect, setFocusRect] = useState<FocusRect>({ x: 0, y: 0, width: 0, height: 0 });
 
+  const updateFocusRect = () => {
+    if (currentIndex === null || currentIndex === -1) return;
+    if (!containerRef.current) return;
+    if (!groupRefs.current[currentIndex]) return;
+
+    const parentRect = containerRef.current.getBoundingClientRect();
+    const activeRect = groupRefs.current[currentIndex]!.getBoundingClientRect();
+
+    setFocusRect({
+      x: activeRect.left - parentRect.left,
+      y: activeRect.top - parentRect.top,
+      width: activeRect.width,
+      height: activeRect.height
+    });
+  };
+
   useEffect(() => {
-    if (!manualMode) {
+    if (!manualMode && groups.length > 1) {
       const interval = setInterval(
         () => {
           setCurrentIndex((prev) => {
-            const next = prev + 2;
-            return next >= words.length ? 0 : next;
+            const next = prev + 1;
+            return next >= groups.length ? 0 : next;
           });
         },
         (animationDuration + pauseBetweenAnimations) * 1000
@@ -54,30 +78,29 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 
       return () => clearInterval(interval);
     }
-  }, [manualMode, animationDuration, pauseBetweenAnimations, words.length]);
+  }, [manualMode, animationDuration, pauseBetweenAnimations, groups.length]);
 
   useEffect(() => {
-    if (currentIndex === null || currentIndex === -1) return;
+    updateFocusRect();
+  }, [currentIndex, groups.length]);
+
+  useEffect(() => {
+    updateFocusRect();
+
     if (!containerRef.current) return;
-    if (!wordRefs.current[currentIndex]) return;
 
-    const nextIndex = Math.min(currentIndex + 1, words.length - 1);
-    const parentRect = containerRef.current.getBoundingClientRect();
-    const activeRect = wordRefs.current[currentIndex]!.getBoundingClientRect();
-    const nextRect = wordRefs.current[nextIndex]?.getBoundingClientRect() || activeRect;
-
-    const left = Math.min(activeRect.left, nextRect.left);
-    const top = Math.min(activeRect.top, nextRect.top);
-    const right = Math.max(activeRect.right, nextRect.right);
-    const bottom = Math.max(activeRect.bottom, nextRect.bottom);
-
-    setFocusRect({
-      x: left - parentRect.left,
-      y: top - parentRect.top,
-      width: right - left,
-      height: bottom - top
+    const resizeObserver = new ResizeObserver(() => {
+      updateFocusRect();
     });
-  }, [currentIndex, words.length]);
+
+    resizeObserver.observe(containerRef.current);
+    window.addEventListener('resize', updateFocusRect);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateFocusRect);
+    };
+  }, [currentIndex, groups.length]);
 
   const handleMouseEnter = (index: number) => {
     if (manualMode) {
@@ -94,29 +117,22 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
 
   return (
     <div
-      className={`relative flex gap-4 justify-center items-center flex-wrap ${className}`.trim()}
+      className={`relative flex flex-wrap items-center justify-center gap-4 ${className}`.trim()}
       ref={containerRef}
       style={{ outline: 'none', userSelect: 'none' }}
     >
-      {words.map((word, index) => {
-        const nextIndex = Math.min(currentIndex + 1, words.length - 1);
-        const isActive = index === currentIndex || index === nextIndex;
+      {groups.map((group, index) => {
+        const isActive = index === currentIndex;
         return (
           <span
             key={index}
             ref={(el) => {
-              wordRefs.current[index] = el;
+              groupRefs.current[index] = el;
             }}
-            className={`relative text-[3rem] font-black cursor-pointer ${wordClassName}`.trim()}
+            className={`relative inline-block whitespace-nowrap text-[3rem] font-black cursor-pointer ${wordClassName}`.trim()}
             style={
               {
-                filter: manualMode
-                  ? isActive
-                    ? `blur(0px)`
-                    : `blur(${blurAmount}px)`
-                  : isActive
-                    ? `blur(0px)`
-                    : `blur(${blurAmount}px)`,
+                filter: isActive ? 'blur(0px)' : `blur(${blurAmount}px)`,
                 transition: `filter ${animationDuration}s ease`,
                 outline: 'none',
                 userSelect: 'none'
@@ -125,7 +141,7 @@ const TrueFocus: React.FC<TrueFocusProps> = ({
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
           >
-            {word}
+            {group}
           </span>
         );
       })}

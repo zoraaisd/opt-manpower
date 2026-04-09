@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 import {
   Star, Users, Globe, Award, ArrowRight, Target, Eye, Heart,
   Clock, CheckCircle, Briefcase, TrendingUp, MapPin, Phone,
-  Mail, Shield, Zap, Search, BarChart2, FileText, Twitter, Linkedin, Facebook,
+  Mail, Shield, Zap, Search, BarChart2, FileText, Linkedin,
 } from 'lucide-react';
 import { contentAPI } from '../services/api';
 import CountUp from '../components/CountUp';
+import { getEmailHref, isExternalEmailHref } from '../utils/contactLinks';
 import itImg from '../asserts/IT&Technology.webp';
 import healthcareImg from '../asserts/Healthcare.webp';
 import engineeringImg from '../asserts/Engineering.webp';
@@ -20,17 +21,23 @@ import logisticsImg from '../asserts/Logistics.webp';
 
 import glob from '../asserts/opt-glob-logo.webp';
 
+const XLogo = ({ className = 'w-4 h-4' }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="currentColor">
+    <path d="M18.244 2H21.5l-7.12 8.136L22.75 22h-6.558l-5.134-6.712L5.182 22H1.924l7.615-8.704L1.5 2h6.724l4.64 6.133L18.244 2Zm-1.142 18h1.804L7.248 3.895H5.313L17.102 20Z" />
+  </svg>
+);
+
 // ── Static Data ──────────────────────────────────────────────────────────────
 
 const TEAM = [
-  { name: 'Dr. Adv. S. Ansar Ali', role: 'Founder & Managing Director', initials: 'S', desc: 'Leads operational excellence and execution strategy, ensuring delivery precision, innovation continuity, and long-term enterprise partnerships while driving sustainable organizational growth and performance excellence across global initiatives.', socials: { x: '#', linkedin: '#', facebook: '#' } },
-  { name: 'S Ashik Ali', role: 'Co Founder & CEO', initials: 'S', desc: 'Driving strategic vision and innovation while leading enterprise AI transformation through scalable intelligent systems and future-focused technology leadership.', socials: { x: '#', linkedin: '#', facebook: '#' } },
+  { name: 'Dr. Adv. S. Ansar Ali', role: 'Founder & Managing Director', initials: 'S', desc: 'Leads operational excellence and execution strategy, ensuring delivery precision, innovation continuity and long-term enterprise partnerships while driving sustainable organizational growth and performance excellence across global initiatives.', socials: { x: 'https://x.com/optimusglobalhr', linkedin: 'https://www.linkedin.com/company/optimus-global-manpower/', email: 'ansar@zoraglobalai.com' } },
+  { name: 'S Ashik Ali', role: 'Co Founder & CEO', initials: 'S', desc: 'Driving strategic vision and innovation while leading enterprise AI transformation through scalable intelligent systems and future-focused technology leadership.', socials: { x: 'https://x.com/optimusglobalhr', linkedin: 'https://www.linkedin.com/company/optimus-global-manpower/', email: 'ashik@zoraai.us' } },
 ];
 
 const MILESTONES = [
   { year: '2009', event: 'Founded in Mumbai with a focus on domestic placements and SME hiring.' },
   { year: '2012', event: 'Expanded to Gulf market - UAE, Qatar, Saudi Arabia. First 500 international placements.' },
-  { year: '2015', event: 'Opened regional offices in Delhi NCR, Bangalore, and Chennai. 100+ clients onboarded.' },
+  { year: '2015', event: 'Opened regional offices in Delhi NCR, Bangalore and Chennai. 100+ clients onboarded.' },
   { year: '2018', event: 'Crossed 5,000 total placements milestone. Launched dedicated healthcare & engineering verticals.' },
   { year: '2021', event: 'Launched digital-first recruitment platform to serve candidates and employers online.' },
   { year: '2024', event: 'Achieved 10,000+ successful placements across 12+ countries and 500+ global clients.' },
@@ -40,7 +47,7 @@ const SERVICES = [
   {
     icon: Search,
     title: 'Permanent Staffing',
-    desc: 'We source, screen, and place exceptional candidates for permanent full-time roles across all industries and seniority levels - from executives to specialists.',
+    desc: 'We source, screen and place exceptional candidates for permanent full-time roles across all industries and seniority levels - from executives to specialists.',
     features: ['Dedicated account manager', 'Pre-screened shortlists', '90-day replacement guarantee'],
   },
   {
@@ -52,13 +59,13 @@ const SERVICES = [
   {
     icon: Globe,
     title: 'International Recruitment',
-    desc: 'Specialist overseas placement to the Gulf (UAE, Qatar, KSA), Europe, and South East Asia with complete visa and documentation support.',
+    desc: 'Specialist overseas placement to the Gulf (UAE, Qatar, KSA), Europe and South East Asia with complete visa and documentation support.',
     features: ['Visa & documentation guidance', 'Pre-departure orientation', 'Post-placement support'],
   },
   {
     icon: Briefcase,
     title: 'Executive Search',
-    desc: 'Confidential headhunting and executive placement for C-suite, VP, and director-level mandates. Talent that transforms your organization.',
+    desc: 'Confidential headhunting and executive placement for C-suite, VP and director-level mandates. Talent that transforms your organization.',
     features: ['Confidential search process', 'Market mapping & benchmarking', 'Leadership assessment'],
   },
   {
@@ -70,7 +77,7 @@ const SERVICES = [
   {
     icon: FileText,
     title: 'HR Consulting',
-    desc: 'Strategic HR advisory services covering job architecture, compensation benchmarking, talent strategy, and workforce planning.',
+    desc: 'Strategic HR advisory services covering job architecture, compensation benchmarking, talent strategy and workforce planning.',
     features: ['Compensation benchmarking', 'Workforce planning reports', 'HR policy development'],
   },
 ];
@@ -87,18 +94,18 @@ const INDUSTRIES = [
 ];
 
 const PROCESS = [
-  { step: '01', title: 'Submit Your Requirement', desc: 'Share your hiring needs with our consultant - job role, experience level, location, and timeline. Takes less than 10 minutes.' },
-  { step: '02', title: 'Talent Search & Screening', desc: 'Our recruitment team leverages our 50,000+ candidate database, job boards, and networks to source and screen the best prospects.' },
+  { step: '01', title: 'Submit Your Requirement', desc: 'Share your hiring needs with our consultant - job role, experience level, location and timeline. Takes less than 10 minutes.' },
+  { step: '02', title: 'Talent Search & Screening', desc: 'Our recruitment team leverages our 50,000+ candidate database, job boards and networks to source and screen the best prospects.' },
   { step: '03', title: 'Curated Shortlist', desc: 'Receive a shortlist of 3–5 pre-vetted candidates with detailed profiles, within 5–7 business days for standard roles.' },
-  { step: '04', title: 'Interviews & Selection', desc: 'We coordinate all interview rounds, provide candidate preparation, and collect structured feedback to drive fast decisions.' },
-  { step: '05', title: 'Offer & Onboarding', desc: 'We facilitate salary negotiation, offer management, and post-offer support - ensuring high acceptance rates and smooth joining.' },
+  { step: '04', title: 'Interviews & Selection', desc: 'We coordinate all interview rounds, provide candidate preparation and collect structured feedback to drive fast decisions.' },
+  { step: '05', title: 'Offer & Onboarding', desc: 'We facilitate salary negotiation, offer management and post-offer support - ensuring high acceptance rates and smooth joining.' },
 ];
 
 const DIFFERENTIATORS = [
   { icon: Shield, title: 'Zero-Risk Replacement', desc: 'If a placed candidate leaves within 90 days, we replace them at no additional cost. Your investment is always protected.' },
   { icon: Zap, title: 'Speed to Hire', desc: 'Our average time-to-shortlist is 5 business days for mid-level roles. We operate with urgency without compromising quality.' },
-  { icon: CheckCircle, title: 'Rigorous Vetting', desc: 'Every candidate undergoes background verification, reference checks, and skills assessment before reaching your desk.' },
-  { icon: Users, title: 'Dedicated Consultant', desc: 'One consistent point of contact who understands your culture, goals, and evolving requirements - not a ticket system.' },
+  { icon: CheckCircle, title: 'Rigorous Vetting', desc: 'Every candidate undergoes background verification, reference checks and skills assessment before reaching your desk.' },
+  { icon: Users, title: 'Dedicated Consultant', desc: 'One consistent point of contact who understands your culture, goals and evolving requirements - not a ticket system.' },
   { icon: Globe, title: 'Verified International Network', desc: 'Partnerships with licensed overseas employers, with full documentation and visa support managed end-to-end.' },
   { icon: TrendingUp, title: 'Data-Led Matching', desc: 'We track placement success metrics to continuously refine our matching approach, leading to higher retention rates.' },
 ];
@@ -136,22 +143,22 @@ const About = () => {
     <main className="min-h-screen pt-0">
 
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="bg-black text-white py-16 md:py-24 min-h-[85vh] md:min-h-screen flex items-center relative overflow-hidden">
+      <section className="relative overflow-hidden bg-black py-8 text-white md:flex md:min-h-screen md:items-center md:py-24">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full -mr-48 -mt-48" />
           <div className="absolute bottom-0 left-0 w-80 h-80 bg-white rounded-full -ml-40 -mb-40" />
         </div>
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-[65%_35%] gap-12 items-center text-center lg:text-left">
+        <div className="relative z-10 mx-auto max-w-7xl px-4">
+          <div className="grid grid-cols-1 gap-8 items-center text-center lg:grid-cols-[65%_35%] lg:gap-12 lg:text-left">
             <motion.div initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.1 } } }} className="text-center lg:text-left">
               <motion.p variants={fadeUp} className="hero-kicker text-gray-400 mb-4">Our Story</motion.p>
-              <motion.h1 variants={fadeUp} className="hero-title hero-title-animate hero-title-glow text-5xl md:text-7xl text-white leading-tight max-w-4xl mb-6">
+              <motion.h1 variants={fadeUp} className="hero-title hero-title-animate hero-title-glow max-w-4xl mb-4 text-4xl md:text-7xl md:mb-6 text-white leading-tight sm:text-5xl">
                 Premier Global <span className="text-gray-300">Recruitment & Staffing</span>
               </motion.h1>
-              <motion.p variants={fadeUp} className="text-gray-300 font-body text-lg leading-relaxed max-w-2xl mb-10 mx-auto lg:mx-0">
+              <motion.p variants={fadeUp} className="mx-auto mb-6 max-w-2xl text-sm font-body leading-relaxed text-gray-300 sm:text-base md:mb-10 lg:mx-0 lg:text-lg">
                 Optimus Manpower stands at the forefront of global talent acquisition and strategic staffing. With over 15 years of excellence, we empower organizations across India and the Middle East by delivering exceptional workforce solutions one successful placement at a time.
               </motion.p>
-              <motion.div variants={fadeUp} className="flex flex-wrap gap-4 justify-center lg:justify-start">
+              <motion.div variants={fadeUp} className="flex flex-wrap gap-3 md:gap-4 justify-center lg:justify-start">
                 <Link to="/jobs" className="inline-flex items-center gap-2 px-7 py-3.5 bg-white text-black font-heading font-semibold text-sm rounded-full hover:bg-gray-100 transition-all">
                   Explore Opportunities <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -161,8 +168,8 @@ const About = () => {
               </motion.div>
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex justify-center lg:justify-end">
-              <div className="p-6 md:p-8 backdrop-blur-sm w-full max-w-xs md:max-w-sm lg:max-w-none lg:w-full">
-                <img src={glob} alt="Optimus Manpower logo" className="w-56 md:w-64 lg:w-72 h-auto object-contain mx-auto lg:mx-0" />
+              <div className="w-full max-w-[220px] p-2 backdrop-blur-sm sm:max-w-xs md:max-w-sm md:p-6 lg:max-w-none lg:w-full lg:p-8">
+                <img src={glob} alt="Optimus Manpower logo" className="mx-auto h-auto w-44 object-contain sm:w-52 md:w-64 lg:mx-0 lg:w-72" />
               </div>
             </motion.div>
           </div>
@@ -170,9 +177,9 @@ const About = () => {
       </section>
 
       {/* ── STATS STRIP ──────────────────────────────────────────────────── */}
-      <section className="bg-white border-b border-gray-light py-14">
+      <section className="bg-white border-b border-gray-light py-8 md:py-14">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-8">
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:gap-8 lg:grid-cols-6">
             {STATS.map(({ value, suffix, label, icon: Icon }, i) => (
               <motion.div key={label} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp} className="text-center">
                 <Icon className="w-5 h-5 text-black/40 mx-auto mb-2" />
@@ -191,7 +198,7 @@ const About = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
             { icon: Target, title: 'Our Mission', text: 'To deliver exceptional recruitment solutions that create meaningful employment and drive business growth across India and globally - with integrity at the core of everything we do.' },
-            { icon: Eye, title: 'Our Vision', text: 'To be South Asia\'s most trusted recruitment partner - known for integrity, speed, and sustained outcomes. A company that genuinely cares about every candidate and every client.' },
+            { icon: Eye, title: 'Our Vision', text: 'To be South Asia\'s most trusted recruitment partner - known for integrity, speed and sustained outcomes. A company that genuinely cares about every candidate and every client.' },
             { icon: Heart, title: 'Our Values', text: 'People-first. Radical transparency in every interaction. Commitment to long-term relationships over short-term transactions. Excellence in delivery. Respect for diversity and inclusion.' },
           ].map(({ icon: Icon, title, text }, i) => (
             <motion.div key={title} initial="hidden" whileInView="visible" viewport={{ once: true }} custom={i} variants={fadeUp} className="card p-8">
@@ -245,7 +252,7 @@ const About = () => {
           <p className="section-tag mb-3">Sector Expertise</p>
           <h2 className="section-title mb-4">Industries We <span className="text-black">Specialize In</span></h2>
           <p className="text-gray-medium font-body max-w-xl mx-auto">
-            Deep domain knowledge across eight major industries ensures we understand the specific skills, culture, and compliance requirements of each sector.
+            Deep domain knowledge across eight major industries ensures we understand the specific skills, culture and compliance requirements of each sector.
           </p>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -337,14 +344,20 @@ const About = () => {
               <p className="text-black text-xs font-body mb-3">{t.role}</p>
               <p className="text-gray-medium text-xs font-body leading-relaxed">{t.desc}</p>
               <div className="flex items-center justify-center gap-4 mt-5">
-                <a href={t.socials?.x || '#'} aria-label={`${t.name} on X`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
-                  <Twitter className="w-4 h-4" />
+                <a href={t.socials?.x || '#'} target="_blank" rel="noopener noreferrer" aria-label={`${t.name} on X`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
+                  <XLogo className="w-4 h-4" />
                 </a>
-                <a href={t.socials?.linkedin || '#'} aria-label={`${t.name} on LinkedIn`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
+                <a href={t.socials?.linkedin || '#'} target="_blank" rel="noopener noreferrer" aria-label={`${t.name} on LinkedIn`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
                   <Linkedin className="w-4 h-4" />
                 </a>
-                <a href={t.socials?.facebook || '#'} aria-label={`${t.name} on Facebook`} className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors">
-                  <Facebook className="w-4 h-4" />
+                <a
+                  href={getEmailHref(t.socials?.email || 'info@optimusglobalhr.com')}
+                  target={isExternalEmailHref(getEmailHref(t.socials?.email || 'info@optimusglobalhr.com')) ? '_blank' : undefined}
+                  rel={isExternalEmailHref(getEmailHref(t.socials?.email || 'info@optimusglobalhr.com')) ? 'noopener noreferrer' : undefined}
+                  aria-label={`Email ${t.name}`}
+                  className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-gray-600 hover:text-black hover:border-black/30 transition-colors"
+                >
+                  <Mail className="w-4 h-4" />
                 </a>
               </div>
             </motion.div>
@@ -410,13 +423,18 @@ const About = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div>
               <p className="font-heading font-semibold text-black text-base mb-1">Get in Touch</p>
-              <p className="text-gray-medium text-sm font-body">Our team is available Mondayâ€“Saturday, 9 AM â€“ 7 PM IST.</p>
+              <p className="text-gray-medium text-sm font-body">Our team is available Monday to Saturday, 9 AM to 7 PM IST.</p>
             </div>
             <div className="flex flex-wrap gap-6">
               <a href="tel:+919092906907" className="flex items-center gap-2 text-sm font-body text-black hover:text-gray-medium transition-colors">
                 <Phone className="w-4 h-4" /> +91 90 92 906 907
               </a>
-              <a href="mailto:info@optimusglobalhr.com" className="flex items-center gap-2 text-sm font-body text-black hover:text-gray-medium transition-colors">
+              <a
+                href={getEmailHref('info@optimusglobalhr.com')}
+                target={isExternalEmailHref(getEmailHref('info@optimusglobalhr.com')) ? '_blank' : undefined}
+                rel={isExternalEmailHref(getEmailHref('info@optimusglobalhr.com')) ? 'noopener noreferrer' : undefined}
+                className="flex items-center gap-2 text-sm font-body text-black hover:text-gray-medium transition-colors"
+              >
                 <Mail className="w-4 h-4" /> info@optimusglobalhr.com
               </a>
             </div>

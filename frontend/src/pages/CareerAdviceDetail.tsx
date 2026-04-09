@@ -26,7 +26,7 @@ const TAKEAWAYS: Record<string, string[]> = {
     'Quantify outcomes with measurable results.',
   ],
   'Interview Tips': [
-    'Research the company, team, and role in advance.',
+    'Research the company, team and role in advance.',
     'Structure answers using STAR to stay concise.',
     'Prepare 3–5 stories that show impact and leadership.',
     'End interviews with thoughtful questions.',
@@ -50,7 +50,7 @@ const TAKEAWAYS: Record<string, string[]> = {
     'Negotiate allowances and relocation terms.',
   ],
   Solutions: [
-    'Choose hiring models based on cost, speed, and risk.',
+    'Choose hiring models based on cost, speed and risk.',
     'Clarify role expectations before sourcing.',
     'Define success metrics for the first 90 days.',
     'Partner with recruiters who understand your domain.',
